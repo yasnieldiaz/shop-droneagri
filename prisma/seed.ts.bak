@@ -1,0 +1,382 @@
+import { PrismaClient } from '../lib/generated/prisma/client.js';
+import * as bcrypt from 'bcryptjs';
+
+const prisma = new PrismaClient();
+
+const products = [
+  // ==================== AIRBORNE (DRONES) ====================
+  {
+    sku: 'AU-XAG-PROP4',
+    slug: 'AU-XAG-PROP4',
+    type: 'PRODUCT' as const,
+    category: 'Airborne',
+    status: 'ACTIVE' as const,
+    pricePLN: 10920000,
+    priceEUR: 2540000,
+    compareAtPLN: 12896000,
+    compareAtEUR: 2999000,
+    stock: 5,
+    featured: true,
+    mainImage: '/images/products/drones/au-xag-prop4-1.png',
+    gallery: ['/images/products/drones/au-xag-prop4-2.png', '/images/products/drones/au-xag-prop4-3.png'],
+    translations: {
+      en: { name: 'XAG P100 Pro Basic Package', tagline: 'Complete spray package with 50L tank, 4 batteries, 2 chargers' },
+      pl: { name: 'XAG P100 Pro Pakiet Podstawowy', tagline: 'Kompletny pakiet do oprysku ze zbiornikiem 50L, 4 akumulatorami, 2 ladowarkami' },
+      es: { name: 'XAG P100 Pro Paquete Basico', tagline: 'Paquete completo de pulverizacion con tanque de 50L, 4 baterias, 2 cargadores' },
+      de: { name: 'XAG P100 Pro Basispaket', tagline: 'Komplettes Spruhpaket mit 50L Tank, 4 Akkus, 2 Ladegerate' },
+      cs: { name: 'XAG P100 Pro Zakladni balicek', tagline: 'Kompletni postrikovy balicek s 50L nadrzi, 4 bateriemi, 2 nabjeckami' },
+      nl: { name: 'XAG P100 Pro Basispakket', tagline: 'Compleet spuitpakket met 50L tank, 4 accu\'s, 2 laders' },
+    },
+  },
+  {
+    sku: '09-007-00136',
+    slug: '09-007-00136',
+    type: 'PRODUCT' as const,
+    category: 'Airborne',
+    status: 'ACTIVE' as const,
+    pricePLN: 6292000,
+    priceEUR: 1463000,
+    compareAtPLN: 7800000,
+    compareAtEUR: 1814000,
+    stock: 3,
+    featured: true,
+    mainImage: '/images/products/drones/09-007-00136-1.png',
+    gallery: ['/images/products/drones/09-007-00136-2.png', '/images/products/drones/09-007-00136-3.png'],
+    translations: {
+      en: { name: 'XAG P100 Pro', tagline: '50kg payload, 50L tank, SuperX 4 Pro flight control' },
+      pl: { name: 'XAG P100 Pro', tagline: '50kg udzwig, 50L zbiornik, sterowanie lotem SuperX 4 Pro' },
+      es: { name: 'XAG P100 Pro', tagline: 'Carga util de 50kg, tanque de 50L, control de vuelo SuperX 4 Pro' },
+      de: { name: 'XAG P100 Pro', tagline: '50kg Nutzlast, 50L Tank, SuperX 4 Pro Flugsteuerung' },
+      cs: { name: 'XAG P100 Pro', tagline: '50kg uzitecne zatizeni, 50L nadrz, rizeni letu SuperX 4 Pro' },
+      nl: { name: 'XAG P100 Pro', tagline: '50kg laadvermogen, 50L tank, SuperX 4 Pro vluchtbesturing' },
+    },
+  },
+  {
+    sku: 'AU-XAG-PROP5',
+    slug: 'AU-XAG-PROP5',
+    type: 'PRODUCT' as const,
+    category: 'Airborne',
+    status: 'ACTIVE' as const,
+    pricePLN: 11700000,
+    priceEUR: 2721000,
+    compareAtPLN: 14081600,
+    compareAtEUR: 3275000,
+    stock: 2,
+    featured: true,
+    mainImage: '/images/products/drones/au-xag-prop5-1.png',
+    gallery: ['/images/products/drones/au-xag-prop5-2.png'],
+    translations: {
+      en: { name: 'XAG P100 Pro Spreader Package', tagline: 'Spray + Spread package with RevoSpray P3 & RevoCast P3' },
+      pl: { name: 'XAG P100 Pro Pakiet Rozsiewacza', tagline: 'Pakiet oprysk + rozsiew z RevoSpray P3 i RevoCast P3' },
+      es: { name: 'XAG P100 Pro Paquete Esparcidor', tagline: 'Paquete pulverizacion + esparcimiento con RevoSpray P3 y RevoCast P3' },
+      de: { name: 'XAG P100 Pro Streuerpaket', tagline: 'Spruh- + Streupaket mit RevoSpray P3 & RevoCast P3' },
+      cs: { name: 'XAG P100 Pro Balicek rozmetadla', tagline: 'Balicek postrik + rozhazovani s RevoSpray P3 a RevoCast P3' },
+      nl: { name: 'XAG P100 Pro Strooierpakket', tagline: 'Spuit + Strooi pakket met RevoSpray P3 & RevoCast P3' },
+    },
+  },
+  {
+    sku: 'AU-XAG-PROP6',
+    slug: 'AU-XAG-PROP6',
+    type: 'PRODUCT' as const,
+    category: 'Airborne',
+    status: 'ACTIVE' as const,
+    pricePLN: 12480000,
+    priceEUR: 2902000,
+    compareAtPLN: 15293200,
+    compareAtEUR: 3556000,
+    stock: 1,
+    featured: true,
+    mainImage: '/images/products/drones/au-xag-prop6-1.png',
+    gallery: ['/images/products/drones/au-xag-prop6-2.png'],
+    translations: {
+      en: { name: 'XAG P100 Pro Package + RTK', tagline: 'Full package with RTK for centimetre-level precision' },
+      pl: { name: 'XAG P100 Pro Pakiet + RTK', tagline: 'Pelny pakiet z RTK dla precyzji na poziomie centymetrow' },
+      es: { name: 'XAG P100 Pro Paquete + RTK', tagline: 'Paquete completo con RTK para precision centimetrica' },
+      de: { name: 'XAG P100 Pro Paket + RTK', tagline: 'Komplettpaket mit RTK fur Zentimeter-Prazision' },
+      cs: { name: 'XAG P100 Pro Balicek + RTK', tagline: 'Kompletni balicek s RTK pro centimetrovou presnost' },
+      nl: { name: 'XAG P100 Pro Pakket + RTK', tagline: 'Compleet pakket met RTK voor centimeter-precisie' },
+    },
+  },
+
+  // ==================== SMART BATTERY ====================
+  {
+    sku: '09-017-00064',
+    slug: '09-017-00064',
+    type: 'ACCESSORY' as const,
+    category: 'Smart Battery',
+    status: 'ACTIVE' as const,
+    pricePLN: 743600,
+    priceEUR: 172900,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 10,
+    mainImage: '/images/products/smart-battery/09-017-00064-1.jpg',
+    gallery: ['/images/products/smart-battery/09-017-00064-2.jpg'],
+    translations: {
+      en: { name: 'XAG Smart Battery B13970S', tagline: 'High-capacity smart battery for P150 series' },
+      pl: { name: 'XAG Inteligentna Bateria B13970S', tagline: 'Bateria o duzej pojemnosci dla serii P150' },
+      es: { name: 'XAG Bateria Inteligente B13970S', tagline: 'Bateria inteligente de alta capacidad para la serie P150' },
+      de: { name: 'XAG Smart Akku B13970S', tagline: 'Hochleistungsakku fur P150 Serie' },
+      cs: { name: 'XAG Chytra Baterie B13970S', tagline: 'Baterie s vysokou kapacitou pro radu P150' },
+      nl: { name: 'XAG Slimme Accu B13970S', tagline: 'Accu met hoge capaciteit voor P150 serie' },
+    },
+  },
+  {
+    sku: '09-017-00025',
+    slug: '09-017-00025',
+    type: 'ACCESSORY' as const,
+    category: 'Smart Battery',
+    status: 'ACTIVE' as const,
+    pricePLN: 494000,
+    priceEUR: 114900,
+    compareAtPLN: 743600,
+    compareAtEUR: 172900,
+    stock: 15,
+    mainImage: '/images/products/smart-battery/09-017-00025-1.png',
+    gallery: ['/images/products/smart-battery/09-017-00025-2.png', '/images/products/smart-battery/09-017-00025-3.png'],
+    translations: {
+      en: { name: 'XAG Smart Battery B13960S', tagline: '20,000 mAh / 962 Wh - IP65 rated lithium polymer' },
+      pl: { name: 'XAG Inteligentna Bateria B13960S', tagline: '20 000 mAh / 962 Wh - litowo-polimerowa IP65' },
+      es: { name: 'XAG Bateria Inteligente B13960S', tagline: '20.000 mAh / 962 Wh - polimero de litio con clasificacion IP65' },
+      de: { name: 'XAG Smart Akku B13960S', tagline: '20.000 mAh / 962 Wh - IP65 Lithium-Polymer' },
+      cs: { name: 'XAG Chytra Baterie B13960S', tagline: '20 000 mAh / 962 Wh - lithium-polymerova IP65' },
+      nl: { name: 'XAG Slimme Accu B13960S', tagline: '20.000 mAh / 962 Wh - IP65 lithium-polymeer' },
+    },
+  },
+
+  // ==================== BATTERY CHARGERS ====================
+  {
+    sku: 'PC-PCK-10000',
+    slug: 'PC-PCK-10000',
+    type: 'ACCESSORY' as const,
+    category: 'Battery Chargers',
+    status: 'ACTIVE' as const,
+    pricePLN: 88400,
+    priceEUR: 20600,
+    compareAtPLN: 96200,
+    compareAtEUR: 22400,
+    stock: 8,
+    mainImage: '/images/products/battery-chargers/pc-pck-10000-1.jpg',
+    gallery: ['/images/products/battery-chargers/pc-pck-10000-2.jpg', '/images/products/battery-chargers/pc-pck-10000-3.jpg'],
+    translations: {
+      en: { name: 'XAG Parallel Charging Kit Combo', tagline: '6KW parallel charging kit with mounting bracket' },
+      pl: { name: 'XAG Zestaw Ladowania Rownoleglego', tagline: 'Zestaw ladowania rownoleglego 6KW z uchwytem montazowym' },
+      es: { name: 'XAG Kit de Carga Paralela Combo', tagline: 'Kit de carga paralela de 6KW con soporte de montaje' },
+      de: { name: 'XAG Parallel-Ladekit Combo', tagline: '6KW Parallel-Ladekit mit Montagehalterung' },
+      cs: { name: 'XAG Sada parallelniho nabijeni Combo', tagline: '6KW sada parallelniho nabijeni s montaznim drzakem' },
+      nl: { name: 'XAG Parallel Laadkit Combo', tagline: '6KW parallel laadkit met montagebeugel' },
+    },
+  },
+  {
+    sku: '09-017-00069',
+    slug: '09-017-00069',
+    type: 'ACCESSORY' as const,
+    category: 'Battery Chargers',
+    status: 'ACTIVE' as const,
+    pricePLN: 494000,
+    priceEUR: 114900,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 6,
+    mainImage: '/images/products/battery-chargers/09-017-00069-1.jpg',
+    gallery: ['/images/products/battery-chargers/09-017-00069-2.jpg', '/images/products/battery-chargers/09-017-00069-3.jpg'],
+    translations: {
+      en: { name: 'XAG Battery S-Charger CM13600S', tagline: 'Forced air-cooling charger for B13960S/B13970S/B141050' },
+      pl: { name: 'XAG Ladowarka S CM13600S', tagline: 'Ladowarka z wymuszonym chlodzeniem powietrzem dla B13960S/B13970S/B141050' },
+      es: { name: 'XAG Cargador S CM13600S', tagline: 'Cargador con enfriamiento forzado para B13960S/B13970S/B141050' },
+      de: { name: 'XAG Akku S-Ladegerat CM13600S', tagline: 'Zwangsluftkuhlungs-Ladegerat fur B13960S/B13970S/B141050' },
+      cs: { name: 'XAG Nabjecka S CM13600S', tagline: 'Nabjecka s nucenym vzdusnym chlazenim pro B13960S/B13970S/B141050' },
+      nl: { name: 'XAG Accu S-Lader CM13600S', tagline: 'Geforceerde luchtkoeling lader voor B13960S/B13970S/B141050' },
+    },
+  },
+
+  // ==================== TASK SYSTEM ====================
+  {
+    sku: '09-023-00025',
+    slug: '09-023-00025',
+    type: 'ACCESSORY' as const,
+    category: 'Task System',
+    status: 'ACTIVE' as const,
+    pricePLN: 910000,
+    priceEUR: 211600,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 4,
+    mainImage: '/images/products/task-system/09-023-00025-1.jpg',
+    gallery: ['/images/products/task-system/09-023-00025-2.jpg', '/images/products/task-system/09-023-00025-3.jpg'],
+    translations: {
+      en: { name: 'XAG P100 Pro RevoSpray P3', tagline: '50L spray system with centrifugal atomizing nozzles' },
+      pl: { name: 'XAG P100 Pro RevoSpray P3', tagline: 'System oprysku 50L z dyszami rozpylajacymi odsrodkowymi' },
+      es: { name: 'XAG P100 Pro RevoSpray P3', tagline: 'Sistema de pulverizacion de 50L con boquillas atomizadoras centrifugas' },
+      de: { name: 'XAG P100 Pro RevoSpray P3', tagline: '50L Spruhsystem mit Zentrifugalzerstaubungsdusen' },
+      cs: { name: 'XAG P100 Pro RevoSpray P3', tagline: '50L postrikovy system s odstredivymi rozprašovacimi tryiskami' },
+      nl: { name: 'XAG P100 Pro RevoSpray P3', tagline: '50L spuitsysteem met centrifugaal verstuivingsmondstukken' },
+    },
+  },
+  {
+    sku: '09-023-00023',
+    slug: '09-023-00023',
+    type: 'ACCESSORY' as const,
+    category: 'Task System',
+    status: 'ACTIVE' as const,
+    pricePLN: 1170000,
+    priceEUR: 272100,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 3,
+    mainImage: '/images/products/task-system/09-023-00023-1.png',
+    gallery: ['/images/products/task-system/09-023-00023-2.png', '/images/products/task-system/09-023-00023-3.png'],
+    translations: {
+      en: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L spreader system for dry solids 1-6mm' },
+      pl: { name: 'XAG P100 Pro RevoCast P3', tagline: 'System rozsiewacza 80L dla materialow suchych 1-6mm' },
+      es: { name: 'XAG P100 Pro RevoCast P3', tagline: 'Sistema esparcidor de 80L para solidos secos de 1-6mm' },
+      de: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L Streusystem fur Trockengut 1-6mm' },
+      cs: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L system rozmetadla pro suche latky 1-6mm' },
+      nl: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L strooiersysteem voor droge stoffen 1-6mm' },
+    },
+  },
+
+  // ==================== REMOTE CONTROLLER ====================
+  {
+    sku: '09-016-00085',
+    slug: '09-016-00085',
+    type: 'ACCESSORY' as const,
+    category: 'Remote Controller',
+    status: 'ACTIVE' as const,
+    pricePLN: 598000,
+    priceEUR: 139100,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 7,
+    mainImage: '/images/products/remote-controller/09-016-00085-2.png',
+    gallery: ['/images/products/remote-controller/09-016-00085-1.png', '/images/products/remote-controller/09-016-00085-3.png'],
+    translations: {
+      en: { name: 'XAG Remote Controller SRC5', tagline: '7.02" display, 20000mAh, 2km range' },
+      pl: { name: 'XAG Kontroler Zdalny SRC5', tagline: 'Wyswietlacz 7.02", 20000mAh, zasieg 2km' },
+      es: { name: 'XAG Controlador Remoto SRC5', tagline: 'Pantalla de 7.02", 20000mAh, alcance de 2km' },
+      de: { name: 'XAG Fernsteuerung SRC5', tagline: '7.02" Display, 20000mAh, 2km Reichweite' },
+      cs: { name: 'XAG Dalkovy ovladac SRC5', tagline: '7.02" displej, 20000mAh, dosah 2km' },
+      nl: { name: 'XAG Afstandsbediening SRC5', tagline: '7.02" display, 20000mAh, 2km bereik' },
+    },
+  },
+
+  // ==================== GNSS RTK ====================
+  {
+    sku: '09-016-00083',
+    slug: '09-016-00083',
+    type: 'ACCESSORY' as const,
+    category: 'GNSS RTK',
+    status: 'ACTIVE' as const,
+    pricePLN: 475800,
+    priceEUR: 110700,
+    compareAtPLN: 603200,
+    compareAtEUR: 140300,
+    stock: 5,
+    mainImage: '/images/products/gnss-rtk/09-016-00083-1.png',
+    gallery: ['/images/products/gnss-rtk/09-016-00083-2.png'],
+    translations: {
+      en: { name: 'XAG GNSS XRTK7 Mobile Station', tagline: 'Portable RTK with <5cm accuracy, 2km range' },
+      pl: { name: 'XAG GNSS XRTK7 Stacja Mobilna', tagline: 'Przenosne RTK z dokladnoscia <5cm, zasieg 2km' },
+      es: { name: 'XAG GNSS XRTK7 Estacion Movil', tagline: 'RTK portatil con precision <5cm, alcance de 2km' },
+      de: { name: 'XAG GNSS XRTK7 Mobile Station', tagline: 'Tragbares RTK mit <5cm Genauigkeit, 2km Reichweite' },
+      cs: { name: 'XAG GNSS XRTK7 Mobilni stanice', tagline: 'Prenosne RTK s presnosti <5cm, dosah 2km' },
+      nl: { name: 'XAG GNSS XRTK7 Mobiel Station', tagline: 'Draagbaar RTK met <5cm nauwkeurigheid, 2km bereik' },
+    },
+  },
+  {
+    sku: '09-010-00019',
+    slug: '09-010-00019',
+    type: 'ACCESSORY' as const,
+    category: 'GNSS RTK',
+    status: 'ACTIVE' as const,
+    pricePLN: 1154400,
+    priceEUR: 268500,
+    compareAtPLN: null,
+    compareAtEUR: null,
+    stock: 2,
+    mainImage: '/images/products/gnss-rtk/09-010-00019-1.png',
+    gallery: [],
+    translations: {
+      en: { name: 'XAG GNSS RTK Fix Station', tagline: 'High-precision RTK module +/-10mm accuracy' },
+      pl: { name: 'XAG GNSS RTK Stacja Stala', tagline: 'Modul RTK wysokiej precyzji +/-10mm dokladnosci' },
+      es: { name: 'XAG GNSS RTK Estacion Fija', tagline: 'Modulo RTK de alta precision +/-10mm de exactitud' },
+      de: { name: 'XAG GNSS RTK Feststation', tagline: 'Hochprazisions-RTK-Modul +/-10mm Genauigkeit' },
+      cs: { name: 'XAG GNSS RTK Pevna stanice', tagline: 'Vysoce presny RTK modul +/-10mm presnost' },
+      nl: { name: 'XAG GNSS RTK Vast Station', tagline: 'Hoge precisie RTK module +/-10mm nauwkeurigheid' },
+    },
+  },
+];
+
+async function main() {
+  console.log('Seeding database...');
+
+  // Create admin user
+  const hashedPassword = await bcrypt.hash('admin123', 10);
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@droneagri.pl' },
+    update: {},
+    create: {
+      email: 'admin@droneagri.pl',
+      passwordHash: hashedPassword,
+      firstName: 'Admin',
+      lastName: 'DroneAgri',
+      role: 'ADMIN',
+      emailVerified: true,
+    },
+  });
+  console.log('Created admin user:', admin.email);
+
+  // Create products with translations
+  for (const productData of products) {
+    const { translations, ...product } = productData;
+
+    const createdProduct = await prisma.product.upsert({
+      where: { sku: product.sku },
+      update: {
+        ...product,
+        compareAtPLN: product.compareAtPLN ?? undefined,
+        compareAtEUR: product.compareAtEUR ?? undefined,
+      },
+      create: {
+        ...product,
+        compareAtPLN: product.compareAtPLN ?? undefined,
+        compareAtEUR: product.compareAtEUR ?? undefined,
+      },
+    });
+
+    // Create translations
+    for (const [locale, trans] of Object.entries(translations)) {
+      await prisma.productTranslation.upsert({
+        where: {
+          productId_locale: {
+            productId: createdProduct.id,
+            locale,
+          },
+        },
+        update: {
+          name: trans.name,
+          tagline: trans.tagline,
+        },
+        create: {
+          productId: createdProduct.id,
+          locale,
+          name: trans.name,
+          tagline: trans.tagline,
+        },
+      });
+    }
+
+    console.log('Created product:', product.sku);
+  }
+
+  console.log('Seeding completed!');
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
 :root {
+  /* Brand Colors */
+  --navy: #1a2b4a;
+  --navy-light: #2a3b5a;
+  --brand-red: #c01a20;
+  --brand-red-hover: #a01519;
+
+  /* Base */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a2b4a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-hover: var(--brand-red-hover);
+  --font-sans: "Inter", system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* Container */
+.container-main {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Buttons */
+.btn-primary {
+  @apply inline-flex items-center justify-center px-6 py-3 bg-brand-red text-white font-medium rounded-lg hover:bg-brand-red-hover transition-colors;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center px-6 py-3 border border-navy text-navy font-medium rounded-lg hover:bg-navy hover:text-white transition-colors;
+}
+
+/* Product Card */
+.product-card {
+  @apply bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden;
+}
+
+.product-card-image {
+  @apply aspect-square relative bg-gray-50 overflow-hidden;
+}
+
+.product-card-content {
+  @apply p-4;
+}
+
+/* Badge */
+.badge {
+  @apply inline-flex items-center px-2 py-1 text-xs font-medium rounded-full;
+}
+
+.badge-sale {
+  @apply bg-brand-red text-white;
+}
+
+.badge-new {
+  @apply bg-green-500 text-white;
+}
+
+.badge-out-of-stock {
+  @apply bg-gray-500 text-white;
+}
+
+/* Input */
+.input {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none transition-all;
+}
+
+/* Price */
+.price {
+  @apply text-xl font-bold text-navy;
+}
+
+.price-original {
+  @apply text-gray-400 line-through text-sm;
+}
+
+.price-sale {
+  @apply text-brand-red;
 }

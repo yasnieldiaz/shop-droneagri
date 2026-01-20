@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60">
+  <!-- XAG text -->
+  <text x="0" y="45" font-family="Arial Black, Arial, sans-serif" font-size="48" font-weight="900" fill="#ffffff">XAG</text>
+
+  <!-- Red vertical bar -->
+  <rect x="115" y="8" width="6" height="42" fill="#df1b23" rx="1"/>
+
+  <!-- IMEGA text -->
+  <text x="135" y="45" font-family="Arial Black, Arial, sans-serif" font-size="48" font-weight="900" fill="#ffffff">IMEGA</text>
+</svg>

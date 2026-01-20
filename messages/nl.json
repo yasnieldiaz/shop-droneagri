@@ -133,5 +133,132 @@
     "clearFilters": "Filters wissen",
     "outOfStock": "Niet op voorraad",
     "addToCart": "In winkelwagen"
+  },
+  "privacy": {
+    "title": "Privacybeleid",
+    "metaDescription": "Privacybeleid van de DroneAgri.pl winkel - officiële XAG-distributeur in Polen. Ontdek hoe we uw persoonlijke gegevens beschermen.",
+    "administrator": {
+      "title": "Gegevensbeheerder",
+      "content": "De gegevensbeheerder is IMEGA Sp. z o.o. gevestigd in Rybnik, ul. Smolna 14, 44-200 Rybnik, Polen (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Gegevensverzameling",
+      "intro": "Wij verzamelen de volgende categorieën gegevens:",
+      "personalData": "Persoonlijke gegevens: naam, adres, e-mailadres, telefoonnummer",
+      "businessData": "Bedrijfsgegevens: bedrijfsnaam en operationele details",
+      "technicalData": "Technische gegevens: IP-adressen, browsertypes, apparaatinformatie",
+      "usageData": "Gebruiksgegevens: bezochte pagina's en tijd doorgebracht op de site"
+    },
+    "processingPurposes": {
+      "title": "Verwerkingsdoeleinden",
+      "services": "Dienstverlening en accountbeheer",
+      "newsletter": "Commerciële nieuwsbriefdistributie",
+      "orders": "Orderverwerking",
+      "complaints": "Afhandeling van klachten en retourzendingen",
+      "inquiries": "Beantwoording van klantvragen",
+      "marketing": "Directe marketingactiviteiten",
+      "legal": "Wettelijke naleving (boekhouding, belastingen)"
+    },
+    "dataRetention": {
+      "title": "Gegevensbewaring",
+      "content": "Informatie wordt bewaard voor de duur van contractuele relaties en toepasselijke wettelijke verplichtingen, of tot intrekking van toestemming of formeel bezwaar."
+    },
+    "dataRecipients": {
+      "title": "Gegevensontvangers",
+      "content": "Gegevens kunnen worden gedeeld met IT-dienstverleners, marketingbureaus, koeriersbedrijven, accountantskantoren en overheidsinstanties wanneer wettelijk vereist. Overdrachten buiten de Europese Economische Ruimte vinden niet plaats."
+    },
+    "userRights": {
+      "title": "Gebruikersrechten (AVG)",
+      "intro": "U heeft de volgende rechten:",
+      "access": "Recht op toegang tot gegevens",
+      "correction": "Recht op rectificatie",
+      "deletion": "Recht op wissing",
+      "restriction": "Recht op beperking van verwerking",
+      "portability": "Recht op gegevensoverdraagbaarheid",
+      "objection": "Recht op bezwaar",
+      "complaint": "Recht om een klacht in te dienen bij de toezichthoudende autoriteit"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "De site gebruikt cookies voor:",
+      "session": "Sessiebeheer",
+      "analytics": "Analyses en statistieken",
+      "marketing": "Marketingdoeleinden",
+      "functionality": "Sitefunctionaliteit",
+      "disable": "U kunt cookies uitschakelen via browserinstellingen, hoewel dit de functionaliteit kan beperken."
+    },
+    "security": {
+      "title": "Beveiliging",
+      "content": "We gebruiken SSL-encryptie, beveiligde databases en toegangscontrole in overeenstemming met de AVG-vereisten."
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "Telefoon",
+      "address": "Adres"
+    }
+  },
+  "terms": {
+    "title": "Algemene voorwaarden",
+    "metaDescription": "Algemene voorwaarden van de DroneAgri.pl winkel - officiële XAG-distributeur in Polen. Verkoopvoorwaarden voor landbouwdrones en -robots.",
+    "general": {
+      "title": "Algemene bepalingen",
+      "content": "IMEGA Sp. z o.o., gevestigd in Rybnik (ul. Smolna 14, 44-200), exploiteert shop.droneagri.pl en verkoopt professionele landbouwplatforms inclusief XAG-drones en grondrobots. Klanten moeten meerderjarig en handelingsbekwaam zijn. Consumenten zijn personen die kopen voor niet-professionele doeleinden."
+    },
+    "technical": {
+      "title": "Technische vereisten",
+      "content": "Internettoegang en browsers met JavaScript-ondersteuning (Chrome, Firefox, Safari, Edge) vereist. Minimale schermresolutie: 1024×768 pixels.",
+      "prohibited": "Gebruikers mogen geen onwettige activiteiten ondernemen, rechten van anderen schenden, de sitefunctionaliteit verstoren of illegale inhoud verspreiden."
+    },
+    "orderProcess": {
+      "title": "Bestelproces",
+      "intro": "Bestellingen worden te allen tijde online geaccepteerd via:",
+      "step1": "Productselectie",
+      "step2": "Keuze van leverings- en betaalmethode",
+      "step3": "Overzichtscontrole",
+      "step4": "Orderbevestiging",
+      "confirmation": "Verkoper verifieert details en beschikbaarheid. Verkoopcontracten ontstaan na betalingsbevestiging."
+    },
+    "payments": {
+      "title": "Geaccepteerde betalingen",
+      "bankTransfer": "Bankoverschrijving",
+      "online": "Online betalingen (kaarten, BLIK)",
+      "cod": "Rembours"
+    },
+    "delivery": {
+      "title": "Levering",
+      "content": "Producten worden verzonden naar Polen en de EU via koeriersdiensten. Levering duurt doorgaans 2-7 werkdagen afhankelijk van beschikbaarheid."
+    },
+    "withdrawal": {
+      "title": "Herroepingsrecht",
+      "content": "Consumenten hebben 14 dagen om zich terug te trekken uit overeenkomsten op afstand zonder boete. Schriftelijke herroepingsverklaringen behouden de deadline. De periode begint vanaf de ontvangstdatum."
+    },
+    "complaints": {
+      "title": "Klachten",
+      "content": "Verkoper garandeert foutloze goederen. Klanten melden gebreken binnen één jaar na ontdekking (indien ontdekt binnen twee jaar na levering). Verkoper reageert binnen 14 dagen."
+    },
+    "warranty": {
+      "title": "Kwaliteitsgarantie",
+      "content": "Eénjarige garantie vanaf ontvangst dekt fabricagefouten alleen op Pools/EU-grondgebied.",
+      "exclusions": "Uitgesloten zijn: onjuiste installatie, verkeerd gebruik, verwaarlozing of normale slijtage. Remedies omvatten: reparatie, vervanging of prijsvermindering/terugbetaling."
+    },
+    "dataProtection": {
+      "title": "Gegevensbescherming",
+      "content": "Klantgegevens worden verwerkt volgens Poolse wetgeving inzake persoonsgegevens en de wet op elektronische diensten. Zie Privacybeleid voor details."
+    },
+    "finalProvisions": {
+      "title": "Slotbepalingen",
+      "content": "Geschillen worden opgelost volgens toepasselijk recht. Consumenten kunnen toegang krijgen tot alternatieve geschillenbeslechting via UOKIK, RZU of regionale consumentenbeschermingsinstanties. Zakelijke geschillen worden behandeld door rechtbanken bij het hoofdkantoor van de verkoper. Pools recht regelt niet-gereguleerde zaken. Voorwaarden beperken wettelijke consumentenrechten niet."
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "Telefoon",
+      "address": "Adres"
+    }
+  },
+  "cookies": {
+    "message": "Deze site gebruikt cookies om de beste servicekwaliteit te bieden. Door verder te browsen, stemt u in met het gebruik ervan.",
+    "learnMore": "Meer informatie",
+    "necessary": "Alleen noodzakelijk",
+    "acceptAll": "Alles accepteren"
   }
 }

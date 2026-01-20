@@ -133,5 +133,132 @@
     "clearFilters": "Filter löschen",
     "outOfStock": "Nicht auf Lager",
     "addToCart": "In den Warenkorb"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "metaDescription": "Datenschutzerklärung des DroneAgri.pl Shops - offizieller XAG-Händler in Polen. Erfahren Sie, wie wir Ihre persönlichen Daten schützen.",
+    "administrator": {
+      "title": "Datenverwalter",
+      "content": "Der Datenverwalter ist IMEGA Sp. z o.o. mit Sitz in Rybnik, ul. Smolna 14, 44-200 Rybnik, Polen (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Datenerfassung",
+      "intro": "Wir erfassen folgende Datenkategorien:",
+      "personalData": "Persönliche Daten: Name, Adresse, E-Mail-Adresse, Telefonnummer",
+      "businessData": "Geschäftsdaten: Firmenname und Betriebsdetails",
+      "technicalData": "Technische Daten: IP-Adressen, Browsertypen, Geräteinformationen",
+      "usageData": "Nutzungsdaten: besuchte Seiten und Verweildauer"
+    },
+    "processingPurposes": {
+      "title": "Verarbeitungszwecke",
+      "services": "Servicebereitstellung und Kontoverwaltung",
+      "newsletter": "Kommerzieller Newsletter-Versand",
+      "orders": "Auftragsabwicklung",
+      "complaints": "Reklamations- und Retourenbearbeitung",
+      "inquiries": "Beantwortung von Kundenanfragen",
+      "marketing": "Direktmarketing-Aktivitäten",
+      "legal": "Rechtskonformität (Buchhaltung, Steuern)"
+    },
+    "dataRetention": {
+      "title": "Datenspeicherung",
+      "content": "Informationen werden für die Dauer der Vertragsbeziehungen und geltenden gesetzlichen Verpflichtungen aufbewahrt, oder bis zum Widerruf der Einwilligung oder formellem Widerspruch."
+    },
+    "dataRecipients": {
+      "title": "Datenempfänger",
+      "content": "Daten können mit IT-Dienstleistern, Marketingagenturen, Kurierunternehmen, Buchhaltungsfirmen und Behörden geteilt werden, wenn gesetzlich erforderlich. Übertragungen außerhalb des Europäischen Wirtschaftsraums finden nicht statt."
+    },
+    "userRights": {
+      "title": "Benutzerrechte (DSGVO)",
+      "intro": "Sie haben folgende Rechte:",
+      "access": "Recht auf Datenzugang",
+      "correction": "Recht auf Berichtigung",
+      "deletion": "Recht auf Löschung",
+      "restriction": "Recht auf Einschränkung der Verarbeitung",
+      "portability": "Recht auf Datenübertragbarkeit",
+      "objection": "Widerspruchsrecht",
+      "complaint": "Recht auf Beschwerde bei der Aufsichtsbehörde"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Die Website verwendet Cookies für:",
+      "session": "Sitzungsverwaltung",
+      "analytics": "Analysen und Statistiken",
+      "marketing": "Marketingzwecke",
+      "functionality": "Website-Funktionalität",
+      "disable": "Sie können Cookies in den Browsereinstellungen deaktivieren, was jedoch die Funktionalität einschränken kann."
+    },
+    "security": {
+      "title": "Sicherheit",
+      "content": "Wir verwenden SSL-Verschlüsselung, gesicherte Datenbanken und Zugangskontrolle gemäß den DSGVO-Anforderungen."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adresse"
+    }
+  },
+  "terms": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "metaDescription": "AGB des DroneAgri.pl Shops - offizieller XAG-Händler in Polen. Verkaufsbedingungen für Landwirtschaftsdrohnen und -roboter.",
+    "general": {
+      "title": "Allgemeine Bestimmungen",
+      "content": "IMEGA Sp. z o.o. mit Sitz in Rybnik (ul. Smolna 14, 44-200) betreibt shop.droneagri.pl und verkauft professionelle Landwirtschaftsplattformen einschließlich XAG-Drohnen und Bodenroboter. Kunden müssen volljährig und geschäftsfähig sein. Verbraucher sind Personen, die für nicht-gewerbliche Zwecke kaufen."
+    },
+    "technical": {
+      "title": "Technische Anforderungen",
+      "content": "Internetzugang und JavaScript-fähige Browser (Chrome, Firefox, Safari, Edge) erforderlich. Mindestbildschirmauflösung: 1024×768 Pixel.",
+      "prohibited": "Benutzer dürfen keine rechtswidrigen Aktivitäten durchführen, Rechte anderer verletzen, die Website-Funktionalität stören oder illegale Inhalte verbreiten."
+    },
+    "orderProcess": {
+      "title": "Bestellvorgang",
+      "intro": "Bestellungen werden jederzeit online angenommen durch:",
+      "step1": "Produktauswahl",
+      "step2": "Auswahl der Liefer- und Zahlungsmethode",
+      "step3": "Zusammenfassungsprüfung",
+      "step4": "Bestellbestätigung",
+      "confirmation": "Der Verkäufer überprüft Details und Verfügbarkeit. Kaufverträge werden nach Zahlungsbestätigung geschlossen."
+    },
+    "payments": {
+      "title": "Akzeptierte Zahlungen",
+      "bankTransfer": "Banküberweisung",
+      "online": "Online-Zahlungen (Karten, BLIK)",
+      "cod": "Nachnahme"
+    },
+    "delivery": {
+      "title": "Lieferung",
+      "content": "Produkte werden nach Polen und in die EU per Kurierdienst versandt. Die Lieferung dauert in der Regel 2-7 Werktage je nach Verfügbarkeit."
+    },
+    "withdrawal": {
+      "title": "Widerrufsrecht",
+      "content": "Verbraucher haben 14 Tage Zeit, von Fernabsatzverträgen ohne Strafe zurückzutreten. Schriftliche Widerrufserklärungen wahren die Frist. Die Frist beginnt ab Erhaltsdatum."
+    },
+    "complaints": {
+      "title": "Reklamationen",
+      "content": "Der Verkäufer garantiert mangelfreie Waren. Kunden melden Mängel innerhalb eines Jahres nach Entdeckung (wenn innerhalb von zwei Jahren nach Lieferung entdeckt). Der Verkäufer antwortet innerhalb von 14 Tagen."
+    },
+    "warranty": {
+      "title": "Qualitätsgarantie",
+      "content": "Einjährige Garantie ab Erhalt deckt Herstellungsfehler nur im polnischen/EU-Gebiet ab.",
+      "exclusions": "Ausgeschlossen sind: unsachgemäße Installation, Missbrauch, Vernachlässigung oder normaler Verschleiß. Abhilfen umfassen: Reparatur, Ersatz oder Preisminderung/Erstattung."
+    },
+    "dataProtection": {
+      "title": "Datenschutz",
+      "content": "Kundendaten werden gemäß polnischem Datenschutzrecht und dem Gesetz über elektronische Dienste verarbeitet. Siehe Datenschutzerklärung für Details."
+    },
+    "finalProvisions": {
+      "title": "Schlussbestimmungen",
+      "content": "Streitigkeiten werden nach geltendem Recht beigelegt. Verbraucher können alternative Streitbeilegung über UOKIK, RZU oder regionale Verbraucherschutzstellen nutzen. Geschäftsstreitigkeiten werden von Gerichten am Sitz des Verkäufers behandelt. Polnisches Recht regelt nicht geregelte Angelegenheiten. Die Bedingungen schränken die gesetzlichen Verbraucherrechte nicht ein."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adresse"
+    }
+  },
+  "cookies": {
+    "message": "Diese Website verwendet Cookies, um die beste Servicequalität zu bieten. Durch das weitere Surfen stimmen Sie deren Verwendung zu.",
+    "learnMore": "Mehr erfahren",
+    "necessary": "Nur notwendige",
+    "acceptAll": "Alle akzeptieren"
   }
 }

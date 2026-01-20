@@ -133,5 +133,132 @@
     "clearFilters": "Vymazat filtry",
     "outOfStock": "Není skladem",
     "addToCart": "Přidat do košíku"
+  },
+  "privacy": {
+    "title": "Zásady ochrany osobních údajů",
+    "metaDescription": "Zásady ochrany osobních údajů obchodu DroneAgri.pl - oficiálního distributora XAG v Polsku. Zjistěte, jak chráníme vaše osobní údaje.",
+    "administrator": {
+      "title": "Správce údajů",
+      "content": "Správcem údajů je IMEGA Sp. z o.o. se sídlem v Rybniku, ul. Smolna 14, 44-200 Rybnik, Polsko (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Shromažďování údajů",
+      "intro": "Shromažďujeme následující kategorie údajů:",
+      "personalData": "Osobní údaje: jméno, adresa, e-mailová adresa, telefonní číslo",
+      "businessData": "Obchodní údaje: název společnosti a provozní údaje",
+      "technicalData": "Technické údaje: IP adresy, typy prohlížečů, informace o zařízeních",
+      "usageData": "Údaje o používání: navštívené stránky a čas strávený na stránkách"
+    },
+    "processingPurposes": {
+      "title": "Účely zpracování",
+      "services": "Poskytování služeb a správa účtu",
+      "newsletter": "Distribuce obchodního newsletteru",
+      "orders": "Vyřizování objednávek",
+      "complaints": "Vyřizování reklamací a vratek",
+      "inquiries": "Odpovědi na dotazy zákazníků",
+      "marketing": "Přímé marketingové aktivity",
+      "legal": "Právní soulad (účetnictví, daně)"
+    },
+    "dataRetention": {
+      "title": "Uchovávání údajů",
+      "content": "Informace jsou uchovávány po dobu trvání smluvních vztahů a platných zákonných povinností, nebo do odvolání souhlasu nebo formálního námitky."
+    },
+    "dataRecipients": {
+      "title": "Příjemci údajů",
+      "content": "Údaje mohou být sdíleny s poskytovateli IT služeb, marketingovými agenturami, kurýrními společnostmi, účetními firmami a veřejnými orgány, pokud to vyžaduje zákon. K přenosům mimo Evropský hospodářský prostor nedochází."
+    },
+    "userRights": {
+      "title": "Práva uživatele (GDPR)",
+      "intro": "Máte následující práva:",
+      "access": "Právo na přístup k údajům",
+      "correction": "Právo na opravu",
+      "deletion": "Právo na výmaz",
+      "restriction": "Právo na omezení zpracování",
+      "portability": "Právo na přenositelnost údajů",
+      "objection": "Právo na námitku",
+      "complaint": "Právo podat stížnost u dozorového úřadu"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "Stránky používají cookies pro:",
+      "session": "Správu relací",
+      "analytics": "Analytiku a statistiky",
+      "marketing": "Marketingové účely",
+      "functionality": "Funkčnost stránek",
+      "disable": "Cookies můžete zakázat v nastavení prohlížeče, což však může omezit funkčnost."
+    },
+    "security": {
+      "title": "Bezpečnost",
+      "content": "Používáme SSL šifrování, zabezpečené databáze a kontrolu přístupu v souladu s požadavky GDPR."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adresa"
+    }
+  },
+  "terms": {
+    "title": "Obchodní podmínky",
+    "metaDescription": "Obchodní podmínky obchodu DroneAgri.pl - oficiálního distributora XAG v Polsku. Podmínky prodeje zemědělských dronů a robotů.",
+    "general": {
+      "title": "Obecná ustanovení",
+      "content": "IMEGA Sp. z o.o. se sídlem v Rybniku (ul. Smolna 14, 44-200) provozuje shop.droneagri.pl prodávající profesionální zemědělské platformy včetně dronů a pozemních robotů XAG. Zákazníci musí být dospělí s právní způsobilostí. Spotřebiteli jsou osoby nakupující pro neprofesionální účely."
+    },
+    "technical": {
+      "title": "Technické požadavky",
+      "content": "Vyžaduje se přístup k internetu a prohlížeče podporující JavaScript (Chrome, Firefox, Safari, Edge). Minimální rozlišení obrazovky: 1024×768 pixelů.",
+      "prohibited": "Uživatelé nesmí provádět nezákonné činnosti, porušovat práva jiných, narušovat funkčnost stránek ani šířit nelegální obsah."
+    },
+    "orderProcess": {
+      "title": "Proces objednávky",
+      "intro": "Objednávky jsou přijímány kdykoli online prostřednictvím:",
+      "step1": "Výběr produktu",
+      "step2": "Volba způsobu doručení a platby",
+      "step3": "Kontrola souhrnu",
+      "step4": "Potvrzení objednávky",
+      "confirmation": "Prodejce ověřuje údaje a dostupnost. Kupní smlouvy vznikají po potvrzení platby."
+    },
+    "payments": {
+      "title": "Přijímané platby",
+      "bankTransfer": "Bankovní převod",
+      "online": "Online platby (karty, BLIK)",
+      "cod": "Dobírka"
+    },
+    "delivery": {
+      "title": "Doručení",
+      "content": "Produkty jsou zasílány po Polsku a EU prostřednictvím kurýrních služeb. Doručení obvykle trvá 2-7 pracovních dnů v závislosti na dostupnosti."
+    },
+    "withdrawal": {
+      "title": "Právo na odstoupení",
+      "content": "Spotřebitelé mají 14 dní na odstoupení od smluv uzavřených na dálku bez sankce. Písemná prohlášení o odstoupení zachovávají lhůtu. Lhůta začíná od data převzetí."
+    },
+    "complaints": {
+      "title": "Reklamace",
+      "content": "Prodejce zaručuje bezvadné zboží. Zákazníci hlásí vady do jednoho roku od jejich zjištění (pokud jsou zjištěny do dvou let od dodání). Prodejce odpovídá do 14 dnů."
+    },
+    "warranty": {
+      "title": "Záruka kvality",
+      "content": "Roční záruka od převzetí pokrývá výrobní vady pouze na polském/EU území.",
+      "exclusions": "Vyloučeny jsou: nesprávná instalace, nesprávné použití, zanedbání nebo běžné opotřebení. Nápravná opatření zahrnují: opravu, výměnu nebo snížení ceny/vrácení peněz."
+    },
+    "dataProtection": {
+      "title": "Ochrana údajů",
+      "content": "Údaje zákazníků jsou zpracovávány podle polské legislativy o ochraně osobních údajů a zákona o elektronických službách. Podrobnosti viz Zásady ochrany osobních údajů."
+    },
+    "finalProvisions": {
+      "title": "Závěrečná ustanovení",
+      "content": "Spory jsou řešeny podle platných právních předpisů. Spotřebitelé mohou využít alternativní řešení sporů prostřednictvím UOKIK, RZU nebo regionálních úřadů pro ochranu spotřebitele. Obchodní spory jsou řešeny soudy v sídle prodejce. Polské právo upravuje neupravené záležitosti. Podmínky neomezují zákonná práva spotřebitelů."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adresa"
+    }
+  },
+  "cookies": {
+    "message": "Tyto stránky používají cookies k zajištění nejlepší kvality služeb. Pokračováním v prohlížení souhlasíte s jejich používáním.",
+    "learnMore": "Zjistit více",
+    "necessary": "Pouze nezbytné",
+    "acceptAll": "Přijmout vše"
   }
 }

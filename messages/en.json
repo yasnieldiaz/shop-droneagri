@@ -133,5 +133,132 @@
     "clearFilters": "Clear Filters",
     "outOfStock": "Out of Stock",
     "addToCart": "Add to Cart"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "metaDescription": "Privacy policy for DroneAgri.pl shop - official XAG distributor in Poland. Learn how we protect your personal data.",
+    "administrator": {
+      "title": "Data Administrator",
+      "content": "The data administrator is IMEGA Sp. z o.o. based in Rybnik, ul. Smolna 14, 44-200 Rybnik, Poland (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Data Collection",
+      "intro": "We collect the following categories of data:",
+      "personalData": "Personal identifiers: name, address, email address, phone number",
+      "businessData": "Business information: company name and operational details",
+      "technicalData": "Technical data: IP addresses, browser types, device information",
+      "usageData": "Usage data: visited pages and time spent on site"
+    },
+    "processingPurposes": {
+      "title": "Processing Purposes",
+      "services": "Service provision and account management",
+      "newsletter": "Commercial newsletter distribution",
+      "orders": "Order fulfillment",
+      "complaints": "Complaint and return handling",
+      "inquiries": "Customer inquiry responses",
+      "marketing": "Direct marketing activities",
+      "legal": "Legal compliance (accounting, taxation)"
+    },
+    "dataRetention": {
+      "title": "Data Retention",
+      "content": "Information is kept for the duration of contractual relationships and applicable legal obligations, or until consent withdrawal or formal objection."
+    },
+    "dataRecipients": {
+      "title": "Data Recipients",
+      "content": "Information may be shared with IT service providers, marketing agencies, courier companies, accounting firms, and public authorities when legally required. Cross-border transfers outside the European Economic Area do not occur."
+    },
+    "userRights": {
+      "title": "User Rights (GDPR)",
+      "intro": "You have the following rights:",
+      "access": "Right to access data",
+      "correction": "Right to correction",
+      "deletion": "Right to deletion",
+      "restriction": "Right to processing restriction",
+      "portability": "Right to data portability",
+      "objection": "Right to objection",
+      "complaint": "Right to lodge a complaint with supervisory authority"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "The site employs cookies for:",
+      "session": "Session management",
+      "analytics": "Analytics and statistics",
+      "marketing": "Marketing purposes",
+      "functionality": "Site functionality",
+      "disable": "You can disable cookies through browser settings, though this may limit functionality."
+    },
+    "security": {
+      "title": "Security",
+      "content": "We use SSL encryption, secured databases, and access control in compliance with GDPR requirements."
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "Phone",
+      "address": "Address"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "metaDescription": "Terms of service for DroneAgri.pl shop - official XAG distributor in Poland. Sales conditions for agricultural drones and robots.",
+    "general": {
+      "title": "General Provisions",
+      "content": "IMEGA Sp. z o.o., based in Rybnik (ul. Smolna 14, 44-200), operates shop.droneagri.pl selling professional agricultural platforms including XAG drones and ground robots. Customers must be adults with legal capacity. Consumers are individuals purchasing for non-professional purposes."
+    },
+    "technical": {
+      "title": "Technical Requirements",
+      "content": "Internet access and JavaScript-supporting browsers (Chrome, Firefox, Safari, Edge) required. Minimum screen resolution: 1024×768 pixels.",
+      "prohibited": "Users cannot engage in unlawful activity, violate others' rights, disrupt site functionality, or distribute illegal content."
+    },
+    "orderProcess": {
+      "title": "Order Process",
+      "intro": "Orders accepted anytime online through:",
+      "step1": "Product selection",
+      "step2": "Delivery and payment method choice",
+      "step3": "Summary review",
+      "step4": "Order confirmation",
+      "confirmation": "Seller verifies details and availability. Sales contracts form upon payment confirmation."
+    },
+    "payments": {
+      "title": "Accepted Payments",
+      "bankTransfer": "Bank transfer",
+      "online": "Online payments (cards, BLIK)",
+      "cod": "Cash on delivery"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "content": "Products shipped throughout Poland and EU via courier services. Delivery typically takes 2-7 business days depending on availability."
+    },
+    "withdrawal": {
+      "title": "Withdrawal Rights",
+      "content": "Consumers have 14 days to withdraw from distance contracts without penalty. Written withdrawal statements preserve the deadline. The period begins from receipt date."
+    },
+    "complaints": {
+      "title": "Complaints",
+      "content": "Seller guarantees defect-free goods. Customers report defects within one year of discovery (if discovered within two years post-delivery). Seller responds within 14 days."
+    },
+    "warranty": {
+      "title": "Quality Guarantee",
+      "content": "One-year warranty from receipt covers manufacturing defects on Polish/EU territory only.",
+      "exclusions": "Excludes improper installation, misuse, neglect, or normal wear. Remedies include: repair, replacement, or price reduction/refund."
+    },
+    "dataProtection": {
+      "title": "Data Protection",
+      "content": "Customer data processed per Polish personal data legislation and electronic services law. See Privacy Policy for details."
+    },
+    "finalProvisions": {
+      "title": "Final Provisions",
+      "content": "Disputes resolved per applicable law. Consumers may access alternative dispute resolution via UOKIK, RZU, or regional consumer protection offices. Business disputes handled by courts at seller's headquarters. Polish law governs unregulated matters. Terms don't limit statutory consumer rights."
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "Phone",
+      "address": "Address"
+    }
+  },
+  "cookies": {
+    "message": "This site uses cookies to provide the best quality of service. By continuing to browse, you consent to their use.",
+    "learnMore": "Learn more",
+    "necessary": "Necessary only",
+    "acceptAll": "Accept all"
   }
 }

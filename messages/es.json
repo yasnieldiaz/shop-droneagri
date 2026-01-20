@@ -133,5 +133,132 @@
     "clearFilters": "Limpiar filtros",
     "outOfStock": "Agotado",
     "addToCart": "Añadir al carrito"
+  },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "metaDescription": "Política de privacidad de la tienda DroneAgri.pl - distribuidor oficial de XAG en Polonia. Conoce cómo protegemos tus datos personales.",
+    "administrator": {
+      "title": "Administrador de datos",
+      "content": "El administrador de datos es IMEGA Sp. z o.o. con sede en Rybnik, ul. Smolna 14, 44-200 Rybnik, Polonia (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Recopilación de datos",
+      "intro": "Recopilamos las siguientes categorías de datos:",
+      "personalData": "Datos identificativos: nombre, dirección, correo electrónico, número de teléfono",
+      "businessData": "Datos empresariales: nombre de la empresa y detalles operativos",
+      "technicalData": "Datos técnicos: direcciones IP, tipos de navegadores, información del dispositivo",
+      "usageData": "Datos de uso: páginas visitadas y tiempo en el sitio"
+    },
+    "processingPurposes": {
+      "title": "Finalidades del tratamiento",
+      "services": "Prestación de servicios y gestión de cuentas",
+      "newsletter": "Distribución de boletines comerciales",
+      "orders": "Cumplimiento de pedidos",
+      "complaints": "Gestión de reclamaciones y devoluciones",
+      "inquiries": "Respuesta a consultas de clientes",
+      "marketing": "Actividades de marketing directo",
+      "legal": "Cumplimiento legal (contabilidad, impuestos)"
+    },
+    "dataRetention": {
+      "title": "Retención de datos",
+      "content": "La información se conserva durante la duración de las relaciones contractuales y las obligaciones legales aplicables, o hasta la retirada del consentimiento o la oposición formal."
+    },
+    "dataRecipients": {
+      "title": "Destinatarios de datos",
+      "content": "Los datos pueden compartirse con proveedores de servicios IT, agencias de marketing, empresas de mensajería, firmas contables y autoridades públicas cuando lo exija la ley. No se realizan transferencias fuera del Espacio Económico Europeo."
+    },
+    "userRights": {
+      "title": "Derechos del usuario (RGPD)",
+      "intro": "Tienes los siguientes derechos:",
+      "access": "Derecho de acceso a los datos",
+      "correction": "Derecho de rectificación",
+      "deletion": "Derecho de supresión",
+      "restriction": "Derecho a la limitación del tratamiento",
+      "portability": "Derecho a la portabilidad de datos",
+      "objection": "Derecho de oposición",
+      "complaint": "Derecho a presentar una reclamación ante la autoridad de control"
+    },
+    "cookies": {
+      "title": "Cookies",
+      "content": "El sitio utiliza cookies para:",
+      "session": "Gestión de sesiones",
+      "analytics": "Análisis y estadísticas",
+      "marketing": "Fines de marketing",
+      "functionality": "Funcionalidad del sitio",
+      "disable": "Puedes desactivar las cookies en la configuración del navegador, aunque esto puede limitar la funcionalidad."
+    },
+    "security": {
+      "title": "Seguridad",
+      "content": "Utilizamos cifrado SSL, bases de datos seguras y control de acceso conforme a los requisitos del RGPD."
+    },
+    "contact": {
+      "title": "Contacto",
+      "phone": "Teléfono",
+      "address": "Dirección"
+    }
+  },
+  "terms": {
+    "title": "Términos y Condiciones",
+    "metaDescription": "Términos y condiciones de la tienda DroneAgri.pl - distribuidor oficial de XAG en Polonia. Condiciones de venta de drones y robots agrícolas.",
+    "general": {
+      "title": "Disposiciones generales",
+      "content": "IMEGA Sp. z o.o., con sede en Rybnik (ul. Smolna 14, 44-200), opera shop.droneagri.pl vendiendo plataformas agrícolas profesionales incluyendo drones y robots terrestres XAG. Los clientes deben ser adultos con capacidad legal. Los consumidores son personas que compran para fines no profesionales."
+    },
+    "technical": {
+      "title": "Requisitos técnicos",
+      "content": "Se requiere acceso a internet y navegadores compatibles con JavaScript (Chrome, Firefox, Safari, Edge). Resolución mínima de pantalla: 1024×768 píxeles.",
+      "prohibited": "Los usuarios no pueden participar en actividades ilegales, violar los derechos de otros, interrumpir la funcionalidad del sitio ni distribuir contenido ilegal."
+    },
+    "orderProcess": {
+      "title": "Proceso de pedido",
+      "intro": "Los pedidos se aceptan en cualquier momento en línea mediante:",
+      "step1": "Selección del producto",
+      "step2": "Elección del método de entrega y pago",
+      "step3": "Revisión del resumen",
+      "step4": "Confirmación del pedido",
+      "confirmation": "El vendedor verifica los detalles y la disponibilidad. El contrato de venta se formaliza tras la confirmación del pago."
+    },
+    "payments": {
+      "title": "Pagos aceptados",
+      "bankTransfer": "Transferencia bancaria",
+      "online": "Pagos en línea (tarjetas, BLIK)",
+      "cod": "Pago contra reembolso"
+    },
+    "delivery": {
+      "title": "Entrega",
+      "content": "Los productos se envían a Polonia y la UE a través de servicios de mensajería. La entrega suele tardar de 2 a 7 días laborables según disponibilidad."
+    },
+    "withdrawal": {
+      "title": "Derecho de desistimiento",
+      "content": "Los consumidores tienen 14 días para desistir de los contratos a distancia sin penalización. Las declaraciones de desistimiento por escrito preservan el plazo. El período comienza desde la fecha de recepción."
+    },
+    "complaints": {
+      "title": "Reclamaciones",
+      "content": "El vendedor garantiza productos sin defectos. Los clientes reportan defectos dentro de un año desde su descubrimiento (si se descubren dentro de dos años desde la entrega). El vendedor responde en 14 días."
+    },
+    "warranty": {
+      "title": "Garantía de calidad",
+      "content": "Garantía de un año desde la recepción que cubre defectos de fabricación solo en territorio polaco/UE.",
+      "exclusions": "Excluye instalación incorrecta, mal uso, negligencia o desgaste normal. Las soluciones incluyen: reparación, reemplazo o reducción de precio/reembolso."
+    },
+    "dataProtection": {
+      "title": "Protección de datos",
+      "content": "Los datos de clientes se procesan según la legislación polaca de protección de datos y la ley de servicios electrónicos. Ver Política de Privacidad para más detalles."
+    },
+    "finalProvisions": {
+      "title": "Disposiciones finales",
+      "content": "Las disputas se resuelven según la ley aplicable. Los consumidores pueden acceder a resolución alternativa de disputas a través de UOKIK, RZU u oficinas regionales de protección al consumidor. Las disputas comerciales se manejan en tribunales de la sede del vendedor. La ley polaca rige las materias no reguladas. Los términos no limitan los derechos estatutarios del consumidor."
+    },
+    "contact": {
+      "title": "Contacto",
+      "phone": "Teléfono",
+      "address": "Dirección"
+    }
+  },
+  "cookies": {
+    "message": "Este sitio utiliza cookies para proporcionar la mejor calidad de servicio. Al continuar navegando, aceptas su uso.",
+    "learnMore": "Más información",
+    "necessary": "Solo necesarias",
+    "acceptAll": "Aceptar todas"
   }
 }

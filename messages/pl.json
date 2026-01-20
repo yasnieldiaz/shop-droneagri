@@ -133,5 +133,132 @@
     "clearFilters": "Wyczyść filtry",
     "outOfStock": "Brak w magazynie",
     "addToCart": "Dodaj do koszyka"
+  },
+  "privacy": {
+    "title": "Polityka Prywatności",
+    "metaDescription": "Polityka prywatności sklepu DroneAgri.pl - oficjalnego dystrybutora XAG w Polsce. Dowiedz się jak chronimy Twoje dane osobowe.",
+    "administrator": {
+      "title": "Administrator danych",
+      "content": "Administratorem danych osobowych jest IMEGA Sp. z o.o. z siedzibą w Rybniku, ul. Smolna 14, 44-200 Rybnik, Polska (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Zbierane dane",
+      "intro": "Zbieramy następujące kategorie danych:",
+      "personalData": "Dane identyfikacyjne: imię i nazwisko, adres, adres e-mail, numer telefonu",
+      "businessData": "Dane firmowe: nazwa firmy i szczegóły działalności",
+      "technicalData": "Dane techniczne: adresy IP, typy przeglądarek, informacje o urządzeniach",
+      "usageData": "Dane o użytkowaniu: odwiedzane strony i czas spędzony na stronie"
+    },
+    "processingPurposes": {
+      "title": "Cele przetwarzania",
+      "services": "Świadczenie usług i zarządzanie kontem",
+      "newsletter": "Dystrybucja newslettera handlowego",
+      "orders": "Realizacja zamówień",
+      "complaints": "Obsługa reklamacji i zwrotów",
+      "inquiries": "Odpowiedzi na zapytania klientów",
+      "marketing": "Działania marketingu bezpośredniego",
+      "legal": "Zgodność z prawem (księgowość, podatki)"
+    },
+    "dataRetention": {
+      "title": "Okres przechowywania danych",
+      "content": "Dane przechowujemy przez okres trwania stosunku umownego oraz wymagany przepisami prawa, lub do momentu wycofania zgody lub złożenia formalnego sprzeciwu."
+    },
+    "dataRecipients": {
+      "title": "Odbiorcy danych",
+      "content": "Dane mogą być udostępniane dostawcom usług IT, agencjom marketingowym, firmom kurierskim, biurom rachunkowym oraz organom publicznym, gdy wymagają tego przepisy. Nie przekazujemy danych poza Europejski Obszar Gospodarczy."
+    },
+    "userRights": {
+      "title": "Prawa użytkownika (RODO)",
+      "intro": "Przysługują Ci następujące prawa:",
+      "access": "Prawo dostępu do danych",
+      "correction": "Prawo do sprostowania danych",
+      "deletion": "Prawo do usunięcia danych",
+      "restriction": "Prawo do ograniczenia przetwarzania",
+      "portability": "Prawo do przenoszenia danych",
+      "objection": "Prawo do sprzeciwu",
+      "complaint": "Prawo do wniesienia skargi do organu nadzorczego"
+    },
+    "cookies": {
+      "title": "Pliki cookies",
+      "content": "Strona wykorzystuje pliki cookies w celu:",
+      "session": "Zarządzania sesją użytkownika",
+      "analytics": "Analityki i statystyk",
+      "marketing": "Celów marketingowych",
+      "functionality": "Zapewnienia funkcjonalności strony",
+      "disable": "Możesz wyłączyć cookies w ustawieniach przeglądarki, jednak może to ograniczyć funkcjonalność strony."
+    },
+    "security": {
+      "title": "Bezpieczeństwo",
+      "content": "Stosujemy szyfrowanie SSL, zabezpieczone bazy danych oraz kontrolę dostępu zgodnie z wymogami RODO."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adres"
+    }
+  },
+  "terms": {
+    "title": "Regulamin",
+    "metaDescription": "Regulamin sklepu DroneAgri.pl - oficjalnego dystrybutora XAG w Polsce. Warunki sprzedaży dronów i robotów rolniczych.",
+    "general": {
+      "title": "Postanowienia ogólne",
+      "content": "IMEGA Sp. z o.o. z siedzibą w Rybniku (ul. Smolna 14, 44-200) prowadzi sklep internetowy shop.droneagri.pl oferujący profesjonalne platformy rolnicze, w tym drony i roboty naziemne XAG. Klienci muszą być pełnoletni i posiadać pełną zdolność do czynności prawnych. Konsumentem jest osoba fizyczna dokonująca zakupu w celach niezwiązanych z działalnością zawodową."
+    },
+    "technical": {
+      "title": "Wymagania techniczne",
+      "content": "Wymagany jest dostęp do internetu oraz przeglądarka obsługująca JavaScript (Chrome, Firefox, Safari, Edge). Minimalna rozdzielczość ekranu: 1024×768 pikseli.",
+      "prohibited": "Użytkownicy nie mogą angażować się w działania niezgodne z prawem, naruszać praw innych osób, zakłócać działania strony ani rozpowszechniać nielegalnych treści."
+    },
+    "orderProcess": {
+      "title": "Proces zamówienia",
+      "intro": "Zamówienia przyjmowane są przez całą dobę online poprzez:",
+      "step1": "Wybór produktu",
+      "step2": "Wybór metody dostawy i płatności",
+      "step3": "Przegląd podsumowania",
+      "step4": "Potwierdzenie zamówienia",
+      "confirmation": "Sprzedawca weryfikuje szczegóły i dostępność. Umowa sprzedaży zostaje zawarta po potwierdzeniu płatności w języku polskim."
+    },
+    "payments": {
+      "title": "Akceptowane płatności",
+      "bankTransfer": "Przelew bankowy",
+      "online": "Płatności online (karty, BLIK)",
+      "cod": "Płatność za pobraniem"
+    },
+    "delivery": {
+      "title": "Dostawa",
+      "content": "Produkty wysyłane są na terenie Polski i UE za pośrednictwem firm kurierskich. Dostawa trwa zazwyczaj 2-7 dni roboczych w zależności od dostępności."
+    },
+    "withdrawal": {
+      "title": "Prawo do odstąpienia",
+      "content": "Konsumenci mają 14 dni na odstąpienie od umowy zawartej na odległość bez podania przyczyny. Pisemne oświadczenie o odstąpieniu zachowuje termin. Okres ten rozpoczyna się od daty odbioru towaru."
+    },
+    "complaints": {
+      "title": "Reklamacje",
+      "content": "Sprzedawca gwarantuje towar wolny od wad. Klienci zgłaszają wady w ciągu roku od ich wykrycia (jeśli wykryte w ciągu dwóch lat od dostawy). Sprzedawca odpowiada w ciągu 14 dni."
+    },
+    "warranty": {
+      "title": "Gwarancja jakości",
+      "content": "Roczna gwarancja od daty odbioru obejmuje wady produkcyjne wyłącznie na terytorium Polski/UE.",
+      "exclusions": "Wyłączone są: nieprawidłowa instalacja, niewłaściwe użytkowanie, zaniedbanie lub normalne zużycie. Środki zaradcze obejmują: naprawę, wymianę lub obniżenie ceny/zwrot."
+    },
+    "dataProtection": {
+      "title": "Ochrona danych",
+      "content": "Dane klientów przetwarzane są zgodnie z polskim prawem o ochronie danych osobowych i ustawą o świadczeniu usług drogą elektroniczną. Szczegóły w Polityce Prywatności."
+    },
+    "finalProvisions": {
+      "title": "Postanowienia końcowe",
+      "content": "Spory rozstrzygane są zgodnie z obowiązującym prawem. Konsumenci mogą korzystać z alternatywnych metod rozwiązywania sporów za pośrednictwem UOKIK, RZU lub wojewódzkich urzędów ochrony konsumenta. Spory biznesowe rozstrzygane są przez sądy właściwe dla siedziby sprzedawcy. Prawo polskie reguluje kwestie nieuregulowane. Regulamin nie ogranicza ustawowych praw konsumenta."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "phone": "Telefon",
+      "address": "Adres"
+    }
+  },
+  "cookies": {
+    "message": "Ta strona wykorzystuje pliki cookies w celu zapewnienia najlepszej jakości usług. Kontynuując przeglądanie, wyrażasz zgodę na ich użycie.",
+    "learnMore": "Dowiedz się więcej",
+    "necessary": "Tylko niezbędne",
+    "acceptAll": "Akceptuję wszystkie"
   }
 }

@@ -91,15 +91,6 @@ export default function ProductsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Products</h1>
           <p className="text-gray-500">Manage your product catalog</p>
         </div>
-        <Link
-          href="/admin/products/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover transition-colors"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Add Product
-        </Link>
       </div>
 
       {/* Filters */}

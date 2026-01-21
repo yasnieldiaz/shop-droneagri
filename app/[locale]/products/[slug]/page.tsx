@@ -1927,9 +1927,7 @@ Kenmerken:
       pl: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maksymalna wydajność',
-        description: `XAG P150 Max to flagowy dron rolniczy o maksymalnej wydajności.
-
-Pakiet zawiera:
+        description: `Pakiet zawiera:
 - 1x Dron Rolniczy XAG P150 Max
 - 4x Inteligentne Baterie
 - 2x Ładowarki S-Charger CM13960S
@@ -1939,9 +1937,7 @@ Pakiet zawiera:
       en: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maximum efficiency',
-        description: `The XAG P150 Max is the flagship agricultural drone with maximum payload capacity.
-
-Package includes:
+        description: `Package includes:
 - 1x XAG P150 Max Agricultural Drone
 - 4x Smart Batteries
 - 2x S-Charger CM13960S
@@ -1951,9 +1947,7 @@ Package includes:
       es: {
         name: 'XAG P150 Max',
         tagline: '80kg de carga, tanque de 80L - máxima eficiencia',
-        description: `El XAG P150 Max es el dron agrícola insignia con capacidad máxima de carga.
-
-El paquete incluye:
+        description: `El paquete incluye:
 - 1x Dron Agrícola XAG P150 Max
 - 4x Baterías Inteligentes
 - 2x Cargadores S-Charger CM13960S
@@ -1963,9 +1957,7 @@ El paquete incluye:
       de: {
         name: 'XAG P150 Max',
         tagline: '80kg Nutzlast, 80L Sprühtank - maximale Effizienz',
-        description: `Die XAG P150 Max ist die Flaggschiff-Agrardrohne mit maximaler Nutzlastkapazität.
-
-Paket enthält:
+        description: `Paket enthält:
 - 1x XAG P150 Max Agrardrohne
 - 4x Smart Batterien
 - 2x S-Charger CM13960S
@@ -1975,9 +1967,7 @@ Paket enthält:
       cs: {
         name: 'XAG P150 Max',
         tagline: '80kg náklad, 80L nádrž - maximální efektivita',
-        description: `XAG P150 Max je vlajková loď zemědělských dronů s maximální nosností.
-
-Balení obsahuje:
+        description: `Balení obsahuje:
 - 1x Zemědělský dron XAG P150 Max
 - 4x Chytré baterie
 - 2x Nabíječky S-Charger CM13960S
@@ -1987,9 +1977,7 @@ Balení obsahuje:
       nl: {
         name: 'XAG P150 Max',
         tagline: '80kg laadvermogen, 80L sproeitank - maximale efficiëntie',
-        description: `De XAG P150 Max is de vlaggenschip landbouwdrone met maximale laadcapaciteit.
-
-Pakket bevat:
+        description: `Pakket bevat:
 - 1x XAG P150 Max Landbouwdrone
 - 4x Slimme Batterijen
 - 2x S-Charger CM13960S

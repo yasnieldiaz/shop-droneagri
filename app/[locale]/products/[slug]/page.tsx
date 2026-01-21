@@ -15,6 +15,8 @@ type DbPrices = {
   compareAtPrice: number | null;
   compareAtPriceEUR: number | null;
   stock: number;
+  preorderEnabled: boolean;
+  preorderLeadTime: string | null;
 } | null;
 
 type Locale = 'pl' | 'en' | 'es' | 'de' | 'cs' | 'nl';
@@ -2187,6 +2189,8 @@ export default function ProductDetailPage() {
               compareAtPrice: data.product.compareAtPrice,
               compareAtPriceEUR: data.product.compareAtPriceEUR,
               stock: data.product.stock,
+              preorderEnabled: data.product.preorderEnabled ?? false,
+              preorderLeadTime: data.product.preorderLeadTime ?? null,
             });
           }
         }
@@ -2236,6 +2240,8 @@ export default function ProductDetailPage() {
   const actualCompareAtPrice = dbPrices?.compareAtPrice ?? product.compareAtPrice;
   const actualCompareAtPriceEUR = dbPrices?.compareAtPriceEUR ?? product.compareAtPriceEUR;
   const actualStock = dbPrices?.stock ?? product.stock;
+  const actualPreorderEnabled = dbPrices?.preorderEnabled ?? false;
+  const actualPreorderLeadTime = dbPrices?.preorderLeadTime ?? null;
 
   // Check for B2B price
   const { isLoggedIn, getB2BPrice } = useB2BStore();
@@ -2272,6 +2278,8 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     setAddingToCart(true);
 
+    const isPreorder = actualStock === 0 && actualPreorderEnabled;
+
     useCartStore.getState().addItem({
       productId: product.id,
       name: translation.name,
@@ -2280,6 +2288,7 @@ export default function ProductDetailPage() {
       price: displayPrice,
       quantity,
       currency: currency as 'PLN' | 'EUR',
+      isPreorder,
     });
 
     setTimeout(() => {
@@ -2446,10 +2455,15 @@ export default function ProductDetailPage() {
                   <span className="text-green-700 font-medium">{t('inStock')}</span>
                   <span className="text-gray-500">({actualStock} {t('available')})</span>
                 </>
-              ) : (
+              ) : actualPreorderEnabled ? (
                 <>
                   <span className="w-3 h-3 bg-orange-500 rounded-full"></span>
-                  <span className="text-orange-700 font-medium">{t('backordered')}</span>
+                  <span className="text-orange-700 font-medium">{t('preOrder')}</span>
+                </>
+              ) : (
+                <>
+                  <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                  <span className="text-red-700 font-medium">{t('outOfStock')}</span>
                 </>
               )}
             </div>
@@ -2481,8 +2495,14 @@ export default function ProductDetailPage() {
 
               <button
                 onClick={handleAddToCart}
-                disabled={addingToCart}
-                className="btn-primary flex-1 justify-center"
+                disabled={addingToCart || (actualStock === 0 && !actualPreorderEnabled)}
+                className={`flex-1 justify-center ${
+                  actualStock === 0 && !actualPreorderEnabled
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed px-6 py-3 rounded-lg font-semibold flex items-center'
+                    : actualStock === 0 && actualPreorderEnabled
+                    ? 'bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center transition-colors'
+                    : 'btn-primary'
+                }`}
               >
                 {addingToCart ? (
                   <>
@@ -2492,22 +2512,54 @@ export default function ProductDetailPage() {
                     </svg>
                     {t('adding')}
                   </>
+                ) : actualStock === 0 && !actualPreorderEnabled ? (
+                  <>
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                    {t('outOfStock')}
+                  </>
+                ) : actualStock === 0 && actualPreorderEnabled ? (
+                  <>
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {t('preOrder')}
+                  </>
                 ) : (
                   <>
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    {actualStock === 0 ? t('preOrder') : t('addToCart')}
+                    {t('addToCart')}
                   </>
                 )}
               </button>
             </div>
 
-            {/* Contact for Stock */}
-            {actualStock === 0 && (
+            {/* Preorder Info */}
+            {actualStock === 0 && actualPreorderEnabled && (
               <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                <p className="text-orange-800 text-sm">
-                  {t('backorderedMessage')}
+                <p className="text-orange-800 text-sm font-medium mb-1">{t('preOrderTitle')}</p>
+                <p className="text-orange-700 text-sm">
+                  {t('preOrderMessage')}
+                </p>
+                {actualPreorderLeadTime && (
+                  <p className="text-orange-700 text-sm mt-2 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="font-medium">{t('estimatedDelivery')}:</span> {actualPreorderLeadTime}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Out of Stock Info */}
+            {actualStock === 0 && !actualPreorderEnabled && (
+              <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                <p className="text-red-800 text-sm">
+                  {t('outOfStockMessage')}
                 </p>
               </div>
             )}

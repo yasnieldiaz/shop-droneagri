@@ -23,6 +23,8 @@ interface Product {
   type: string;
   isActive: boolean;
   isFeatured: boolean;
+  preorderEnabled: boolean;
+  preorderLeadTime: string | null;
 }
 
 const formatPrice = (cents: number) => {
@@ -61,6 +63,8 @@ export default function EditProductPage() {
     type: 'PRODUCT',
     isActive: true,
     isFeatured: false,
+    preorderEnabled: false,
+    preorderLeadTime: '',
   });
 
   // Calculate EUR from PLN
@@ -133,6 +137,8 @@ export default function EditProductPage() {
           type: found.type || 'PRODUCT',
           isActive: found.isActive ?? true,
           isFeatured: found.isFeatured ?? false,
+          preorderEnabled: found.preorderEnabled ?? false,
+          preorderLeadTime: found.preorderLeadTime || '',
         });
       } else {
         setError('Producto no encontrado');
@@ -444,7 +450,7 @@ export default function EditProductPage() {
         {/* Status */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
           <h2 className="text-lg font-semibold mb-4">Estado</h2>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-6 mb-4">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -465,7 +471,38 @@ export default function EditProductPage() {
               />
               <span className="text-sm text-gray-700">Destacado</span>
             </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                name="preorderEnabled"
+                checked={formData.preorderEnabled}
+                onChange={handleChange}
+                className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+              />
+              <span className="text-sm text-gray-700">Preorder habilitado</span>
+              <span className="text-xs text-orange-500">(cuando stock = 0)</span>
+            </label>
           </div>
+
+          {/* Preorder Lead Time - only show when preorder is enabled */}
+          {formData.preorderEnabled && (
+            <div className="mt-4 p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <label className="block text-sm font-medium text-orange-700 mb-2">
+                Tiempo de espera estimado
+              </label>
+              <input
+                type="text"
+                name="preorderLeadTime"
+                value={formData.preorderLeadTime}
+                onChange={handleChange}
+                placeholder="Ej: 2-3 semanas, 4-6 semanas, 1 mes"
+                className="w-full md:w-1/2 px-3 py-2 border border-orange-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500/50"
+              />
+              <p className="text-xs text-orange-600 mt-1">
+                Este tiempo se mostrara a los clientes en la pagina del producto
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Actions */}

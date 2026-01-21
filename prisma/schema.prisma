@@ -96,6 +96,7 @@ model OrderItem {
   quantity    Int
   unitPrice   Int     // Price per unit in groszy
   totalPrice  Int     // quantity * unitPrice
+  isPreorder  Boolean @default(false)  // Item was preordered
   createdAt   DateTime @default(now())
 }
 
@@ -240,6 +241,8 @@ model Product {
   // Status
   isActive        Boolean   @default(true)
   isFeatured      Boolean   @default(false)
+  preorderEnabled Boolean   @default(false)  // Allow preorder when out of stock
+  preorderLeadTime String?  // Estimated delivery time for preorder (e.g., "2-3 weeks")
 
   // Timestamps
   createdAt       DateTime  @default(now())

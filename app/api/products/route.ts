@@ -24,6 +24,8 @@ export async function GET(request: NextRequest) {
           stock: true,
           isActive: true,
           mainImage: true,
+          preorderEnabled: true,
+          preorderLeadTime: true,
         },
       });
 
@@ -48,6 +50,8 @@ export async function GET(request: NextRequest) {
         compareAtPriceEUR: true,
         stock: true,
         mainImage: true,
+        preorderEnabled: true,
+        preorderLeadTime: true,
       },
       orderBy: { name: 'asc' },
     });

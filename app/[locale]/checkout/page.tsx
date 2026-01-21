@@ -50,6 +50,11 @@ export default function CheckoutPage() {
   const shippingCost = subtotal >= 1000000 ? 0 : 5000; // 50 PLN
   const total = subtotal + shippingCost;
 
+  // VAT calculation (23% VAT in Poland - prices are stored as brutto)
+  const VAT_RATE = 0.23;
+  const subtotalNetto = Math.round(subtotal / (1 + VAT_RATE));
+  const vatAmount = subtotal - subtotalNetto;
+
   const handlePlaceOrder = async () => {
     setIsSubmitting(true);
     setError(null);
@@ -574,7 +579,15 @@ export default function CheckoutPage() {
 
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Subtotal ({itemCount} items)</span>
+                  <span className="text-gray-600">Subtotal netto ({itemCount} items)</span>
+                  <span className="font-medium">{formatPrice(subtotalNetto)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">VAT (23%)</span>
+                  <span className="font-medium">{formatPrice(vatAmount)}</span>
+                </div>
+                <div className="flex justify-between text-sm border-t pt-2">
+                  <span className="text-gray-600">Subtotal brutto</span>
                   <span className="font-medium">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -596,13 +609,13 @@ export default function CheckoutPage() {
 
               <div className="border-t pt-4">
                 <div className="flex justify-between">
-                  <span className="font-bold text-navy">Total</span>
+                  <span className="font-bold text-navy">Total brutto</span>
                   <span className="font-bold text-xl text-navy">
                     {formatPrice(total)}
                   </span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                  Including VAT
+                  VAT included ({formatPrice(vatAmount)})
                 </p>
               </div>
 

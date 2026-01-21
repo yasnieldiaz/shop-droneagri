@@ -12,6 +12,7 @@ export interface CartItem {
   price: number;
   quantity: number;
   currency: 'PLN' | 'EUR';
+  isPreorder?: boolean;
 }
 
 interface CartState {

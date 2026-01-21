@@ -43,10 +43,11 @@ export function CartDrawer() {
     };
   }, [isOpen, handleClose]);
 
-  const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat(currency === 'PLN' ? 'pl-PL' : 'de-DE', {
+  const formatPrice = (amount: number, itemCurrency?: 'PLN' | 'EUR') => {
+    const curr = itemCurrency || currency;
+    return new Intl.NumberFormat(curr === 'PLN' ? 'pl-PL' : 'de-DE', {
       style: 'currency',
-      currency,
+      currency: curr,
       minimumFractionDigits: 0,
     }).format(amount / 100);
   };
@@ -140,7 +141,7 @@ export function CartDrawer() {
                       {item.name}
                     </Link>
                     <p className="text-brand-red font-semibold mt-1">
-                      {formatPrice(item.price)}
+                      {formatPrice(item.price, item.currency)}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
@@ -174,7 +175,12 @@ export function CartDrawer() {
             <div className="border-t px-6 py-4 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="text-xl font-bold text-navy">{formatPrice(subtotal)}</span>
+                <span className="text-xl font-bold text-navy">
+                  {formatPrice(
+                    items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+                    items[0]?.currency
+                  )}
+                </span>
               </div>
               <p className="text-sm text-gray-500">Shipping calculated at checkout</p>
               <Link

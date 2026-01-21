@@ -750,7 +750,7 @@ export default function B2BAdminPage() {
                 <div className="grid grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Price PL (grosze)
+                      Precio PL (en grosze)
                     </label>
                     <input
                       type="number"
@@ -760,13 +760,16 @@ export default function B2BAdminPage() {
                       placeholder="15000000"
                     />
                     <p className="text-xs text-brand-red mt-1 font-medium">
-                      {priceForm.pricePL ? formatPrice(parseInt(priceForm.pricePL), 'PLN') : '0,00 PLN'}
+                      = {priceForm.pricePL && parseInt(priceForm.pricePL) > 0
+                          ? formatPrice(parseInt(priceForm.pricePL), 'PLN')
+                          : '0,00 PLN'}
                     </p>
+                    <p className="text-xs text-gray-400">100 groszy = 1 PLN</p>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Price EU (cents)
+                      Precio EU (en cents)
                     </label>
                     <input
                       type="number"
@@ -776,8 +779,11 @@ export default function B2BAdminPage() {
                       placeholder="3500000"
                     />
                     <p className="text-xs text-blue-600 mt-1 font-medium">
-                      {priceForm.priceEU ? formatPrice(parseInt(priceForm.priceEU), 'EUR') : '0,00 EUR'}
+                      = {priceForm.priceEU && parseInt(priceForm.priceEU) > 0
+                          ? formatPrice(parseInt(priceForm.priceEU), 'EUR')
+                          : '0,00 EUR'}
                     </p>
+                    <p className="text-xs text-gray-400">100 cents = 1 EUR</p>
                   </div>
 
                   <div>

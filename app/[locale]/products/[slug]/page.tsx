@@ -1931,68 +1931,74 @@ Kenmerken:
   },
   'p150-max': {
     id: 'XAG-P150-MAX',
-    sku: 'XAG-P150-MAX',
+    sku: '09-007-00158',
     slug: 'p150-max',
     translations: {
       pl: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maksymalna wydajność',
         description: `Pakiet zawiera:
-- 1x Dron Rolniczy XAG P150 Max
-- 4x Inteligentne Baterie
-- 2x Ładowarki S-Charger CM13960S
-- 1x Pilot Zdalnego Sterowania SRC5
-- 2x System Chłodzenia dMist Cooling`,
+- 1x XAG P150 Max Agricultural Drone z RevoSpray 5 (09-007-00158)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 1x XAG CM13600S Charger (09-017-00069)
+- 1x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
+- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       en: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maximum efficiency',
         description: `Package includes:
-- 1x XAG P150 Max Agricultural Drone
-- 4x Smart Batteries
-- 2x S-Charger CM13960S
-- 1x Remote Controller SRC5
-- 2x dMist Cooling System`,
+- 1x XAG P150 Max Agricultural Drone with RevoSpray 5 (09-007-00158)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 1x XAG CM13600S Charger (09-017-00069)
+- 1x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
+- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       es: {
         name: 'XAG P150 Max',
         tagline: '80kg de carga, tanque de 80L - máxima eficiencia',
         description: `El paquete incluye:
-- 1x Dron Agrícola XAG P150 Max
-- 4x Baterías Inteligentes
-- 2x Cargadores S-Charger CM13960S
-- 1x Control Remoto SRC5
-- 2x Sistema de Enfriamiento dMist Cooling`,
+- 1x Dron Agrícola XAG P150 Max con RevoSpray 5 (09-007-00158)
+- 1x Control Remoto XAG SRC5 (05-002-02725)
+- 1x Batería XAG B141050 Smart Super Charge (09-017-00073)
+- 1x Cargador XAG CM13600S (09-017-00069)
+- 1x Cable de alimentación XAG EU para CM13600S (01-027-02823)
+- 1x Torre de enfriamiento XAG 2024 Battery Cooling (09-017-00065)`,
       },
       de: {
         name: 'XAG P150 Max',
         tagline: '80kg Nutzlast, 80L Sprühtank - maximale Effizienz',
         description: `Paket enthält:
-- 1x XAG P150 Max Agrardrohne
-- 4x Smart Batterien
-- 2x S-Charger CM13960S
-- 1x Fernbedienung SRC5
-- 2x dMist Kühlsystem`,
+- 1x XAG P150 Max Agrardrohne mit RevoSpray 5 (09-007-00158)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 1x XAG CM13600S Ladegerät (09-017-00069)
+- 1x XAG Netzkabel-EU für CM13600S (01-027-02823)
+- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       cs: {
         name: 'XAG P150 Max',
         tagline: '80kg náklad, 80L nádrž - maximální efektivita',
         description: `Balení obsahuje:
-- 1x Zemědělský dron XAG P150 Max
-- 4x Chytré baterie
-- 2x Nabíječky S-Charger CM13960S
-- 1x Dálkové ovládání SRC5
-- 2x Chladicí systém dMist`,
+- 1x XAG P150 Max Agricultural Drone s RevoSpray 5 (09-007-00158)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 1x XAG CM13600S Nabíječka (09-017-00069)
+- 1x XAG Napájecí kabel-EU pro CM13600S (01-027-02823)
+- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       nl: {
         name: 'XAG P150 Max',
         tagline: '80kg laadvermogen, 80L sproeitank - maximale efficiëntie',
         description: `Pakket bevat:
-- 1x XAG P150 Max Landbouwdrone
-- 4x Slimme Batterijen
-- 2x S-Charger CM13960S
-- 1x Afstandsbediening SRC5
-- 2x dMist Koelsysteem`,
+- 1x XAG P150 Max Agricultural Drone met RevoSpray 5 (09-007-00158)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 1x XAG CM13600S Lader (09-017-00069)
+- 1x XAG Voedingskabel-EU voor CM13600S (01-027-02823)
+- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
     },
     mainImage: '/images/products/drones/p150-max/p150-max-1.png',

@@ -2411,7 +2411,7 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Price - Netto & Brutto */}
+            {/* Price - B2B shows only netto (reverse charge), regular shows netto & brutto */}
             <div className="space-y-2">
               {/* B2B Badge */}
               {isB2BPrice && (
@@ -2419,25 +2419,49 @@ export default function ProductDetailPage() {
                   B2B Price
                 </span>
               )}
-              <div className="flex items-baseline gap-4">
-                <span className={`text-3xl font-bold ${isB2BPrice ? 'text-green-600' : hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
-                  {formatPrice(calculateNetto(displayPrice))}
-                </span>
-                <span className="text-sm text-gray-500">netto</span>
-                {hasDiscount && displayCompareAtPrice && (
-                  <span className="text-xl text-gray-400 line-through">
-                    {formatPrice(calculateNetto(displayCompareAtPrice))}
-                  </span>
-                )}
-              </div>
-              <div className="text-lg text-gray-600">
-                {formatPrice(displayPrice)} <span className="text-sm">brutto</span>
-                {hasDiscount && displayCompareAtPrice && (
-                  <span className="ml-2 text-gray-400 line-through">
-                    {formatPrice(displayCompareAtPrice)}
-                  </span>
-                )}
-              </div>
+
+              {isB2BPrice ? (
+                /* B2B Customer - Show only netto price (reverse charge applies) */
+                <>
+                  <div className="flex items-baseline gap-4">
+                    <span className="text-3xl font-bold text-green-600">
+                      {formatPrice(displayPrice)}
+                    </span>
+                    <span className="text-sm text-gray-500">netto</span>
+                    {hasDiscount && displayCompareAtPrice && (
+                      <span className="text-xl text-gray-400 line-through">
+                        {formatPrice(displayCompareAtPrice)}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    VAT 0% - Reverse charge (intra-community)
+                  </p>
+                </>
+              ) : (
+                /* Regular Customer - Show netto & brutto */
+                <>
+                  <div className="flex items-baseline gap-4">
+                    <span className={`text-3xl font-bold ${hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
+                      {formatPrice(calculateNetto(displayPrice))}
+                    </span>
+                    <span className="text-sm text-gray-500">netto</span>
+                    {hasDiscount && displayCompareAtPrice && (
+                      <span className="text-xl text-gray-400 line-through">
+                        {formatPrice(calculateNetto(displayCompareAtPrice))}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-lg text-gray-600">
+                    {formatPrice(displayPrice)} <span className="text-sm">brutto</span>
+                    {hasDiscount && displayCompareAtPrice && (
+                      <span className="ml-2 text-gray-400 line-through">
+                        {formatPrice(displayCompareAtPrice)}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Stock Status */}

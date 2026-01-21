@@ -107,21 +107,44 @@ export function ProductCard({ product }: ProductCardProps) {
           {isB2BPrice && (
             <span className="text-xs text-green-600 font-medium">B2B Price</span>
           )}
-          <div className="flex items-baseline gap-2">
-            <span className={`text-lg font-bold ${isB2BPrice ? 'text-green-700' : 'text-gray-900'}`}>
-              {formatPrice(calculateNetto(price))} {currency}
-            </span>
-            <span className="text-xs text-gray-500">netto</span>
 
-            {(isB2BPrice || (hasDiscount && compareAtPrice)) && compareAtPrice && (
-              <span className="text-sm text-gray-400 line-through">
-                {formatPrice(calculateNetto(compareAtPrice))} {currency}
-              </span>
-            )}
-          </div>
-          <div className="text-sm text-gray-500">
-            {formatPrice(price)} {currency} <span className="text-xs">brutto</span>
-          </div>
+          {isB2BPrice ? (
+            /* B2B Customer - Show only netto price (reverse charge) */
+            <>
+              <div className="flex items-baseline gap-2">
+                <span className="text-lg font-bold text-green-700">
+                  {formatPrice(price)} {currency}
+                </span>
+                <span className="text-xs text-gray-500">netto</span>
+                {hasDiscount && compareAtPrice && (
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatPrice(compareAtPrice)} {currency}
+                  </span>
+                )}
+              </div>
+              <div className="text-xs text-gray-400">
+                VAT 0% (reverse charge)
+              </div>
+            </>
+          ) : (
+            /* Regular Customer - Show netto & brutto */
+            <>
+              <div className="flex items-baseline gap-2">
+                <span className="text-lg font-bold text-gray-900">
+                  {formatPrice(calculateNetto(price))} {currency}
+                </span>
+                <span className="text-xs text-gray-500">netto</span>
+                {hasDiscount && compareAtPrice && (
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatPrice(calculateNetto(compareAtPrice))} {currency}
+                  </span>
+                )}
+              </div>
+              <div className="text-sm text-gray-500">
+                {formatPrice(price)} {currency} <span className="text-xs">brutto</span>
+              </div>
+            </>
+          )}
         </div>
 
       </div>

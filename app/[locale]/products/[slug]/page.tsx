@@ -1927,74 +1927,74 @@ Kenmerken:
       pl: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maksymalna wydajność',
-        description: `XAG P150 Max to flagowy dron rolniczy o maksymalnej wydajności. Największy ładunek w ofercie XAG.
+        description: `XAG P150 Max to flagowy dron rolniczy o maksymalnej wydajności.
 
-Cechy:
-- Pojemność ładunku 80kg
-- Zbiornik opryskowy 80L
-- Radar śledzenia terenu
-- Inteligentne planowanie tras
-- Odporność na wodę IP67`,
+Pakiet zawiera:
+- 1x Dron Rolniczy XAG P150 Max
+- 4x Inteligentne Baterie
+- 2x Ładowarki S-Charger CM13960S
+- 1x Pilot Zdalnego Sterowania SRC5
+- 2x System Chłodzenia dMist Cooling`,
       },
       en: {
         name: 'XAG P150 Max',
         tagline: '80kg payload, 80L spray tank - maximum efficiency',
-        description: `The XAG P150 Max is the flagship agricultural drone with maximum payload capacity. The largest payload in the XAG lineup.
+        description: `The XAG P150 Max is the flagship agricultural drone with maximum payload capacity.
 
-Features:
-- 80kg payload capacity
-- 80L spray tank
-- Terrain following radar
-- Intelligent route planning
-- IP67 water resistance`,
+Package includes:
+- 1x XAG P150 Max Agricultural Drone
+- 4x Smart Batteries
+- 2x S-Charger CM13960S
+- 1x Remote Controller SRC5
+- 2x dMist Cooling System`,
       },
       es: {
         name: 'XAG P150 Max',
         tagline: '80kg de carga, tanque de 80L - máxima eficiencia',
-        description: `El XAG P150 Max es el dron agrícola insignia con capacidad máxima de carga. La mayor capacidad de carga en la línea XAG.
+        description: `El XAG P150 Max es el dron agrícola insignia con capacidad máxima de carga.
 
-Características:
-- Capacidad de carga de 80kg
-- Tanque de pulverización de 80L
-- Radar de seguimiento de terreno
-- Planificación inteligente de rutas
-- Resistencia al agua IP67`,
+El paquete incluye:
+- 1x Dron Agrícola XAG P150 Max
+- 4x Baterías Inteligentes
+- 2x Cargadores S-Charger CM13960S
+- 1x Control Remoto SRC5
+- 2x Sistema de Enfriamiento dMist Cooling`,
       },
       de: {
         name: 'XAG P150 Max',
         tagline: '80kg Nutzlast, 80L Sprühtank - maximale Effizienz',
         description: `Die XAG P150 Max ist die Flaggschiff-Agrardrohne mit maximaler Nutzlastkapazität.
 
-Eigenschaften:
-- 80kg Nutzlastkapazität
-- 80L Sprühtank
-- Terrain-Folge-Radar
-- Intelligente Routenplanung
-- IP67 Wasserschutz`,
+Paket enthält:
+- 1x XAG P150 Max Agrardrohne
+- 4x Smart Batterien
+- 2x S-Charger CM13960S
+- 1x Fernbedienung SRC5
+- 2x dMist Kühlsystem`,
       },
       cs: {
         name: 'XAG P150 Max',
         tagline: '80kg náklad, 80L nádrž - maximální efektivita',
         description: `XAG P150 Max je vlajková loď zemědělských dronů s maximální nosností.
 
-Vlastnosti:
-- Kapacita nákladu 80kg
-- Nádrž na postřik 80L
-- Radar sledování terénu
-- Inteligentní plánování tras
-- Voděodolnost IP67`,
+Balení obsahuje:
+- 1x Zemědělský dron XAG P150 Max
+- 4x Chytré baterie
+- 2x Nabíječky S-Charger CM13960S
+- 1x Dálkové ovládání SRC5
+- 2x Chladicí systém dMist`,
       },
       nl: {
         name: 'XAG P150 Max',
         tagline: '80kg laadvermogen, 80L sproeitank - maximale efficiëntie',
         description: `De XAG P150 Max is de vlaggenschip landbouwdrone met maximale laadcapaciteit.
 
-Kenmerken:
-- 80kg laadvermogen
-- 80L sproeitank
-- Terreinvolgende radar
-- Intelligente routeplanning
-- IP67 waterbestendigheid`,
+Pakket bevat:
+- 1x XAG P150 Max Landbouwdrone
+- 4x Slimme Batterijen
+- 2x S-Charger CM13960S
+- 1x Afstandsbediening SRC5
+- 2x dMist Koelsysteem`,
       },
     },
     mainImage: '/images/products/drones/p150-max/p150-max-1.png',

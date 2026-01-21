@@ -6,12 +6,14 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CartButton } from '@/components/cart/CartButton';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useB2BStore } from '@/lib/store/b2b';
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAccessoriesOpen, setIsAccessoriesOpen] = useState(false);
   const [isMobileAccessoriesOpen, setIsMobileAccessoriesOpen] = useState(false);
   const t = useTranslations('nav');
+  const { isLoggedIn, customer } = useB2BStore();
 
   const accessorySubcategories = [
     { name: t('smartBattery'), href: '/products?category=smart-battery' },
@@ -101,6 +103,26 @@ export function Header() {
             {/* Language Switcher */}
             <LanguageSwitcher />
 
+            {/* B2B Portal */}
+            {isLoggedIn && customer ? (
+              <Link
+                href="/b2b/dashboard"
+                className="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                B2B
+              </Link>
+            ) : (
+              <Link
+                href="/b2b/login"
+                className="hidden sm:block text-sm text-gray-600 hover:text-brand-red transition-colors"
+              >
+                B2B Login
+              </Link>
+            )}
+
             {/* Search */}
             <button className="p-2 text-navy hover:text-brand-red transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,6 +208,30 @@ export function Header() {
               >
                 {t('spareParts')}
               </Link>
+
+              {/* B2B Link for Mobile */}
+              <div className="border-t border-gray-100 pt-2 mt-2">
+                {isLoggedIn && customer ? (
+                  <Link
+                    href="/b2b/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2 text-green-600 font-medium hover:text-green-700 transition-colors py-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    B2B Dashboard
+                  </Link>
+                ) : (
+                  <Link
+                    href="/b2b/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-gray-600 font-medium hover:text-brand-red transition-colors py-2"
+                  >
+                    B2B Login
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         )}

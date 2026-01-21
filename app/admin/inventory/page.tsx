@@ -1,34 +1,82 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-// Mock inventory data
-const mockInventory = [
-  { id: '1', sku: '09-017-00064', name: 'Smart Battery B13970S', category: 'Smart Battery', stock: 0, lowStockThreshold: 5, lastUpdated: '2024-01-20', image: '/images/products/smart-battery/09-017-00064-1.jpg' },
-  { id: '2', sku: '09-017-00025', name: 'Smart Battery B13960S', category: 'Smart Battery', stock: 2, lowStockThreshold: 5, lastUpdated: '2024-01-21', image: '/images/products/smart-battery/09-017-00025-1.png' },
-  { id: '3', sku: '09-017-00069', name: 'S-Charger CM13600S', category: 'Battery Chargers', stock: 4, lowStockThreshold: 5, lastUpdated: '2024-01-19', image: '/images/products/battery-chargers/09-017-00069-1.jpg' },
-  { id: '4', sku: '09-023-00025', name: 'RevoSpray P3', category: 'Task System', stock: 0, lowStockThreshold: 2, lastUpdated: '2024-01-18', image: '/images/products/task-system/09-023-00025-1.jpg' },
-  { id: '5', sku: '09-016-00085', name: 'Remote Controller SRC5', category: 'Remote Controller', stock: 1, lowStockThreshold: 3, lastUpdated: '2024-01-21', image: '/images/products/remote-controller/09-016-00085-2.png' },
-  { id: '6', sku: '09-016-00083', name: 'GNSS XRTK7 Mobile Station', category: 'GNSS RTK', stock: 3, lowStockThreshold: 5, lastUpdated: '2024-01-20', image: '/images/products/gnss-rtk/09-016-00083-1.png' },
-  { id: '7', sku: 'AU-XAG-PROP4', name: 'P100 Pro Basic Package', category: 'Airborne', stock: 0, lowStockThreshold: 1, lastUpdated: '2024-01-17', image: '/images/products/drones/au-xag-prop4-1.png' },
-  { id: '8', sku: '09-007-00136', name: 'P100 Pro', category: 'Airborne', stock: 0, lowStockThreshold: 1, lastUpdated: '2024-01-16', image: '/images/products/drones/09-007-00136-1.png' },
-  { id: '9', sku: 'AU-XAG-PROP5', name: 'P100 Pro Spreader Package', category: 'Airborne', stock: 0, lowStockThreshold: 1, lastUpdated: '2024-01-15', image: '/images/products/drones/au-xag-prop5-1.png' },
-];
+interface Product {
+  id: string;
+  sku: string;
+  slug: string;
+  name: string;
+  tagline: string | null;
+  mainImage: string | null;
+  price: number;
+  priceEUR: number;
+  stock: number;
+  lowStockThreshold: number;
+  category: string;
+  type: string;
+  isActive: boolean;
+  updatedAt: string;
+}
 
 type AdjustmentModalData = {
-  product: typeof mockInventory[0];
+  product: Product;
   type: 'add' | 'remove' | 'set';
 } | null;
 
+const CATEGORIES = [
+  'Airborne',
+  'Landborne',
+  'Smart Battery',
+  'Battery Chargers',
+  'Task System',
+  'Remote Controller',
+  'GNSS RTK',
+  'Spare Parts',
+];
+
 export default function InventoryPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
   const [adjustmentModal, setAdjustmentModal] = useState<AdjustmentModalData>(null);
   const [adjustmentValue, setAdjustmentValue] = useState('');
   const [adjustmentReason, setAdjustmentReason] = useState('');
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [productForm, setProductForm] = useState({
+    sku: '',
+    slug: '',
+    name: '',
+    tagline: '',
+    mainImage: '',
+    price: '',
+    priceEUR: '',
+    stock: '0',
+    lowStockThreshold: '5',
+    category: 'Spare Parts',
+    type: 'PRODUCT',
+  });
 
-  const filteredInventory = mockInventory.filter(item => {
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/admin/products');
+      const data = await response.json();
+      setProducts(data.products || []);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const filteredProducts = products.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(search.toLowerCase()) ||
                           item.sku.toLowerCase().includes(search.toLowerCase());
     if (filter === 'all') return matchesSearch;
@@ -40,10 +88,10 @@ export default function InventoryPage() {
 
   // Stats
   const stats = {
-    total: mockInventory.length,
-    outOfStock: mockInventory.filter(i => i.stock === 0).length,
-    lowStock: mockInventory.filter(i => i.stock > 0 && i.stock <= i.lowStockThreshold).length,
-    healthy: mockInventory.filter(i => i.stock > i.lowStockThreshold).length,
+    total: products.length,
+    outOfStock: products.filter(i => i.stock === 0).length,
+    lowStock: products.filter(i => i.stock > 0 && i.stock <= i.lowStockThreshold).length,
+    healthy: products.filter(i => i.stock > i.lowStockThreshold).length,
   };
 
   const getStockStatus = (stock: number, threshold: number) => {
@@ -52,20 +100,112 @@ export default function InventoryPage() {
     return { label: 'In Stock', color: 'bg-green-100 text-green-800' };
   };
 
-  const handleAdjust = () => {
-    // In real app, this would call API
-    console.log('Adjusting:', adjustmentModal?.product.sku, adjustmentModal?.type, adjustmentValue, adjustmentReason);
-    setAdjustmentModal(null);
-    setAdjustmentValue('');
-    setAdjustmentReason('');
+  const handleAdjust = async () => {
+    if (!adjustmentModal || !adjustmentValue) return;
+
+    try {
+      const response = await fetch('/api/admin/products/stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productId: adjustmentModal.product.id,
+          adjustment: parseInt(adjustmentValue),
+          type: adjustmentModal.type,
+          reason: adjustmentReason,
+        }),
+      });
+
+      if (response.ok) {
+        fetchProducts();
+        setAdjustmentModal(null);
+        setAdjustmentValue('');
+        setAdjustmentReason('');
+      }
+    } catch (error) {
+      console.error('Failed to adjust stock:', error);
+    }
   };
+
+  const handleCreateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/admin/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...productForm,
+          price: parseInt(productForm.price) || 0,
+          priceEUR: parseInt(productForm.priceEUR) || 0,
+          stock: parseInt(productForm.stock) || 0,
+          lowStockThreshold: parseInt(productForm.lowStockThreshold) || 5,
+        }),
+      });
+
+      if (response.ok) {
+        fetchProducts();
+        setShowProductModal(false);
+        setProductForm({
+          sku: '',
+          slug: '',
+          name: '',
+          tagline: '',
+          mainImage: '',
+          price: '',
+          priceEUR: '',
+          stock: '0',
+          lowStockThreshold: '5',
+          category: 'Spare Parts',
+          type: 'PRODUCT',
+        });
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to create product');
+      }
+    } catch (error) {
+      console.error('Failed to create product:', error);
+    }
+  };
+
+  const VAT_RATE = 0.23; // 23% VAT in Poland
+
+  const formatPrice = (cents: number, currency: string) => {
+    return (cents / 100).toLocaleString('pl-PL', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }) + ' ' + currency;
+  };
+
+  // Calculate Netto from Brutto (prices stored are Brutto with 23% VAT)
+  const calculateNetto = (brutto: number) => {
+    return Math.round(brutto / (1 + VAT_RATE));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-red"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Inventory</h1>
-        <p className="text-gray-500">Track and manage product stock levels</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Inventory</h1>
+          <p className="text-gray-500">Track and manage product stock levels</p>
+        </div>
+        <button
+          onClick={() => setShowProductModal(true)}
+          className="px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover flex items-center gap-2"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Add Product
+        </button>
       </div>
 
       {/* Stats */}
@@ -84,7 +224,7 @@ export default function InventoryPage() {
         </div>
         <div className="bg-white rounded-xl p-4 shadow-sm border">
           <p className="text-sm text-gray-500">Healthy Stock</p>
-          <p className="text-2xl font-bold text-green-600">{stats.healthy}</p>
+          <p className="text-2xl font-bold text-brand-red">{stats.healthy}</p>
         </div>
       </div>
 
@@ -101,7 +241,7 @@ export default function InventoryPage() {
               placeholder="Search by name or SKU..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
           </div>
 
@@ -109,21 +249,13 @@ export default function InventoryPage() {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
           >
             <option value="all">All Products</option>
             <option value="out">Out of Stock</option>
             <option value="low">Low Stock</option>
             <option value="ok">Healthy Stock</option>
           </select>
-
-          {/* Export */}
-          <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Export
-          </button>
         </div>
       </div>
 
@@ -136,90 +268,107 @@ export default function InventoryPage() {
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SKU</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PLN)</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y">
-              {filteredInventory.map((item) => {
-                const status = getStockStatus(item.stock, item.lowStockThreshold);
-                return (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                          {item.image ? (
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={40}
-                              height={40}
-                              className="w-full h-full object-contain"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-400">
-                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                              </svg>
-                            </div>
-                          )}
+              {filteredProducts.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-12 text-center text-gray-500">
+                    {products.length === 0 ? 'No products yet. Click "Add Product" to create one.' : 'No products match your search.'}
+                  </td>
+                </tr>
+              ) : (
+                filteredProducts.map((item) => {
+                  const status = getStockStatus(item.stock, item.lowStockThreshold);
+                  return (
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                            {item.mainImage ? (
+                              <Image
+                                src={item.mainImage}
+                                alt={item.name}
+                                width={40}
+                                height={40}
+                                className="w-full h-full object-contain"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                          <span className="font-medium text-gray-900 truncate max-w-[200px]">{item.name}</span>
                         </div>
-                        <span className="font-medium text-gray-900 truncate max-w-[200px]">{item.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-500 font-mono">{item.sku}</td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{item.category}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className={`text-lg font-bold ${item.stock === 0 ? 'text-red-600' : item.stock <= item.lowStockThreshold ? 'text-orange-600' : 'text-green-600'}`}>
-                          {item.stock}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-500 font-mono">{item.sku}</td>
+                      <td className="px-4 py-3 text-sm text-gray-500">{item.category}</td>
+                      <td className="px-4 py-3">
+                        <div className="text-sm">
+                          <div className="font-medium text-gray-900">
+                            {formatPrice(calculateNetto(item.price), 'PLN')} <span className="text-xs text-gray-500">netto</span>
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {formatPrice(item.price, 'PLN')} brutto
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-lg font-bold ${item.stock === 0 ? 'text-red-600' : item.stock <= item.lowStockThreshold ? 'text-orange-600' : 'text-brand-red'}`}>
+                            {item.stock}
+                          </span>
+                          <span className="text-xs text-gray-400">/ {item.lowStockThreshold} min</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${status.color}`}>
+                          {status.label}
                         </span>
-                        <span className="text-xs text-gray-400">/ {item.lowStockThreshold} min</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${status.color}`}>
-                        {status.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-500">{item.lastUpdated}</td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => setAdjustmentModal({ product: item, type: 'add' })}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
-                          title="Add Stock"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => setAdjustmentModal({ product: item, type: 'remove' })}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                          title="Remove Stock"
-                          disabled={item.stock === 0}
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => setAdjustmentModal({ product: item, type: 'set' })}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
-                          title="Set Stock"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1">
+                          <button
+                            onClick={() => setAdjustmentModal({ product: item, type: 'add' })}
+                            className="p-2 text-brand-red hover:bg-red-50 rounded-lg"
+                            title="Add Stock"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => setAdjustmentModal({ product: item, type: 'remove' })}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                            title="Remove Stock"
+                            disabled={item.stock === 0}
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => setAdjustmentModal({ product: item, type: 'set' })}
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                            title="Set Stock"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
@@ -247,7 +396,7 @@ export default function InventoryPage() {
                   min="0"
                   value={adjustmentValue}
                   onChange={(e) => setAdjustmentValue(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="Enter quantity"
                 />
                 {adjustmentModal.type !== 'set' && (
@@ -262,7 +411,7 @@ export default function InventoryPage() {
                   type="text"
                   value={adjustmentReason}
                   onChange={(e) => setAdjustmentReason(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="e.g., Restock, Inventory count, Damaged"
                 />
               </div>
@@ -281,13 +430,174 @@ export default function InventoryPage() {
               <button
                 onClick={handleAdjust}
                 disabled={!adjustmentValue}
-                className="px-4 py-2 bg-xag-green text-white rounded-lg hover:bg-xag-green/90 disabled:opacity-50"
+                className="px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover disabled:opacity-50"
               >
                 {adjustmentModal.type === 'add' && 'Add Stock'}
                 {adjustmentModal.type === 'remove' && 'Remove Stock'}
                 {adjustmentModal.type === 'set' && 'Update Stock'}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Product Modal */}
+      {showProductModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="px-6 py-4 border-b sticky top-0 bg-white">
+              <h3 className="text-lg font-semibold text-gray-900">Add New Product</h3>
+            </div>
+            <form onSubmit={handleCreateProduct} className="p-6 space-y-4">
+              {/* Row 1: SKU, Slug, Name */}
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">SKU *</label>
+                  <input
+                    type="text"
+                    value={productForm.sku}
+                    onChange={(e) => setProductForm({ ...productForm, sku: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="09-017-00064"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Slug *</label>
+                  <input
+                    type="text"
+                    value={productForm.slug}
+                    onChange={(e) => setProductForm({ ...productForm, slug: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="smart-battery-b13970s"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                  <select
+                    value={productForm.category}
+                    onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    required
+                  >
+                    {CATEGORIES.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Row 2: Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Product Name *</label>
+                <input
+                  type="text"
+                  value={productForm.name}
+                  onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                  placeholder="XAG Smart Battery B13970S"
+                  required
+                />
+              </div>
+
+              {/* Row 3: Tagline */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                <input
+                  type="text"
+                  value={productForm.tagline}
+                  onChange={(e) => setProductForm({ ...productForm, tagline: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                  placeholder="High-capacity smart battery for P150 series"
+                />
+              </div>
+
+              {/* Row 4: Image URL */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Main Image URL</label>
+                <input
+                  type="text"
+                  value={productForm.mainImage}
+                  onChange={(e) => setProductForm({ ...productForm, mainImage: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                  placeholder="/images/products/smart-battery/09-017-00064-1.jpg"
+                />
+              </div>
+
+              {/* Row 5: Prices */}
+              <div className="grid grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price PLN Brutto (grosze)</label>
+                  <input
+                    type="number"
+                    value={productForm.price}
+                    onChange={(e) => setProductForm({ ...productForm, price: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="743600"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">
+                    <span className="font-medium">{productForm.price ? formatPrice(calculateNetto(parseInt(productForm.price)), 'PLN') : '0,00 PLN'}</span> netto
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {productForm.price ? formatPrice(parseInt(productForm.price), 'PLN') : '0,00 PLN'} brutto
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price EUR Brutto (cents)</label>
+                  <input
+                    type="number"
+                    value={productForm.priceEUR}
+                    onChange={(e) => setProductForm({ ...productForm, priceEUR: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="172900"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">
+                    <span className="font-medium">{productForm.priceEUR ? formatPrice(calculateNetto(parseInt(productForm.priceEUR)), 'EUR') : '0,00 EUR'}</span> netto
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {productForm.priceEUR ? formatPrice(parseInt(productForm.priceEUR), 'EUR') : '0,00 EUR'} brutto
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Initial Stock</label>
+                  <input
+                    type="number"
+                    value={productForm.stock}
+                    onChange={(e) => setProductForm({ ...productForm, stock: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="0"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Low Stock Alert</label>
+                  <input
+                    type="number"
+                    value={productForm.lowStockThreshold}
+                    onChange={(e) => setProductForm({ ...productForm, lowStockThreshold: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="5"
+                  />
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <button
+                  type="button"
+                  onClick={() => setShowProductModal(false)}
+                  className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover"
+                >
+                  Create Product
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

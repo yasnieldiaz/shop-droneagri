@@ -177,7 +177,7 @@ export default function ProductsPage() {
                   <td className="px-4 py-3 text-sm text-gray-500">{product.category}</td>
                   <td className="px-4 py-3 text-sm font-medium text-gray-900">{formatPrice(product.price)}</td>
                   <td className="px-4 py-3">
-                    <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-600' : product.stock < 5 ? 'text-orange-600' : 'text-green-600'}`}>
+                    <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-600' : product.stock < 5 ? 'text-orange-600' : 'text-brand-red'}`}>
                       {product.stock}
                     </span>
                   </td>

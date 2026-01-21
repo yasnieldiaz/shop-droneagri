@@ -23,7 +23,9 @@ type Product = {
   mainImage: string | null;
   images: string[];
   price: number;
+  priceEUR: number;
   compareAtPrice: number | null;
+  compareAtPriceEUR: number | null;
   currency: 'PLN' | 'EUR';
   stock: number;
   category: string;
@@ -140,7 +142,9 @@ Belangrijkste kenmerken:
     mainImage: '/images/products/ugv/r200.png',
     images: ['/images/products/ugv/r200.png'],
     price: 9815400,
+    priceEUR: 2282000,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 2,
     category: 'Landborne',
@@ -242,7 +246,9 @@ Belangrijkste kenmerken:
       '/images/products/smart-battery/09-017-00064-2.jpg',
     ],
     price: 743600,
+    priceEUR: 172930,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Smart Battery',
@@ -345,7 +351,9 @@ Belangrijkste kenmerken:
       '/images/products/smart-battery/09-017-00025-3.png',
     ],
     price: 494000,
+    priceEUR: 114884,
     compareAtPrice: 743600,
+    compareAtPriceEUR: 172930,
     currency: 'PLN',
     stock: 0,
     category: 'Smart Battery',
@@ -440,7 +448,9 @@ Kenmerken:
     mainImage: '/images/products/smart-battery/01-027-01895-1.png',
     images: ['/images/products/smart-battery/01-027-01895-1.png'],
     price: 57200,
+    priceEUR: 13302,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Smart Battery',
@@ -527,7 +537,9 @@ Kenmerken:
     mainImage: '/images/products/smart-battery/05-002-00759.jpg',
     images: ['/images/products/smart-battery/05-002-00759.jpg'],
     price: 74100,
+    priceEUR: 17233,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Smart Battery',
@@ -626,7 +638,9 @@ Kenmerken:
       '/images/products/battery-chargers/09-017-00069-3.jpg',
     ],
     price: 494000,
+    priceEUR: 114884,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Battery Chargers',
@@ -720,7 +734,9 @@ Kenmerken:
     mainImage: '/images/products/battery-chargers/pc-pck-10000-1.jpg',
     images: ['/images/products/battery-chargers/pc-pck-10000-1.jpg'],
     price: 88400,
+    priceEUR: 20558,
     compareAtPrice: 96200,
+    compareAtPriceEUR: 22372,
     currency: 'PLN',
     stock: 0,
     category: 'Battery Chargers',
@@ -807,7 +823,9 @@ Kenmerken:
     mainImage: '/images/products/battery-chargers/09-017-00059-1.jpg',
     images: ['/images/products/battery-chargers/09-017-00059-1.jpg'],
     price: 600600,
+    priceEUR: 139674,
     compareAtPrice: 772200,
+    compareAtPriceEUR: 179581,
     currency: 'PLN',
     stock: 0,
     category: 'Battery Chargers',
@@ -894,7 +912,9 @@ Kenmerken:
     mainImage: '/images/products/battery-chargers/09-017-00065-1.jpg',
     images: ['/images/products/battery-chargers/09-017-00065-1.jpg'],
     price: 92300,
+    priceEUR: 21465,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Battery Chargers',
@@ -981,7 +1001,9 @@ Kenmerken:
     mainImage: '/images/products/battery-chargers/09-017-00028-3.png',
     images: ['/images/products/battery-chargers/09-017-00028-3.png'],
     price: 85800,
+    priceEUR: 19953,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Battery Chargers',
@@ -1096,7 +1118,9 @@ Belangrijkste kenmerken:
       '/images/products/battery-chargers/09-020-00016-1.jpg',
     ],
     price: 455000,
+    priceEUR: 105814,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 5,
     category: 'Battery Chargers',
@@ -1207,7 +1231,9 @@ Kenmerken:
       '/images/products/task-system/09-023-00025-1.jpg',
     ],
     price: 910000,
+    priceEUR: 211628,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Task System',
@@ -1237,7 +1263,7 @@ Kenmerken:
     },
     mainImage: '/images/products/task-system/09-023-00055.jpg',
     images: ['/images/products/task-system/09-023-00055.jpg'],
-    price: 910000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    price: 910000, priceEUR: 211628, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-023-00055' }, { label: 'Compatibility', value: 'P150' }, { label: 'Type', value: 'Spray System' }],
   },
   'revocast-p4': {
@@ -1254,7 +1280,7 @@ Kenmerken:
     },
     mainImage: '/images/products/task-system/09-023-00054.jpg',
     images: ['/images/products/task-system/09-023-00054.jpg'],
-    price: 1040000, compareAtPrice: 1170000, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    price: 1040000, priceEUR: 241860, compareAtPrice: 1170000, compareAtPriceEUR: 272093, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-023-00054' }, { label: 'Compatibility', value: 'P150' }, { label: 'Type', value: 'Spreading System' }],
   },
   'p100-pro-60l-upgrade-kit': {
@@ -1271,7 +1297,7 @@ Kenmerken:
     },
     mainImage: '/images/products/task-system/05-002-02262.jpg',
     images: ['/images/products/task-system/05-002-02262.jpg'],
-    price: 743600, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    price: 743600, priceEUR: 172930, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '05-002-02262' }, { label: 'Capacity', value: '60L' }, { label: 'Compatibility', value: 'P100 Pro' }],
   },
   'revocast-p3': {
@@ -1288,7 +1314,7 @@ Kenmerken:
     },
     mainImage: '/images/products/task-system/09-023-00023-1.png',
     images: ['/images/products/task-system/09-023-00023-1.png'],
-    price: 1170000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    price: 1170000, priceEUR: 272093, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-023-00023' }, { label: 'Capacity', value: '80L' }, { label: 'Particle Size', value: '1-6mm' }, { label: 'Compatibility', value: 'P100 Pro' }],
   },
 
@@ -1394,7 +1420,9 @@ Kenmerken:
       '/images/products/remote-controller/09-016-00085-2.png',
     ],
     price: 598000,
+    priceEUR: 139070,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Remote Controller',
@@ -1424,7 +1452,7 @@ Kenmerken:
     },
     mainImage: '/images/products/remote-controller/09-016-00053-2.png',
     images: ['/images/products/remote-controller/09-016-00053-2.png'],
-    price: 546000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Remote Controller', type: 'ACCESSORY',
+    price: 546000, priceEUR: 126977, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'Remote Controller', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-016-00053' }, { label: 'Model', value: 'ARC3 Pro' }, { label: 'RTK', value: 'Built-in' }],
   },
 
@@ -1530,7 +1558,9 @@ Kenmerken:
       '/images/products/gnss-rtk/09-016-00083-1.png',
     ],
     price: 475800,
+    priceEUR: 110651,
     compareAtPrice: 603200,
+    compareAtPriceEUR: 140279,
     currency: 'PLN',
     stock: 0,
     category: 'GNSS RTK',
@@ -1559,7 +1589,7 @@ Kenmerken:
     },
     mainImage: '/images/products/gnss-rtk/09-010-00019-1.png',
     images: ['/images/products/gnss-rtk/09-010-00019-1.png'],
-    price: 1154400, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    price: 1154400, priceEUR: 268465, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-010-00019' }, { label: 'Accuracy', value: '±10mm' }, { label: 'Type', value: 'Fix Station' }],
   },
   'gnss-xrtk4-rover': {
@@ -1576,7 +1606,7 @@ Kenmerken:
     },
     mainImage: '/images/products/gnss-rtk/09-010-00036-1.jpg',
     images: ['/images/products/gnss-rtk/09-010-00036-1.jpg'],
-    price: 1144000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    price: 1144000, priceEUR: 266047, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '09-010-00036' }, { label: 'Model', value: 'XRTK4' }, { label: 'Type', value: 'Rover' }],
   },
   'station-tripod': {
@@ -1593,7 +1623,7 @@ Kenmerken:
     },
     mainImage: '/images/products/gnss-rtk/13-001-00056-1.png',
     images: ['/images/products/gnss-rtk/13-001-00056-1.png'],
-    price: 67600, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    price: 67600, priceEUR: 15721, compareAtPrice: null, compareAtPriceEUR: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
     specifications: [{ label: 'SKU', value: '13-001-00056' }, { label: 'Brand', value: 'XAG' }, { label: 'Type', value: 'Tripod' }],
   },
 
@@ -1612,7 +1642,7 @@ Kenmerken:
     },
     mainImage: '/images/products/drones/au-xag-prop6-1.png',
     images: ['/images/products/drones/au-xag-prop6-1.png'],
-    price: 12480000, compareAtPrice: 15293200, currency: 'PLN', stock: 1, category: 'Airborne', type: 'PRODUCT',
+    price: 12480000, priceEUR: 2902326, compareAtPrice: 15293200, compareAtPriceEUR: 3556558, currency: 'PLN', stock: 1, category: 'Airborne', type: 'PRODUCT',
     specifications: [{ label: 'SKU', value: 'AU-XAG-PROP6' }, { label: 'Model', value: 'P100 Pro + RTK' }, { label: 'Precision', value: 'Centimeter-level' }],
   },
   'p100-pro-basic-package': {
@@ -1760,7 +1790,9 @@ Kenmerken:
       '/images/products/drones/au-xag-prop4-3.png',
     ],
     price: 10920000,
+    priceEUR: 2539535,
     compareAtPrice: 12896000,
+    compareAtPriceEUR: 2999070,
     currency: 'PLN',
     stock: 0,
     category: 'Airborne',
@@ -1872,7 +1904,9 @@ Kenmerken:
       '/images/products/drones/09-007-00136-2.png',
     ],
     price: 7280000,
+    priceEUR: 1693023,
     compareAtPrice: null,
+    compareAtPriceEUR: null,
     currency: 'PLN',
     stock: 0,
     category: 'Airborne',
@@ -2018,7 +2052,9 @@ Kenmerken:
       '/images/products/drones/au-xag-prop5-3.png',
     ],
     price: 11700000,
+    priceEUR: 2720930,
     compareAtPrice: 13520000,
+    compareAtPriceEUR: 3144186,
     currency: 'PLN',
     stock: 0,
     category: 'Airborne',
@@ -2091,17 +2127,30 @@ export default function ProductDetailPage() {
   // Get translations for current locale, fallback to English
   const translation = product.translations[locale] || product.translations.en;
 
-  const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
+  // Use EUR for all languages except Polish
+  const isPolish = locale === 'pl';
+  const currency = isPolish ? 'PLN' : 'EUR';
+  const displayPrice = isPolish ? product.price : product.priceEUR;
+  const displayCompareAtPrice = isPolish ? product.compareAtPrice : product.compareAtPriceEUR;
+
+  const hasDiscount = displayCompareAtPrice && displayCompareAtPrice > displayPrice;
   const discountPercent = hasDiscount
-    ? Math.round((1 - product.price / product.compareAtPrice!) * 100)
+    ? Math.round((1 - displayPrice / displayCompareAtPrice!) * 100)
     : 0;
 
+  const VAT_RATE = 0.23; // 23% VAT in Poland
+
   const formatPrice = (amount: number) => {
-    return new Intl.NumberFormat(product.currency === 'PLN' ? 'pl-PL' : 'de-DE', {
+    return new Intl.NumberFormat(isPolish ? 'pl-PL' : 'de-DE', {
       style: 'currency',
-      currency: product.currency,
+      currency,
       minimumFractionDigits: 0,
     }).format(amount / 100);
+  };
+
+  // Calculate Netto from Brutto (prices stored are Brutto with 23% VAT)
+  const calculateNetto = (brutto: number) => {
+    return Math.round(brutto / (1 + VAT_RATE));
   };
 
   const handleAddToCart = () => {
@@ -2112,9 +2161,9 @@ export default function ProductDetailPage() {
       name: translation.name,
       slug: product.slug,
       image: product.mainImage,
-      price: product.price,
+      price: displayPrice,
       quantity,
-      currency: product.currency,
+      currency: currency as 'PLN' | 'EUR',
     });
 
     setTimeout(() => {
@@ -2220,16 +2269,22 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-4">
-              <span className={`text-3xl font-bold ${hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
-                {formatPrice(product.price)}
-              </span>
-              {hasDiscount && (
-                <span className="text-xl text-gray-400 line-through">
-                  {formatPrice(product.compareAtPrice!)}
+            {/* Price - Netto & Brutto */}
+            <div className="space-y-1">
+              <div className="flex items-baseline gap-4">
+                <span className={`text-3xl font-bold ${hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
+                  {formatPrice(calculateNetto(displayPrice))}
                 </span>
-              )}
+                <span className="text-sm text-gray-500">netto</span>
+                {hasDiscount && displayCompareAtPrice && (
+                  <span className="text-xl text-gray-400 line-through">
+                    {formatPrice(calculateNetto(displayCompareAtPrice))}
+                  </span>
+                )}
+              </div>
+              <div className="text-lg text-gray-600">
+                {formatPrice(displayPrice)} <span className="text-sm">brutto</span>
+              </div>
             </div>
 
             {/* Stock Status */}

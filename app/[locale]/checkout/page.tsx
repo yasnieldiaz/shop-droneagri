@@ -7,19 +7,31 @@ import { useCartStore } from '@/lib/store/cart';
 
 type CheckoutStep = 'cart' | 'shipping' | 'payment' | 'confirmation';
 
+interface OrderResult {
+  orderNumber: string;
+  id: string;
+}
+
 export default function CheckoutPage() {
   const items = useCartStore((state) => state.items);
   const subtotal = useCartStore((state) => state.subtotal);
   const currency = useCartStore((state) => state.currency);
   const itemCount = useCartStore((state) => state.itemCount);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   const [step, setStep] = useState<CheckoutStep>('cart');
+  const [paymentMethod, setPaymentMethod] = useState<string>('stripe');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderResult, setOrderResult] = useState<OrderResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   const [shippingInfo, setShippingInfo] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     company: '',
+    nip: '',
     address: '',
     city: '',
     postalCode: '',
@@ -38,7 +50,67 @@ export default function CheckoutPage() {
   const shippingCost = subtotal >= 1000000 ? 0 : 5000; // 50 PLN
   const total = subtotal + shippingCost;
 
-  if (items.length === 0) {
+  const handlePlaceOrder = async () => {
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // Customer info
+          email: shippingInfo.email,
+          firstName: shippingInfo.firstName,
+          lastName: shippingInfo.lastName,
+          phone: shippingInfo.phone,
+          company: shippingInfo.company,
+          nip: shippingInfo.nip,
+          // Shipping address
+          shippingStreet: shippingInfo.address,
+          shippingCity: shippingInfo.city,
+          shippingPostalCode: shippingInfo.postalCode,
+          shippingCountry: shippingInfo.country,
+          // Cart items
+          items: items.map((item) => ({
+            productId: item.productId,
+            sku: item.productId, // Using productId as sku
+            name: item.name,
+            image: item.image,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+          // Totals
+          subtotal,
+          shippingCost,
+          tax: 0,
+          total,
+          currency,
+          // Payment method
+          paymentMethod,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to place order');
+      }
+
+      // Success!
+      setOrderResult(data.order);
+      clearCart();
+      setStep('confirmation');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (items.length === 0 && step !== 'confirmation') {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center py-16">
         <svg
@@ -359,11 +431,13 @@ export default function CheckoutPage() {
                 <h2 className="text-xl font-bold text-navy mb-6">Payment Method</h2>
                 <div className="space-y-4">
                   {/* Payment options */}
-                  <label className="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors">
+                  <label className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors ${paymentMethod === 'stripe' ? 'border-brand-red bg-red-50' : ''}`}>
                     <input
                       type="radio"
                       name="payment"
-                      defaultChecked
+                      value="stripe"
+                      checked={paymentMethod === 'stripe'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
                       className="w-5 h-5 text-brand-red"
                     />
                     <div className="flex-1">
@@ -376,10 +450,13 @@ export default function CheckoutPage() {
                     </svg>
                   </label>
 
-                  <label className="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors">
+                  <label className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors ${paymentMethod === 'paypal' ? 'border-brand-red bg-red-50' : ''}`}>
                     <input
                       type="radio"
                       name="payment"
+                      value="paypal"
+                      checked={paymentMethod === 'paypal'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
                       className="w-5 h-5 text-brand-red"
                     />
                     <div className="flex-1">
@@ -392,10 +469,13 @@ export default function CheckoutPage() {
                     </svg>
                   </label>
 
-                  <label className="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors">
+                  <label className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:border-brand-red transition-colors ${paymentMethod === 'bank_transfer' ? 'border-brand-red bg-red-50' : ''}`}>
                     <input
                       type="radio"
                       name="payment"
+                      value="bank_transfer"
+                      checked={paymentMethod === 'bank_transfer'}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
                       className="w-5 h-5 text-brand-red"
                     />
                     <div className="flex-1">
@@ -418,12 +498,21 @@ export default function CheckoutPage() {
                   </label>
                 </div>
 
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    <strong>Note:</strong> This is a demo checkout. No real payment will be processed.
-                    In production, this would integrate with Stripe and PayPal.
-                  </p>
-                </div>
+                {error && (
+                  <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-600">{error}</p>
+                  </div>
+                )}
+
+                {paymentMethod === 'bank_transfer' && (
+                  <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm text-blue-800 font-medium mb-2">Bank Transfer Details:</p>
+                    <p className="text-sm text-blue-700">Bank: Bank Pekao S.A.</p>
+                    <p className="text-sm text-blue-700">IBAN: PL 00 0000 0000 0000 0000 0000 0000</p>
+                    <p className="text-sm text-blue-700">SWIFT: PKOPPLPW</p>
+                    <p className="text-sm text-blue-600 mt-2">Please include your order number in the transfer title.</p>
+                  </div>
+                )}
 
                 <div className="mt-6 flex justify-between">
                   <button
@@ -433,17 +522,18 @@ export default function CheckoutPage() {
                     Back to Shipping
                   </button>
                   <button
-                    onClick={() => setStep('confirmation')}
-                    className="btn-primary"
+                    onClick={handlePlaceOrder}
+                    disabled={isSubmitting}
+                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Place Order
+                    {isSubmitting ? 'Processing...' : 'Place Order'}
                   </button>
                 </div>
               </div>
             )}
 
             {/* Confirmation */}
-            {step === 'confirmation' && (
+            {step === 'confirmation' && orderResult && (
               <div className="bg-white rounded-lg shadow-sm p-8 text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <svg
@@ -466,9 +556,10 @@ export default function CheckoutPage() {
                 <p className="text-gray-600 mb-6">
                   Thank you for your order. We&apos;ll send you a confirmation email shortly.
                 </p>
-                <p className="text-sm text-gray-500 mb-8">
-                  Order #: DEMO-{Date.now().toString(36).toUpperCase()}
-                </p>
+                <div className="bg-gray-50 rounded-lg p-4 mb-8">
+                  <p className="text-sm text-gray-500">Order Number</p>
+                  <p className="text-xl font-bold text-navy">{orderResult.orderNumber}</p>
+                </div>
                 <Link href="/products" className="btn-primary">
                   Continue Shopping
                 </Link>

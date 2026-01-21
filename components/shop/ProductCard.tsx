@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useB2BStore } from '@/lib/store/b2b';
 
 interface Product {
   id: string;
@@ -26,15 +27,36 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const t = useTranslations('products');
+  const locale = useLocale();
+  const { isLoggedIn, getB2BPrice } = useB2BStore();
 
-  const formatPrice = (priceInGroszy: number) => {
-    return (priceInGroszy / 100).toLocaleString('pl-PL', {
+  // Use EUR for all languages except Polish
+  const isPolish = locale === 'pl';
+
+  // Check for B2B price
+  const b2bPrice = isLoggedIn ? getB2BPrice(product.slug, product.price, product.priceEUR) : null;
+
+  // Use B2B price if available, otherwise use regular price
+  const currency = b2bPrice ? b2bPrice.currency : (isPolish ? 'PLN' : 'EUR');
+  const price = b2bPrice ? b2bPrice.price : (isPolish ? product.price : product.priceEUR);
+  const compareAtPrice = b2bPrice ? (isPolish ? product.price : product.priceEUR) : (isPolish ? product.compareAtPrice : product.compareAtPriceEUR);
+  const isB2BPrice = b2bPrice?.isB2BPrice || false;
+
+  const VAT_RATE = 0.23; // 23% VAT in Poland
+
+  const formatPrice = (priceInCents: number) => {
+    return (priceInCents / 100).toLocaleString(isPolish ? 'pl-PL' : 'de-DE', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
   };
 
-  const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price;
+  // Calculate Netto from Brutto (prices stored are Brutto with 23% VAT)
+  const calculateNetto = (brutto: number) => {
+    return Math.round(brutto / (1 + VAT_RATE));
+  };
+
+  const hasDiscount = compareAtPrice && compareAtPrice > price;
 
   return (
     <Link
@@ -58,7 +80,12 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
 
-        {hasDiscount && (
+        {isB2BPrice && (
+          <span className="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded">
+            B2B
+          </span>
+        )}
+        {!isB2BPrice && hasDiscount && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
             SALE
           </span>
@@ -76,16 +103,25 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
         )}
 
-        <div className="mt-3 flex items-baseline gap-2">
-          <span className="text-lg font-bold text-gray-900">
-            {formatPrice(product.price)} PLN
-          </span>
-
-          {hasDiscount && product.compareAtPrice && (
-            <span className="text-sm text-gray-400 line-through">
-              {formatPrice(product.compareAtPrice)} PLN
-            </span>
+        <div className="mt-3">
+          {isB2BPrice && (
+            <span className="text-xs text-green-600 font-medium">B2B Price</span>
           )}
+          <div className="flex items-baseline gap-2">
+            <span className={`text-lg font-bold ${isB2BPrice ? 'text-green-700' : 'text-gray-900'}`}>
+              {formatPrice(calculateNetto(price))} {currency}
+            </span>
+            <span className="text-xs text-gray-500">netto</span>
+
+            {(isB2BPrice || (hasDiscount && compareAtPrice)) && compareAtPrice && (
+              <span className="text-sm text-gray-400 line-through">
+                {formatPrice(calculateNetto(compareAtPrice))} {currency}
+              </span>
+            )}
+          </div>
+          <div className="text-sm text-gray-500">
+            {formatPrice(price)} {currency} <span className="text-xs">brutto</span>
+          </div>
         </div>
 
       </div>

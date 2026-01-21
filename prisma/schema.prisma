@@ -1,0 +1,248 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../node_modules/.prisma/client"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  phone     String?
+  company   String?
+  nip       String?  // Polish tax ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+  addresses Address[]
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type       String   @default("shipping") // shipping, billing
+  street     String
+  city       String
+  postalCode String
+  country    String   @default("Poland")
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  customerId      String
+  customer        Customer    @relation(fields: [customerId], references: [id])
+  status          String      @default("pending") // pending, confirmed, processing, shipped, delivered, cancelled
+  paymentStatus   String      @default("pending") // pending, paid, failed, refunded
+  paymentMethod   String?     // stripe, paypal, bank_transfer
+
+  // Shipping info
+  shippingFirstName String
+  shippingLastName  String
+  shippingEmail     String
+  shippingPhone     String?
+  shippingStreet    String
+  shippingCity      String
+  shippingPostalCode String
+  shippingCountry   String    @default("Poland")
+
+  // Billing info (if different)
+  billingFirstName  String?
+  billingLastName   String?
+  billingCompany    String?
+  billingNip        String?
+  billingStreet     String?
+  billingCity       String?
+  billingPostalCode String?
+  billingCountry    String?
+
+  // Totals (stored in groszy/cents)
+  subtotal        Int
+  shippingCost    Int         @default(0)
+  tax             Int         @default(0)
+  total           Int
+  currency        String      @default("PLN")
+
+  // Notes
+  customerNote    String?
+  adminNote       String?
+
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  paidAt          DateTime?
+  shippedAt       DateTime?
+  deliveredAt     DateTime?
+
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String  // Reference to product slug/id
+  productSku  String
+  productName String
+  productImage String?
+  quantity    Int
+  unitPrice   Int     // Price per unit in groszy
+  totalPrice  Int     // quantity * unitPrice
+  createdAt   DateTime @default(now())
+}
+
+// ==================== B2B SYSTEM ====================
+
+model B2BCustomer {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  password        String    // Hashed password
+  companyName     String
+  vatNumber       String?   @unique  // NIP for Poland, EU VAT for others (optional)
+  country         String    // Country code (PL, DE, ES, etc.)
+  region          String    @default("EU") // POLAND, EU
+
+  // Contact info
+  contactName     String
+  contactPhone    String?
+
+  // Address
+  street          String
+  city            String
+  postalCode      String
+
+  // Validation
+  viesValidated   Boolean   @default(false)
+  viesValidatedAt DateTime?
+
+  // Status
+  status          String    @default("pending") // pending, approved, rejected
+  approvedAt      DateTime?
+  approvedBy      String?
+
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  lastLoginAt     DateTime?
+
+  // Relations
+  orders          B2BOrder[]
+  customPrices    B2BPrice[]
+}
+
+model B2BPrice {
+  id          String  @id @default(cuid())
+  productId   String  // Reference to product slug
+  productSku  String
+
+  // Optional: specific customer (null = applies to all customers by region)
+  b2bCustomerId String?
+  b2bCustomer   B2BCustomer? @relation(fields: [b2bCustomerId], references: [id], onDelete: Cascade)
+
+  // B2B Prices (in groszy/cents)
+  pricePL     Int     // Price for Polish B2B customers (PLN)
+  priceEU     Int     // Price for EU B2B customers (EUR)
+
+  // Optional: percentage discount instead of fixed price
+  discountPL  Float?  // Percentage discount for Poland (e.g., 15.0 = 15%)
+  discountEU  Float?  // Percentage discount for EU (e.g., 10.0 = 10%)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Unique per product + customer (null customer = regional price)
+  @@unique([productId, b2bCustomerId])
+}
+
+model B2BOrder {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  b2bCustomerId   String
+  b2bCustomer     B2BCustomer @relation(fields: [b2bCustomerId], references: [id])
+  status          String      @default("pending")
+  paymentStatus   String      @default("pending")
+  paymentMethod   String?
+
+  // Totals
+  subtotal        Int
+  shippingCost    Int         @default(0)
+  tax             Int         @default(0)
+  total           Int
+  currency        String      @default("PLN")
+
+  // VAT reverse charge for EU B2B
+  reverseCharge   Boolean     @default(false)
+
+  // Notes
+  customerNote    String?
+  adminNote       String?
+
+  // Timestamps
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  paidAt          DateTime?
+  shippedAt       DateTime?
+
+  items           B2BOrderItem[]
+}
+
+model B2BOrderItem {
+  id          String    @id @default(cuid())
+  orderId     String
+  order       B2BOrder  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  productSku  String
+  productName String
+  productImage String?
+  quantity    Int
+  unitPrice   Int
+  totalPrice  Int
+  createdAt   DateTime  @default(now())
+}
+
+// ==================== PRODUCTS ====================
+
+model Product {
+  id              String    @id @default(cuid())
+  sku             String    @unique
+  slug            String    @unique
+  name            String
+  tagline         String?
+  description     String?
+
+  // Images
+  mainImage       String?
+  images          String?   // JSON array of image URLs
+
+  // Pricing (in groszy/cents)
+  price           Int       // Price in PLN groszy
+  priceEUR        Int       // Price in EUR cents
+  compareAtPrice  Int?      // Original price for discounts (PLN)
+  compareAtPriceEUR Int?    // Original price for discounts (EUR)
+
+  // Inventory
+  stock           Int       @default(0)
+  lowStockThreshold Int     @default(5)
+  trackInventory  Boolean   @default(true)
+
+  // Categorization
+  category        String
+  type            String    @default("PRODUCT") // PRODUCT, BUNDLE, SPARE_PART
+
+  // Status
+  isActive        Boolean   @default(true)
+  isFeatured      Boolean   @default(false)
+
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}

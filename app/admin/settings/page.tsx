@@ -32,6 +32,13 @@ export default function SettingsPage() {
   const [smsShippingUpdate, setSmsShippingUpdate] = useState(true);
   const [smsDeliveryConfirmation, setSmsDeliveryConfirmation] = useState(false);
 
+  // Bank Details
+  const [bankName, setBankName] = useState('Bank Pekao S.A.');
+  const [bankAccountPLN, setBankAccountPLN] = useState('PL XX XXXX XXXX XXXX XXXX XXXX XXXX');
+  const [bankAccountEUR, setBankAccountEUR] = useState('PL XX XXXX XXXX XXXX XXXX XXXX XXXX');
+  const [bankSwift, setBankSwift] = useState('PKOPPLPW');
+  const [bankRecipient, setBankRecipient] = useState('IMEGA Sp. z o.o.');
+
   const handleTestEmail = () => {
     alert('Test email would be sent to: ' + storeEmail);
   };
@@ -59,7 +66,7 @@ export default function SettingsPage() {
               type="text"
               value={storeName}
               onChange={(e) => setStoreName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
           </div>
           <div>
@@ -68,7 +75,7 @@ export default function SettingsPage() {
               type="email"
               value={storeEmail}
               onChange={(e) => setStoreEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
           </div>
           <div>
@@ -77,7 +84,7 @@ export default function SettingsPage() {
               type="tel"
               value={storePhone}
               onChange={(e) => setStorePhone(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
           </div>
           <div>
@@ -85,7 +92,7 @@ export default function SettingsPage() {
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             >
               <option value="PLN">PLN - Polish Złoty</option>
               <option value="EUR">EUR - Euro</option>
@@ -115,7 +122,7 @@ export default function SettingsPage() {
               onChange={(e) => setSmtpEnabled(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#00a651]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00a651]"></div>
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-red/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-red"></div>
           </label>
         </div>
         {smtpEnabled && (
@@ -132,7 +139,7 @@ export default function SettingsPage() {
                   type="text"
                   value={smtpHost}
                   onChange={(e) => setSmtpHost(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50 bg-gray-50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 bg-gray-50"
                   placeholder="smtp.gmail.com"
                 />
               </div>
@@ -141,7 +148,7 @@ export default function SettingsPage() {
                 <select
                   value={smtpPort}
                   onChange={(e) => setSmtpPort(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                 >
                   <option value="587">587 (TLS - Recommended)</option>
                   <option value="465">465 (SSL)</option>
@@ -153,7 +160,7 @@ export default function SettingsPage() {
                   type="email"
                   value={smtpUser}
                   onChange={(e) => setSmtpUser(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="your-email@gmail.com"
                 />
               </div>
@@ -164,7 +171,7 @@ export default function SettingsPage() {
                     type={showSmtpPassword ? 'text' : 'password'}
                     value={smtpPassword}
                     onChange={(e) => setSmtpPassword(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50 pr-10"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 pr-10"
                     placeholder="xxxx xxxx xxxx xxxx"
                   />
                   <button
@@ -191,7 +198,7 @@ export default function SettingsPage() {
                   type="text"
                   value={smtpFromName}
                   onChange={(e) => setSmtpFromName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="DroneAgri.pl"
                 />
               </div>
@@ -201,7 +208,7 @@ export default function SettingsPage() {
                   type="email"
                   value={smtpFromEmail}
                   onChange={(e) => setSmtpFromEmail(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="noreply@droneagri.pl"
                 />
               </div>
@@ -209,7 +216,7 @@ export default function SettingsPage() {
             <div className="pt-4 border-t">
               <button
                 onClick={handleTestEmail}
-                className="px-4 py-2 border border-[#00a651] text-[#00a651] rounded-lg hover:bg-[#00a651]/10 transition-colors"
+                className="px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red/10 transition-colors"
               >
                 Send Test Email
               </button>
@@ -239,7 +246,7 @@ export default function SettingsPage() {
               onChange={(e) => setSmsEnabled(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#00a651]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00a651]"></div>
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-red/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-red"></div>
           </label>
         </div>
         {smsEnabled && (
@@ -256,7 +263,7 @@ export default function SettingsPage() {
                   type="text"
                   value={vonageApiKey}
                   onChange={(e) => setVonageApiKey(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="abc12345"
                 />
               </div>
@@ -267,7 +274,7 @@ export default function SettingsPage() {
                     type={showVonageSecret ? 'text' : 'password'}
                     value={vonageApiSecret}
                     onChange={(e) => setVonageApiSecret(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50 pr-10"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 pr-10"
                     placeholder="••••••••••••"
                   />
                   <button
@@ -294,7 +301,7 @@ export default function SettingsPage() {
                   type="text"
                   value={vonageFromNumber}
                   onChange={(e) => setVonageFromNumber(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="+48123456789 or DroneAgri"
                 />
                 <p className="text-xs text-gray-500 mt-1">Use a registered phone number or alphanumeric sender ID (max 11 characters)</p>
@@ -310,7 +317,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={smsOrderConfirmation}
                     onChange={(e) => setSmsOrderConfirmation(e.target.checked)}
-                    className="w-4 h-4 text-[#00a651] border-gray-300 rounded focus:ring-[#00a651]"
+                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">Order Confirmation</span>
@@ -322,7 +329,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={smsShippingUpdate}
                     onChange={(e) => setSmsShippingUpdate(e.target.checked)}
-                    className="w-4 h-4 text-[#00a651] border-gray-300 rounded focus:ring-[#00a651]"
+                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">Shipping Update</span>
@@ -334,7 +341,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={smsDeliveryConfirmation}
                     onChange={(e) => setSmsDeliveryConfirmation(e.target.checked)}
-                    className="w-4 h-4 text-[#00a651] border-gray-300 rounded focus:ring-[#00a651]"
+                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
                   />
                   <div>
                     <span className="text-sm font-medium text-gray-700">Delivery Confirmation</span>
@@ -368,7 +375,7 @@ export default function SettingsPage() {
               type="number"
               value={lowStockThreshold}
               onChange={(e) => setLowStockThreshold(e.target.value)}
-              className="w-full max-w-xs px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651]/50"
+              className="w-full max-w-xs px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
             <p className="text-xs text-gray-500 mt-1">Products with stock below this number will trigger low stock alerts</p>
           </div>
@@ -379,13 +386,60 @@ export default function SettingsPage() {
       <div className="bg-white rounded-xl shadow-sm border">
         <div className="px-6 py-4 border-b">
           <h2 className="text-lg font-semibold text-gray-900">Bank Transfer Details</h2>
+          <p className="text-sm text-gray-500">Bank account information shown to customers for wire transfers</p>
         </div>
-        <div className="p-6">
-          <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-            <p className="text-sm"><span className="font-medium">Bank:</span> Bank Pekao S.A.</p>
-            <p className="text-sm"><span className="font-medium">Account (PLN):</span> PL XX XXXX XXXX XXXX XXXX XXXX XXXX</p>
-            <p className="text-sm"><span className="font-medium">Account (EUR):</span> PL XX XXXX XXXX XXXX XXXX XXXX XXXX</p>
-            <p className="text-sm"><span className="font-medium">SWIFT:</span> PKOPPLPW</p>
+        <div className="p-6 space-y-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
+              <input
+                type="text"
+                value={bankName}
+                onChange={(e) => setBankName(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                placeholder="Bank Pekao S.A."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Recipient Name</label>
+              <input
+                type="text"
+                value={bankRecipient}
+                onChange={(e) => setBankRecipient(e.target.value)}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                placeholder="IMEGA Sp. z o.o."
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Account Number (PLN)</label>
+            <input
+              type="text"
+              value={bankAccountPLN}
+              onChange={(e) => setBankAccountPLN(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 font-mono"
+              placeholder="PL XX XXXX XXXX XXXX XXXX XXXX XXXX"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Account Number (EUR)</label>
+            <input
+              type="text"
+              value={bankAccountEUR}
+              onChange={(e) => setBankAccountEUR(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 font-mono"
+              placeholder="PL XX XXXX XXXX XXXX XXXX XXXX XXXX"
+            />
+          </div>
+          <div className="max-w-xs">
+            <label className="block text-sm font-medium text-gray-700 mb-1">SWIFT/BIC Code</label>
+            <input
+              type="text"
+              value={bankSwift}
+              onChange={(e) => setBankSwift(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 font-mono uppercase"
+              placeholder="PKOPPLPW"
+            />
           </div>
         </div>
       </div>
@@ -395,7 +449,7 @@ export default function SettingsPage() {
         <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
           Cancel
         </button>
-        <button className="px-6 py-2 bg-[#00a651] text-white rounded-lg hover:bg-[#00a651]/90 transition-colors">
+        <button className="px-6 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red/90 transition-colors">
           Save Changes
         </button>
       </div>

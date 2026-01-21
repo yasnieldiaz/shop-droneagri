@@ -280,5 +280,91 @@
     "technicalSupport": "Technical support in Poland",
     "description": "Description",
     "specifications": "Specifications"
+  },
+  "shop": {
+    "hero": {
+      "title": "XAG Official Store",
+      "subtitle": "Professional agricultural drones, robots, and accessories. Direct from the official Polish distributor.",
+      "cta": "Browse Products"
+    },
+    "categories": {
+      "title": "Shop by Category"
+    },
+    "featured": {
+      "title": "Featured Products",
+      "viewAll": "View All",
+      "sale": "SALE",
+      "lowStock": "Only {count} left",
+      "outOfStock": "Out of Stock"
+    },
+    "benefits": {
+      "shipping": {
+        "title": "Free Shipping",
+        "description": "On orders over 10,000 PLN"
+      },
+      "warranty": {
+        "title": "Official Warranty",
+        "description": "Full manufacturer warranty"
+      },
+      "payment": {
+        "title": "Secure Payment",
+        "description": "Card, PayPal, bank transfer"
+      },
+      "support": {
+        "title": "Expert Support",
+        "description": "Technical help in Poland"
+      }
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "shop": "Shop",
+      "products": "Products"
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Search",
+      "searchPlaceholder": "Search products...",
+      "categories": "Categories",
+      "allCategories": "All Categories",
+      "type": "Product Type",
+      "allTypes": "All Types",
+      "products": "Complete Products",
+      "accessories": "Accessories",
+      "spareParts": "Spare Parts"
+    },
+    "products": {
+      "allProducts": "All Products",
+      "count": "{count} products",
+      "noProducts": "No Products Found",
+      "noProductsDescription": "Try adjusting your filters or search terms.",
+      "clearFilters": "Clear all filters",
+      "sale": "SALE",
+      "featured": "FEATURED",
+      "inStock": "In Stock",
+      "lowStock": "Low Stock",
+      "outOfStock": "Out of Stock"
+    },
+    "product": {
+      "sale": "SALE",
+      "inStock": "In Stock",
+      "lowStock": "Only {count} left in stock",
+      "outOfStock": "Out of Stock",
+      "euroPrice": "Price in EUR",
+      "youSave": "You save {amount}",
+      "description": "Description",
+      "features": "Features",
+      "specifications": "Specifications",
+      "spareParts": "Spare Parts",
+      "relatedProducts": "Related Products"
+    },
+    "cart": {
+      "quantity": "Quantity",
+      "onlyLeft": "Only {count} left",
+      "addToCart": "Add to Cart",
+      "addedToCart": "Added to Cart!",
+      "buyNow": "Buy Now",
+      "outOfStock": "Out of Stock",
+      "notifyWhenAvailable": "Notify me when available"
+    }
   }
 }

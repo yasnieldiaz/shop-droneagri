@@ -71,6 +71,23 @@ const mockProducts = [
     type: 'PRODUCT',
   },
 
+  // ==================== LANDBORNE (UGV) ====================
+  {
+    id: 'XAG-R200',
+    sku: 'XAG-R200',
+    slug: 'xag-r200',
+    name: 'XAG R200',
+    tagline: 'Six-wheel precision spraying platform for orchards and greenhouses',
+    mainImage: '/images/products/ugv/r200.png',
+    price: 9815400,
+    priceEUR: 2282000,
+    compareAtPrice: null,
+    compareAtPriceEUR: null,
+    stock: 2,
+    category: 'Landborne',
+    type: 'PRODUCT',
+  },
+
   // ==================== SMART BATTERY ====================
   {
     id: '09-017-00064',
@@ -152,7 +169,7 @@ const mockProducts = [
   {
     id: '09-017-00069',
     sku: '09-017-00069',
-    slug: 's-charger-cm13600s',
+    slug: 'battery-s-charger-cm13600s',
     name: 'XAG Battery S-Charger CM13600S',
     tagline: 'Forced air-cooling charger for B13960S/B13970S/B141050',
     mainImage: '/images/products/battery-chargers/09-017-00069-1.jpg',
@@ -206,6 +223,21 @@ const mockProducts = [
     compareAtPrice: null,
     compareAtPriceEUR: null,
     stock: 0,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+  },
+  {
+    id: '09-020-00016',
+    sku: '09-020-00016',
+    slug: 'generator-supercharger-gc4000-plus',
+    name: 'XAG Generator SuperCharger GC4000+',
+    tagline: 'All-in-one generator and charger for XAG drones and UGVs',
+    mainImage: '/images/products/battery-chargers/09-020-00016-1.jpg',
+    price: 455000,
+    priceEUR: 105000,
+    compareAtPrice: null,
+    compareAtPriceEUR: null,
+    stock: 5,
     category: 'Battery Chargers',
     type: 'ACCESSORY',
   },

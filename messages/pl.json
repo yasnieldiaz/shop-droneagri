@@ -280,5 +280,91 @@
     "technicalSupport": "Wsparcie techniczne w Polsce",
     "description": "Opis",
     "specifications": "Specyfikacja"
+  },
+  "shop": {
+    "hero": {
+      "title": "Oficjalny Sklep XAG",
+      "subtitle": "Profesjonalne drony rolnicze, roboty i akcesoria. Bezpośrednio od oficjalnego dystrybutora w Polsce.",
+      "cta": "Przeglądaj Produkty"
+    },
+    "categories": {
+      "title": "Kategorie"
+    },
+    "featured": {
+      "title": "Polecane Produkty",
+      "viewAll": "Zobacz Wszystkie",
+      "sale": "PROMOCJA",
+      "lowStock": "Tylko {count} sztuk",
+      "outOfStock": "Brak w magazynie"
+    },
+    "benefits": {
+      "shipping": {
+        "title": "Darmowa Dostawa",
+        "description": "Przy zamówieniach powyżej 10 000 PLN"
+      },
+      "warranty": {
+        "title": "Oficjalna Gwarancja",
+        "description": "Pełna gwarancja producenta"
+      },
+      "payment": {
+        "title": "Bezpieczna Płatność",
+        "description": "Karta, PayPal, przelew"
+      },
+      "support": {
+        "title": "Wsparcie Eksperckie",
+        "description": "Pomoc techniczna w Polsce"
+      }
+    },
+    "breadcrumb": {
+      "home": "Strona główna",
+      "shop": "Sklep",
+      "products": "Produkty"
+    },
+    "filters": {
+      "title": "Filtry",
+      "search": "Szukaj",
+      "searchPlaceholder": "Szukaj produktów...",
+      "categories": "Kategorie",
+      "allCategories": "Wszystkie Kategorie",
+      "type": "Typ Produktu",
+      "allTypes": "Wszystkie Typy",
+      "products": "Kompletne Produkty",
+      "accessories": "Akcesoria",
+      "spareParts": "Części Zamienne"
+    },
+    "products": {
+      "allProducts": "Wszystkie Produkty",
+      "count": "{count} produktów",
+      "noProducts": "Brak Produktów",
+      "noProductsDescription": "Spróbuj zmienić filtry lub wyszukiwanie.",
+      "clearFilters": "Wyczyść filtry",
+      "sale": "PROMOCJA",
+      "featured": "POLECANE",
+      "inStock": "Dostępny",
+      "lowStock": "Mało sztuk",
+      "outOfStock": "Brak w magazynie"
+    },
+    "product": {
+      "sale": "PROMOCJA",
+      "inStock": "Dostępny",
+      "lowStock": "Tylko {count} sztuk w magazynie",
+      "outOfStock": "Brak w magazynie",
+      "euroPrice": "Cena w EUR",
+      "youSave": "Oszczędzasz {amount}",
+      "description": "Opis",
+      "features": "Cechy",
+      "specifications": "Specyfikacja",
+      "spareParts": "Części Zamienne",
+      "relatedProducts": "Powiązane Produkty"
+    },
+    "cart": {
+      "quantity": "Ilość",
+      "onlyLeft": "Tylko {count} sztuk",
+      "addToCart": "Dodaj do Koszyka",
+      "addedToCart": "Dodano do Koszyka!",
+      "buyNow": "Kup Teraz",
+      "outOfStock": "Brak w magazynie",
+      "notifyWhenAvailable": "Powiadom gdy dostępny"
+    }
   }
 }

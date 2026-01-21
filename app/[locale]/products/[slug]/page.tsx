@@ -32,6 +32,131 @@ type Product = {
 };
 
 const mockProducts: Record<string, Product> = {
+  // ==================== LANDBORNE (UGV) ====================
+  'xag-r200': {
+    id: 'XAG-R200',
+    sku: 'XAG-R200',
+    slug: 'xag-r200',
+    translations: {
+      pl: {
+        name: 'XAG R200',
+        tagline: 'Sześciokołowa platforma precyzyjnego oprysku dla sadów i szklarni',
+        description: `XAG R200 to inteligentny robot polowy zaprojektowany do operacji rolniczych na dużą skalę. Sześciokołowy napęd niezależny z aluminiowym podwoziem zapewnia stabilność i mobilność w trudnym terenie.
+
+Kluczowe cechy:
+- Sześciokołowy napęd niezależny
+- System RevoSpray z 4 pompami wirnikowymi
+- Pojemność zbiornika 240L
+- Zasięg oprysku 7m na stronę
+- Kontroler SRC 5 z wyświetlaczem 7"
+- Nawigacja SuperX 5 Ultra
+- Asystent bezpieczeństwa AI z wykrywaniem pieszych
+
+Specyfikacje:
+- Szerokość: 80 cm
+- Masa własna: 130 kg
+- Prędkość max: 1,5 m/s
+- Prześwit: 270 mm
+- Czas pracy: do 15 minut`,
+      },
+      en: {
+        name: 'XAG R200',
+        tagline: 'Six-wheel precision spraying platform for orchards and greenhouses',
+        description: `The XAG R200 is an intelligent field rover designed for large-scale agricultural operations. Six-wheel independent drive with aluminum casting chassis provides stability and mobility in challenging terrain.
+
+Key Features:
+- Six-wheel independent drive
+- RevoSpray system with 4 impeller pumps
+- 240L tank capacity
+- 7m spray range per side
+- SRC 5 controller with 7" display
+- SuperX 5 Ultra navigation
+- AI Safety Assistant with pedestrian detection
+
+Specifications:
+- Width: 80 cm
+- Curb weight: 130 kg
+- Max speed: 1.5 m/s
+- Ground clearance: 270 mm
+- Operating time: up to 15 minutes`,
+      },
+      es: {
+        name: 'XAG R200',
+        tagline: 'Plataforma de pulverización de precisión de seis ruedas para huertos e invernaderos',
+        description: `El XAG R200 es un rover de campo inteligente diseñado para operaciones agrícolas a gran escala. La tracción independiente de seis ruedas con chasis de aluminio proporciona estabilidad y movilidad en terrenos difíciles.
+
+Características principales:
+- Tracción independiente de seis ruedas
+- Sistema RevoSpray con 4 bombas de impulsor
+- Capacidad del tanque de 240L
+- Alcance de pulverización de 7m por lado
+- Controlador SRC 5 con pantalla de 7"
+- Navegación SuperX 5 Ultra
+- Asistente de seguridad AI con detección de peatones`,
+      },
+      de: {
+        name: 'XAG R200',
+        tagline: 'Sechsrad-Präzisionssprühplattform für Obstgärten und Gewächshäuser',
+        description: `Der XAG R200 ist ein intelligenter Feldroboter für großflächige landwirtschaftliche Operationen. Sechsrad-Einzelradantrieb mit Aluminiumgusschassis bietet Stabilität und Mobilität in schwierigem Gelände.
+
+Hauptmerkmale:
+- Sechsrad-Einzelradantrieb
+- RevoSpray-System mit 4 Kreiselpumpen
+- 240L Tankkapazität
+- 7m Sprühreichweite pro Seite
+- SRC 5 Controller mit 7" Display
+- SuperX 5 Ultra Navigation
+- KI-Sicherheitsassistent mit Fußgängererkennung`,
+      },
+      cs: {
+        name: 'XAG R200',
+        tagline: 'Šestikolová platforma pro přesné postřikování v sadech a sklenících',
+        description: `XAG R200 je inteligentní polní robot navržený pro rozsáhlé zemědělské operace. Šestikolový nezávislý pohon s hliníkovým podvozkem poskytuje stabilitu a mobilitu v náročném terénu.
+
+Klíčové vlastnosti:
+- Šestikolový nezávislý pohon
+- Systém RevoSpray se 4 oběžnými čerpadly
+- Kapacita nádrže 240L
+- Dosah postřiku 7m na stranu
+- Ovladač SRC 5 se 7" displejem
+- Navigace SuperX 5 Ultra
+- AI bezpečnostní asistent s detekcí chodců`,
+      },
+      nl: {
+        name: 'XAG R200',
+        tagline: 'Zeswiel precisie-sproeiplatform voor boomgaarden en kassen',
+        description: `De XAG R200 is een intelligente veldrover ontworpen voor grootschalige landbouwoperaties. Zeswiel onafhankelijke aandrijving met aluminium gegoten chassis biedt stabiliteit en mobiliteit in uitdagend terrein.
+
+Belangrijkste kenmerken:
+- Zeswiel onafhankelijke aandrijving
+- RevoSpray-systeem met 4 impellerpompen
+- 240L tankinhoud
+- 7m sproei-bereik per zijde
+- SRC 5 controller met 7" display
+- SuperX 5 Ultra navigatie
+- AI-veiligheidsassistent met voetgangerdetectie`,
+      },
+    },
+    mainImage: '/images/products/ugv/r200.png',
+    images: ['/images/products/ugv/r200.png'],
+    price: 9815400,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 2,
+    category: 'Landborne',
+    type: 'PRODUCT',
+    specifications: [
+      { label: 'SKU', value: 'XAG-R200' },
+      { label: 'Width', value: '80 cm' },
+      { label: 'Weight', value: '130 kg' },
+      { label: 'Max Speed', value: '1.5 m/s' },
+      { label: 'Tank Capacity', value: '240 L' },
+      { label: 'Spray Range', value: '7 m per side' },
+      { label: 'Battery', value: '1050 Wh' },
+      { label: 'Operating Time', value: '15 min' },
+    ],
+  },
+
   // ==================== SMART BATTERY ====================
   'smart-battery-b13970s': {
     id: '09-017-00064',
@@ -239,6 +364,182 @@ Belangrijkste kenmerken:
     ],
   },
 
+  // ==================== SMART BATTERY PARTS ====================
+  'battery-outlet-socket-b13960s': {
+    id: '01-027-01895',
+    sku: '01-027-01895',
+    slug: 'battery-outlet-socket-b13960s',
+    translations: {
+      pl: {
+        name: 'Gniazdo Wyjściowe Baterii B13960S',
+        tagline: 'Komponent gniazda wyjściowego baterii',
+        description: `Gniazdo wyjściowe baterii B13960S to oryginalny komponent zamienny dla inteligentnych baterii XAG. Zapewnia niezawodne połączenie elektryczne między baterią a urządzeniem.
+
+Cechy:
+- Oryginalna część XAG
+- Wysoka jakość wykonania
+- Niezawodne połączenie elektryczne
+- Kompatybilność z baterią B13960S`,
+      },
+      en: {
+        name: 'B13960S Battery Outlet Socket',
+        tagline: 'Battery outlet socket component',
+        description: `The B13960S Battery Outlet Socket is an original replacement component for XAG smart batteries. Provides reliable electrical connection between the battery and device.
+
+Features:
+- Original XAG part
+- High quality construction
+- Reliable electrical connection
+- Compatible with B13960S battery`,
+      },
+      es: {
+        name: 'Conector de Salida de Batería B13960S',
+        tagline: 'Componente de conector de salida de batería',
+        description: `El Conector de Salida de Batería B13960S es un componente de repuesto original para baterías inteligentes XAG. Proporciona conexión eléctrica confiable entre la batería y el dispositivo.
+
+Características:
+- Pieza original XAG
+- Construcción de alta calidad
+- Conexión eléctrica confiable
+- Compatible con batería B13960S`,
+      },
+      de: {
+        name: 'B13960S Batterie-Ausgangsbuchse',
+        tagline: 'Batterie-Ausgangsbuchsen-Komponente',
+        description: `Die B13960S Batterie-Ausgangsbuchse ist ein Original-Ersatzteil für XAG Smart-Batterien. Bietet zuverlässige elektrische Verbindung zwischen Batterie und Gerät.
+
+Eigenschaften:
+- Original XAG-Teil
+- Hochwertige Konstruktion
+- Zuverlässige elektrische Verbindung
+- Kompatibel mit B13960S Batterie`,
+      },
+      cs: {
+        name: 'Výstupní Konektor Baterie B13960S',
+        tagline: 'Komponent výstupního konektoru baterie',
+        description: `Výstupní konektor baterie B13960S je originální náhradní díl pro chytré baterie XAG. Poskytuje spolehlivé elektrické spojení mezi baterií a zařízením.
+
+Vlastnosti:
+- Originální díl XAG
+- Vysoká kvalita zpracování
+- Spolehlivé elektrické spojení
+- Kompatibilní s baterií B13960S`,
+      },
+      nl: {
+        name: 'B13960S Batterij Uitgangsaansluiting',
+        tagline: 'Batterij uitgangsaansluiting component',
+        description: `De B13960S Batterij Uitgangsaansluiting is een origineel vervangingsonderdeel voor XAG slimme batterijen. Biedt betrouwbare elektrische verbinding tussen batterij en apparaat.
+
+Kenmerken:
+- Origineel XAG-onderdeel
+- Hoogwaardige constructie
+- Betrouwbare elektrische verbinding
+- Compatibel met B13960S batterij`,
+      },
+    },
+    mainImage: '/images/products/smart-battery/01-027-01895-1.png',
+    images: ['/images/products/smart-battery/01-027-01895-1.png'],
+    price: 57200,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Smart Battery',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '01-027-01895' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Compatibility', value: 'B13960S Battery' },
+      { label: 'Type', value: 'Replacement Part' },
+    ],
+  },
+  'smart-battery-pcba-b13860s': {
+    id: '05-002-00759',
+    sku: '05-002-00759',
+    slug: 'smart-battery-pcba-b13860s',
+    translations: {
+      pl: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Płytka sterująca inteligentnej baterii',
+        description: `Płytka PCBA B13860S V4 to zaawansowana płytka sterująca do inteligentnych baterii XAG. Odpowiada za zarządzanie ładowaniem, monitorowanie stanu i ochronę baterii.
+
+Cechy:
+- Zaawansowane zarządzanie baterią
+- Monitorowanie stanu w czasie rzeczywistym
+- Ochrona przed przeładowaniem
+- Ochrona termiczna`,
+      },
+      en: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Smart battery control board',
+        description: `The B13860S V4 PCBA is an advanced control board for XAG smart batteries. Responsible for charge management, status monitoring, and battery protection.
+
+Features:
+- Advanced battery management
+- Real-time status monitoring
+- Overcharge protection
+- Thermal protection`,
+      },
+      es: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Placa de control de batería inteligente',
+        description: `La PCBA B13860S V4 es una placa de control avanzada para baterías inteligentes XAG. Responsable de la gestión de carga, monitoreo de estado y protección de batería.
+
+Características:
+- Gestión avanzada de batería
+- Monitoreo de estado en tiempo real
+- Protección contra sobrecarga
+- Protección térmica`,
+      },
+      de: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Smart-Batterie-Steuerplatine',
+        description: `Die B13860S V4 PCBA ist eine fortschrittliche Steuerplatine für XAG Smart-Batterien. Verantwortlich für Lademanagement, Statusüberwachung und Batterieschutz.
+
+Eigenschaften:
+- Fortschrittliches Batteriemanagement
+- Echtzeit-Statusüberwachung
+- Überladeschutz
+- Thermischer Schutz`,
+      },
+      cs: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Řídící deska chytré baterie',
+        description: `PCBA B13860S V4 je pokročilá řídící deska pro chytré baterie XAG. Zodpovědná za správu nabíjení, monitorování stavu a ochranu baterie.
+
+Vlastnosti:
+- Pokročilá správa baterie
+- Sledování stavu v reálném čase
+- Ochrana proti přebití
+- Tepelná ochrana`,
+      },
+      nl: {
+        name: 'B13860S V4 Smart Battery PCBA',
+        tagline: 'Slimme batterij besturingsprint',
+        description: `De B13860S V4 PCBA is een geavanceerde besturingsprint voor XAG slimme batterijen. Verantwoordelijk voor laadbeheer, statusmonitoring en batterijbescherming.
+
+Kenmerken:
+- Geavanceerd batterijbeheer
+- Real-time statusmonitoring
+- Overlaadbeveiliging
+- Thermische bescherming`,
+      },
+    },
+    mainImage: '/images/products/smart-battery/05-002-00759.jpg',
+    images: ['/images/products/smart-battery/05-002-00759.jpg'],
+    price: 74100,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Smart Battery',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '05-002-00759' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Version', value: 'V4' },
+      { label: 'Type', value: 'PCBA Control Board' },
+    ],
+  },
+
   // ==================== BATTERY CHARGERS ====================
   'battery-s-charger-cm13600s': {
     id: '09-017-00069',
@@ -341,6 +642,472 @@ Kenmerken:
       { label: 'Input (220V)', value: '220-240V~ 50/60Hz 16.0A' },
       { label: 'Output', value: '59.92V ⎓ 21A or 59.92V ⎓ 55A' },
       { label: 'Compatible Batteries', value: 'B13960S, B13970S, B141050' },
+    ],
+  },
+
+  'parallel-charging-kit-combo': {
+    id: 'PC-PCK-10000',
+    sku: 'PC-PCK-10000',
+    slug: 'parallel-charging-kit-combo',
+    translations: {
+      pl: {
+        name: 'XAG Zestaw Ładowania Równoległego Combo',
+        tagline: 'Zestaw ładowania równoległego 6KW z uchwytem montażowym',
+        description: `Zestaw XAG Parallel Charging Kit Combo umożliwia równoległe ładowanie wielu baterii jednocześnie. Idealny do operacji wymagających szybkiego ładowania floty dronów.
+
+Cechy:
+- Moc 6KW
+- Uchwyt montażowy w zestawie
+- Ładowanie równoległe
+- Kompatybilność z bateriami XAG`,
+      },
+      en: {
+        name: 'XAG Parallel Charging Kit Combo',
+        tagline: '6KW parallel charging kit with mounting bracket',
+        description: `The XAG Parallel Charging Kit Combo enables parallel charging of multiple batteries simultaneously. Ideal for operations requiring fast fleet charging.
+
+Features:
+- 6KW power output
+- Mounting bracket included
+- Parallel charging capability
+- Compatible with XAG batteries`,
+      },
+      es: {
+        name: 'XAG Kit de Carga Paralela Combo',
+        tagline: 'Kit de carga paralela 6KW con soporte de montaje',
+        description: `El Kit de Carga Paralela XAG Combo permite la carga paralela de múltiples baterías simultáneamente. Ideal para operaciones que requieren carga rápida de flota.
+
+Características:
+- Potencia de salida 6KW
+- Soporte de montaje incluido
+- Capacidad de carga paralela
+- Compatible con baterías XAG`,
+      },
+      de: {
+        name: 'XAG Parallel-Ladekit Combo',
+        tagline: '6KW Parallel-Ladekit mit Montagehalterung',
+        description: `Das XAG Parallel-Ladekit Combo ermöglicht das parallele Laden mehrerer Batterien gleichzeitig. Ideal für Operationen, die schnelles Flottenaufladen erfordern.
+
+Eigenschaften:
+- 6KW Ausgangsleistung
+- Montagehalterung enthalten
+- Parallele Ladefähigkeit
+- Kompatibel mit XAG-Batterien`,
+      },
+      cs: {
+        name: 'XAG Sada pro Paralelní Nabíjení Combo',
+        tagline: 'Sada pro paralelní nabíjení 6KW s montážním držákem',
+        description: `Sada XAG Parallel Charging Kit Combo umožňuje paralelní nabíjení více baterií současně. Ideální pro operace vyžadující rychlé nabíjení flotily.
+
+Vlastnosti:
+- Výkon 6KW
+- Montážní držák v ceně
+- Schopnost paralelního nabíjení
+- Kompatibilní s bateriemi XAG`,
+      },
+      nl: {
+        name: 'XAG Parallel Laadkit Combo',
+        tagline: '6KW parallel laadkit met montagebeugel',
+        description: `De XAG Parallel Laadkit Combo maakt parallel laden van meerdere batterijen tegelijk mogelijk. Ideaal voor operaties die snel vlootladen vereisen.
+
+Kenmerken:
+- 6KW uitgangsvermogen
+- Montagebeugel inbegrepen
+- Parallel laadvermogen
+- Compatibel met XAG-batterijen`,
+      },
+    },
+    mainImage: '/images/products/battery-chargers/pc-pck-10000-1.jpg',
+    images: ['/images/products/battery-chargers/pc-pck-10000-1.jpg'],
+    price: 88400,
+    compareAtPrice: 96200,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: 'PC-PCK-10000' },
+      { label: 'Power', value: '6KW' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Type', value: 'Parallel Charging Kit' },
+    ],
+  },
+  'e-charger-cm15300d': {
+    id: '09-017-00059',
+    sku: '09-017-00059',
+    slug: 'e-charger-cm15300d',
+    translations: {
+      pl: {
+        name: 'XAG Ładowarka E-Charger CM15300D',
+        tagline: 'Wysokowydajna ładowarka baterii',
+        description: `Ładowarka XAG E-Charger CM15300D to zaawansowane rozwiązanie do szybkiego ładowania baterii dronów rolniczych XAG.
+
+Cechy:
+- Wysoka moc ładowania
+- Zaawansowane chłodzenie
+- Kompatybilność z wieloma modelami baterii
+- Ochrona przed przeładowaniem`,
+      },
+      en: {
+        name: 'XAG Battery E-Charger CM15300D',
+        tagline: 'High-power battery charging solution',
+        description: `The XAG Battery E-Charger CM15300D is an advanced solution for fast charging of XAG agricultural drone batteries.
+
+Features:
+- High charging power
+- Advanced cooling system
+- Compatible with multiple battery models
+- Overcharge protection`,
+      },
+      es: {
+        name: 'XAG Cargador E-Charger CM15300D',
+        tagline: 'Solución de carga de batería de alta potencia',
+        description: `El XAG Battery E-Charger CM15300D es una solución avanzada para carga rápida de baterías de drones agrícolas XAG.
+
+Características:
+- Alta potencia de carga
+- Sistema de enfriamiento avanzado
+- Compatible con múltiples modelos de batería
+- Protección contra sobrecarga`,
+      },
+      de: {
+        name: 'XAG Batterie E-Charger CM15300D',
+        tagline: 'Hochleistungs-Batterieladelösung',
+        description: `Der XAG Battery E-Charger CM15300D ist eine fortschrittliche Lösung zum schnellen Laden von XAG-Agrardrohnen-Batterien.
+
+Eigenschaften:
+- Hohe Ladeleistung
+- Fortschrittliches Kühlsystem
+- Kompatibel mit mehreren Batteriemodellen
+- Überladeschutz`,
+      },
+      cs: {
+        name: 'XAG Nabíječka E-Charger CM15300D',
+        tagline: 'Vysokovýkonné řešení pro nabíjení baterií',
+        description: `XAG Battery E-Charger CM15300D je pokročilé řešení pro rychlé nabíjení baterií zemědělských dronů XAG.
+
+Vlastnosti:
+- Vysoký nabíjecí výkon
+- Pokročilý chladicí systém
+- Kompatibilní s více modely baterií
+- Ochrana proti přebití`,
+      },
+      nl: {
+        name: 'XAG Batterij E-Charger CM15300D',
+        tagline: 'Hoogvermogen batterijlaadoplossing',
+        description: `De XAG Battery E-Charger CM15300D is een geavanceerde oplossing voor snel laden van XAG landbouwdronebatterijen.
+
+Kenmerken:
+- Hoog laadvermogen
+- Geavanceerd koelsysteem
+- Compatibel met meerdere batterijmodellen
+- Overlaadbeveiliging`,
+      },
+    },
+    mainImage: '/images/products/battery-chargers/09-017-00059-1.jpg',
+    images: ['/images/products/battery-chargers/09-017-00059-1.jpg'],
+    price: 600600,
+    compareAtPrice: 772200,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '09-017-00059' },
+      { label: 'Model', value: 'CM15300D' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Type', value: 'E-Charger' },
+    ],
+  },
+  'mist-cooling-charging-station': {
+    id: '09-017-00065',
+    sku: '09-017-00065',
+    slug: 'mist-cooling-charging-station',
+    translations: {
+      pl: {
+        name: 'XAG Stacja Ładowania z Chłodzeniem Mgłą',
+        tagline: 'Stacja chłodzenia i ładowania dla baterii XAG',
+        description: `Stacja XAG Mist-Cooling Charging Station łączy ładowanie baterii z innowacyjnym systemem chłodzenia mgłą dla optymalnej wydajności.
+
+Cechy:
+- Chłodzenie mgłą
+- Zoptymalizowane ładowanie
+- Ochrona termiczna baterii
+- Kompaktowa konstrukcja`,
+      },
+      en: {
+        name: 'XAG Mist-Cooling Charging Station',
+        tagline: 'Cooling and charging station for XAG batteries',
+        description: `The XAG Mist-Cooling Charging Station combines battery charging with innovative mist cooling system for optimal performance.
+
+Features:
+- Mist cooling technology
+- Optimized charging
+- Battery thermal protection
+- Compact design`,
+      },
+      es: {
+        name: 'XAG Estación de Carga con Enfriamiento por Niebla',
+        tagline: 'Estación de enfriamiento y carga para baterías XAG',
+        description: `La Estación XAG Mist-Cooling combina carga de batería con innovador sistema de enfriamiento por niebla para rendimiento óptimo.
+
+Características:
+- Tecnología de enfriamiento por niebla
+- Carga optimizada
+- Protección térmica de batería
+- Diseño compacto`,
+      },
+      de: {
+        name: 'XAG Nebel-Kühl-Ladestation',
+        tagline: 'Kühl- und Ladestation für XAG-Batterien',
+        description: `Die XAG Nebel-Kühl-Ladestation kombiniert Batterieladung mit innovativem Nebelkühlsystem für optimale Leistung.
+
+Eigenschaften:
+- Nebelkühltechnologie
+- Optimiertes Laden
+- Thermischer Batterieschutz
+- Kompaktes Design`,
+      },
+      cs: {
+        name: 'XAG Nabíjecí Stanice s Mlhovým Chlazením',
+        tagline: 'Chladicí a nabíjecí stanice pro baterie XAG',
+        description: `Stanice XAG Mist-Cooling kombinuje nabíjení baterií s inovativním systémem mlhového chlazení pro optimální výkon.
+
+Vlastnosti:
+- Technologie mlhového chlazení
+- Optimalizované nabíjení
+- Tepelná ochrana baterie
+- Kompaktní design`,
+      },
+      nl: {
+        name: 'XAG Mist-Koeling Laadstation',
+        tagline: 'Koel- en laadstation voor XAG-batterijen',
+        description: `Het XAG Mist-Koeling Laadstation combineert batterijladen met innovatief mistkoelsysteem voor optimale prestaties.
+
+Kenmerken:
+- Mistkoelingstechnologie
+- Geoptimaliseerd laden
+- Thermische batterijbescherming
+- Compact ontwerp`,
+      },
+    },
+    mainImage: '/images/products/battery-chargers/09-017-00065-1.jpg',
+    images: ['/images/products/battery-chargers/09-017-00065-1.jpg'],
+    price: 92300,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '09-017-00065' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Cooling', value: 'Mist Cooling' },
+      { label: 'Type', value: 'Charging Station' },
+    ],
+  },
+  'water-cool-charging-tank': {
+    id: '09-017-00028',
+    sku: '09-017-00028',
+    slug: 'water-cool-charging-tank',
+    translations: {
+      pl: {
+        name: 'XAG 2022 Mod Zbiornik Ładowania z Chłodzeniem Wodnym',
+        tagline: 'Zbiornik chłodzenia wodnego do wydajnego ładowania baterii',
+        description: `Zbiornik XAG Water-Cool Charging Tank 2022 Mod to zaawansowane rozwiązanie do chłodzenia baterii podczas ładowania.
+
+Cechy:
+- Chłodzenie wodne
+- Efektywne odprowadzanie ciepła
+- Wydłużenie żywotności baterii
+- Kompatybilność z systemem ładowania XAG`,
+      },
+      en: {
+        name: 'XAG 2022 Mod Water-Cool Charging Tank',
+        tagline: 'Water-cooling charging tank for efficient battery charging',
+        description: `The XAG Water-Cool Charging Tank 2022 Mod is an advanced solution for cooling batteries during charging.
+
+Features:
+- Water cooling system
+- Efficient heat dissipation
+- Extended battery lifespan
+- Compatible with XAG charging system`,
+      },
+      es: {
+        name: 'XAG 2022 Mod Tanque de Carga con Enfriamiento por Agua',
+        tagline: 'Tanque de enfriamiento por agua para carga eficiente de baterías',
+        description: `El Tanque XAG Water-Cool 2022 Mod es una solución avanzada para enfriar baterías durante la carga.
+
+Características:
+- Sistema de enfriamiento por agua
+- Disipación eficiente del calor
+- Vida útil extendida de batería
+- Compatible con sistema de carga XAG`,
+      },
+      de: {
+        name: 'XAG 2022 Mod Wasserkühlung-Ladetank',
+        tagline: 'Wasserkühl-Ladetank für effizientes Batterieladen',
+        description: `Der XAG Wasserkühlung-Ladetank 2022 Mod ist eine fortschrittliche Lösung zum Kühlen von Batterien während des Ladens.
+
+Eigenschaften:
+- Wasserkühlsystem
+- Effiziente Wärmeableitung
+- Verlängerte Batterielebensdauer
+- Kompatibel mit XAG-Ladesystem`,
+      },
+      cs: {
+        name: 'XAG 2022 Mod Nádrž pro Nabíjení s Vodním Chlazením',
+        tagline: 'Nádrž s vodním chlazením pro efektivní nabíjení baterií',
+        description: `Nádrž XAG Water-Cool 2022 Mod je pokročilé řešení pro chlazení baterií během nabíjení.
+
+Vlastnosti:
+- Systém vodního chlazení
+- Efektivní odvod tepla
+- Prodloužená životnost baterie
+- Kompatibilní s nabíjecím systémem XAG`,
+      },
+      nl: {
+        name: 'XAG 2022 Mod Waterkoeling Laadtank',
+        tagline: 'Waterkoeling laadtank voor efficiënt batterij laden',
+        description: `De XAG Waterkoeling Laadtank 2022 Mod is een geavanceerde oplossing voor het koelen van batterijen tijdens het laden.
+
+Kenmerken:
+- Waterkoelsysteem
+- Efficiënte warmteafvoer
+- Verlengde batterijlevensduur
+- Compatibel met XAG-laadsysteem`,
+      },
+    },
+    mainImage: '/images/products/battery-chargers/09-017-00028-3.png',
+    images: ['/images/products/battery-chargers/09-017-00028-3.png'],
+    price: 85800,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 0,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '09-017-00028' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Cooling', value: 'Water Cooling' },
+      { label: 'Type', value: 'Charging Tank' },
+    ],
+  },
+
+  // ==================== GC4000+ GENERATOR SUPERCHARGER ====================
+  'generator-supercharger-gc4000-plus': {
+    id: '09-020-00016',
+    sku: '09-020-00016',
+    slug: 'generator-supercharger-gc4000-plus',
+    translations: {
+      pl: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'Zintegrowany generator i ładowarka dla dronów i UGV XAG',
+        description: `XAG Generator SuperCharger GC4000+ to kompleksowe rozwiązanie zasilające łączące generator i inteligentną ładowarkę w jednym urządzeniu. Zaprojektowany do operacji polowych, gdzie dostęp do sieci elektrycznej jest ograniczony.
+
+Kluczowe cechy:
+- Wbudowany generator o mocy 4000W
+- Inteligentne ładowanie wielu baterii jednocześnie
+- Kompatybilny z bateriami B13960S, B13970S, B141050
+- Ciche działanie dzięki zaawansowanemu tłumieniu
+- Zintegrowany system chłodzenia
+- Kompaktowa konstrukcja do transportu terenowego
+- Automatyczne zarządzanie mocą
+- Wyświetlacz LCD z informacjami o stanie`,
+      },
+      en: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'All-in-one generator and charger for XAG drones and UGVs',
+        description: `The XAG Generator SuperCharger GC4000+ is a comprehensive power solution combining a generator and intelligent charger in one device. Designed for field operations where grid power access is limited.
+
+Key Features:
+- Built-in 4000W generator
+- Intelligent multi-battery charging
+- Compatible with B13960S, B13970S, B141050 batteries
+- Quiet operation with advanced noise reduction
+- Integrated cooling system
+- Compact design for field transport
+- Automatic power management
+- LCD display with status information`,
+      },
+      es: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'Generador y cargador todo en uno para drones y UGVs XAG',
+        description: `El XAG Generator SuperCharger GC4000+ es una solución de energía integral que combina un generador y un cargador inteligente en un solo dispositivo. Diseñado para operaciones de campo donde el acceso a la red eléctrica es limitado.
+
+Características principales:
+- Generador integrado de 4000W
+- Carga inteligente de múltiples baterías
+- Compatible con baterías B13960S, B13970S, B141050
+- Funcionamiento silencioso con reducción de ruido avanzada
+- Sistema de enfriamiento integrado
+- Diseño compacto para transporte de campo
+- Gestión automática de energía
+- Pantalla LCD con información de estado`,
+      },
+      de: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'All-in-One Generator und Ladegerät für XAG Drohnen und UGVs',
+        description: `Der XAG Generator SuperCharger GC4000+ ist eine umfassende Stromversorgungslösung, die einen Generator und ein intelligentes Ladegerät in einem Gerät vereint. Entwickelt für Feldeinsätze, wo der Netzzugang begrenzt ist.
+
+Hauptmerkmale:
+- Eingebauter 4000W Generator
+- Intelligentes Multi-Batterie-Laden
+- Kompatibel mit B13960S, B13970S, B141050 Batterien
+- Leiser Betrieb mit fortschrittlicher Geräuschreduzierung
+- Integriertes Kühlsystem
+- Kompaktes Design für Feldtransport
+- Automatisches Energiemanagement
+- LCD-Display mit Statusinformationen`,
+      },
+      cs: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'Vše v jednom generátor a nabíječka pro drony a UGV XAG',
+        description: `XAG Generator SuperCharger GC4000+ je komplexní napájecí řešení kombinující generátor a inteligentní nabíječku v jednom zařízení. Navrženo pro polní operace, kde je omezený přístup k elektrické síti.
+
+Klíčové vlastnosti:
+- Vestavěný generátor 4000W
+- Inteligentní nabíjení více baterií
+- Kompatibilní s bateriemi B13960S, B13970S, B141050
+- Tichý provoz s pokročilou redukcí hluku
+- Integrovaný chladicí systém
+- Kompaktní design pro polní přepravu
+- Automatická správa energie
+- LCD displej s informacemi o stavu`,
+      },
+      nl: {
+        name: 'XAG Generator SuperCharger GC4000+',
+        tagline: 'Alles-in-één generator en lader voor XAG drones en UGVs',
+        description: `De XAG Generator SuperCharger GC4000+ is een uitgebreide stroomoplossing die een generator en intelligente lader in één apparaat combineert. Ontworpen voor veldoperaties waar netstroomtoegang beperkt is.
+
+Belangrijkste kenmerken:
+- Ingebouwde 4000W generator
+- Intelligent meervoudig batterijen laden
+- Compatibel met B13960S, B13970S, B141050 batterijen
+- Stille werking met geavanceerde geluidsreductie
+- Geïntegreerd koelsysteem
+- Compact ontwerp voor veldtransport
+- Automatisch energiebeheer
+- LCD-display met statusinformatie`,
+      },
+    },
+    mainImage: '/images/products/battery-chargers/09-020-00016-1.jpg',
+    images: [
+      '/images/products/battery-chargers/09-020-00016-1.jpg',
+    ],
+    price: 455000,
+    compareAtPrice: null,
+    currency: 'PLN',
+    stock: 5,
+    category: 'Battery Chargers',
+    type: 'ACCESSORY',
+    specifications: [
+      { label: 'SKU', value: '09-020-00016' },
+      { label: 'Model', value: 'GC4000+' },
+      { label: 'Brand', value: 'XAG' },
+      { label: 'Power Output', value: '4000W' },
+      { label: 'Compatible Batteries', value: 'B13960S, B13970S, B141050' },
+      { label: 'Type', value: 'Generator SuperCharger' },
     ],
   },
 
@@ -453,6 +1220,76 @@ Kenmerken:
       { label: 'Nozzle Type', value: 'Centrifugal Atomizing' },
       { label: 'Type', value: 'Spray System' },
     ],
+  },
+
+  // ==================== ADDITIONAL TASK SYSTEMS ====================
+  'revospray-p4': {
+    id: '09-023-00055',
+    sku: '09-023-00055',
+    slug: 'revospray-p4',
+    translations: {
+      pl: { name: 'XAG P150 RevoSpray P4', tagline: 'Zaawansowany system oprysku dla platformy P150', description: 'System oprysku RevoSpray P4 dla drona P150. Zaawansowane dysze i precyzyjna kontrola przepływu.' },
+      en: { name: 'XAG P150 RevoSpray P4', tagline: 'Advanced spray system for P150 platform', description: 'The RevoSpray P4 spray system for P150 drone. Advanced nozzles and precision flow control.' },
+      es: { name: 'XAG P150 RevoSpray P4', tagline: 'Sistema de pulverización avanzado para plataforma P150', description: 'Sistema de pulverización RevoSpray P4 para dron P150. Boquillas avanzadas y control de flujo de precisión.' },
+      de: { name: 'XAG P150 RevoSpray P4', tagline: 'Fortschrittliches Sprühsystem für P150-Plattform', description: 'RevoSpray P4 Sprühsystem für P150 Drohne. Fortschrittliche Düsen und präzise Durchflusskontrolle.' },
+      cs: { name: 'XAG P150 RevoSpray P4', tagline: 'Pokročilý postřikovací systém pro platformu P150', description: 'Postřikovací systém RevoSpray P4 pro dron P150. Pokročilé trysky a přesná kontrola průtoku.' },
+      nl: { name: 'XAG P150 RevoSpray P4', tagline: 'Geavanceerd sproeiysteem voor P150-platform', description: 'RevoSpray P4 sproeiysteem voor P150 drone. Geavanceerde sproeiers en nauwkeurige debietregeling.' },
+    },
+    mainImage: '/images/products/task-system/09-023-00055.jpg',
+    images: ['/images/products/task-system/09-023-00055.jpg'],
+    price: 910000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-023-00055' }, { label: 'Compatibility', value: 'P150' }, { label: 'Type', value: 'Spray System' }],
+  },
+  'revocast-p4': {
+    id: '09-023-00054',
+    sku: '09-023-00054',
+    slug: 'revocast-p4',
+    translations: {
+      pl: { name: 'XAG P150 RevoCast P4', tagline: 'System rozsiewający dla platformy P150', description: 'System rozsiewający RevoCast P4 dla drona P150. Precyzyjne rozsiewanie nawozów i nasion.' },
+      en: { name: 'XAG P150 RevoCast P4', tagline: 'Spreading system for P150 platform', description: 'The RevoCast P4 spreading system for P150 drone. Precision fertilizer and seed spreading.' },
+      es: { name: 'XAG P150 RevoCast P4', tagline: 'Sistema de esparcimiento para plataforma P150', description: 'Sistema de esparcimiento RevoCast P4 para dron P150. Esparcimiento de precisión de fertilizantes y semillas.' },
+      de: { name: 'XAG P150 RevoCast P4', tagline: 'Streusystem für P150-Plattform', description: 'RevoCast P4 Streusystem für P150 Drohne. Präzise Dünger- und Saatgutausbringung.' },
+      cs: { name: 'XAG P150 RevoCast P4', tagline: 'Rozmetací systém pro platformu P150', description: 'Rozmetací systém RevoCast P4 pro dron P150. Přesné rozmetání hnojiv a semen.' },
+      nl: { name: 'XAG P150 RevoCast P4', tagline: 'Strooiysteem voor P150-platform', description: 'RevoCast P4 strooiysteem voor P150 drone. Nauwkeurig meststof en zaad strooien.' },
+    },
+    mainImage: '/images/products/task-system/09-023-00054.jpg',
+    images: ['/images/products/task-system/09-023-00054.jpg'],
+    price: 1040000, compareAtPrice: 1170000, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-023-00054' }, { label: 'Compatibility', value: 'P150' }, { label: 'Type', value: 'Spreading System' }],
+  },
+  'p100-pro-60l-upgrade-kit': {
+    id: '05-002-02262',
+    sku: '05-002-02262',
+    slug: 'p100-pro-60l-upgrade-kit',
+    translations: {
+      pl: { name: 'XAG P100 Pro Upgrade Kit - Zbiornik 60L', tagline: 'Inteligentny zbiornik 60L z systemem Sub-Cover Refill', description: 'Zestaw modernizacyjny z inteligentnym zbiornikiem 60L dla drona P100 Pro.' },
+      en: { name: 'XAG P100 Pro Upgrade Kit - 60L Container', tagline: '60L Smart Tank with Sub-Cover Refill Design', description: 'Upgrade kit with 60L smart tank for P100 Pro drone.' },
+      es: { name: 'XAG P100 Pro Kit de Actualización - Contenedor 60L', tagline: 'Tanque Inteligente 60L con Diseño de Recarga Sub-Cover', description: 'Kit de actualización con tanque inteligente de 60L para dron P100 Pro.' },
+      de: { name: 'XAG P100 Pro Upgrade-Kit - 60L Behälter', tagline: '60L Smart-Tank mit Sub-Cover-Nachfülldesign', description: 'Upgrade-Kit mit 60L Smart-Tank für P100 Pro Drohne.' },
+      cs: { name: 'XAG P100 Pro Upgrade Kit - 60L Nádrž', tagline: '60L chytrá nádrž s designem Sub-Cover Refill', description: 'Upgrade kit s 60L chytrou nádrží pro dron P100 Pro.' },
+      nl: { name: 'XAG P100 Pro Upgrade Kit - 60L Container', tagline: '60L Smart Tank met Sub-Cover Refill Design', description: 'Upgrade kit met 60L smart tank voor P100 Pro drone.' },
+    },
+    mainImage: '/images/products/task-system/05-002-02262.jpg',
+    images: ['/images/products/task-system/05-002-02262.jpg'],
+    price: 743600, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '05-002-02262' }, { label: 'Capacity', value: '60L' }, { label: 'Compatibility', value: 'P100 Pro' }],
+  },
+  'revocast-p3': {
+    id: '09-023-00023',
+    sku: '09-023-00023',
+    slug: 'revocast-p3',
+    translations: {
+      pl: { name: 'XAG P100 Pro RevoCast P3', tagline: 'System rozsiewający 80L dla substancji stałych 1-6mm', description: 'System rozsiewający RevoCast P3 o pojemności 80L dla drona P100 Pro. Idealny do rozsiewania nawozów i nasion o wielkości 1-6mm.' },
+      en: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L spreader system for dry solids 1-6mm', description: 'The RevoCast P3 spreading system with 80L capacity for P100 Pro drone. Ideal for spreading fertilizers and seeds 1-6mm in size.' },
+      es: { name: 'XAG P100 Pro RevoCast P3', tagline: 'Sistema esparcidor 80L para sólidos secos 1-6mm', description: 'Sistema esparcidor RevoCast P3 con capacidad de 80L para dron P100 Pro. Ideal para esparcir fertilizantes y semillas de 1-6mm.' },
+      de: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L Streusystem für Trockenstoffe 1-6mm', description: 'RevoCast P3 Streusystem mit 80L Kapazität für P100 Pro Drohne. Ideal für Dünger und Saatgut 1-6mm.' },
+      cs: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L rozmetací systém pro suché látky 1-6mm', description: 'Rozmetací systém RevoCast P3 s kapacitou 80L pro dron P100 Pro. Ideální pro rozmetání hnojiv a semen 1-6mm.' },
+      nl: { name: 'XAG P100 Pro RevoCast P3', tagline: '80L strooiysteem voor droge stoffen 1-6mm', description: 'RevoCast P3 strooiysteem met 80L capaciteit voor P100 Pro drone. Ideaal voor meststof en zaad 1-6mm.' },
+    },
+    mainImage: '/images/products/task-system/09-023-00023-1.png',
+    images: ['/images/products/task-system/09-023-00023-1.png'],
+    price: 1170000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Task System', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-023-00023' }, { label: 'Capacity', value: '80L' }, { label: 'Particle Size', value: '1-6mm' }, { label: 'Compatibility', value: 'P100 Pro' }],
   },
 
   // ==================== REMOTE CONTROLLER ====================
@@ -573,6 +1410,24 @@ Kenmerken:
     ],
   },
 
+  'rc-arc3-pro': {
+    id: '09-016-00053',
+    sku: '09-016-00053',
+    slug: 'rc-arc3-pro',
+    translations: {
+      pl: { name: 'XAG RC ARC3 Pro', tagline: 'Kompaktowy kontroler z pozycjonowaniem RTK', description: 'Kompaktowy kontroler XAG RC ARC3 Pro z wbudowanym pozycjonowaniem RTK dla precyzyjnych operacji rolniczych.' },
+      en: { name: 'XAG RC ARC3 Pro', tagline: 'Compact controller with RTK positioning', description: 'Compact XAG RC ARC3 Pro controller with built-in RTK positioning for precision agricultural operations.' },
+      es: { name: 'XAG RC ARC3 Pro', tagline: 'Controlador compacto con posicionamiento RTK', description: 'Controlador compacto XAG RC ARC3 Pro con posicionamiento RTK integrado para operaciones agrícolas de precisión.' },
+      de: { name: 'XAG RC ARC3 Pro', tagline: 'Kompakte Fernbedienung mit RTK-Positionierung', description: 'Kompakte XAG RC ARC3 Pro Fernbedienung mit integrierter RTK-Positionierung für präzise landwirtschaftliche Operationen.' },
+      cs: { name: 'XAG RC ARC3 Pro', tagline: 'Kompaktní ovladač s RTK pozicováním', description: 'Kompaktní ovladač XAG RC ARC3 Pro s vestavěným RTK pozicováním pro přesné zemědělské operace.' },
+      nl: { name: 'XAG RC ARC3 Pro', tagline: 'Compacte controller met RTK-positionering', description: 'Compacte XAG RC ARC3 Pro controller met ingebouwde RTK-positionering voor nauwkeurige landbouwoperaties.' },
+    },
+    mainImage: '/images/products/remote-controller/09-016-00053-2.png',
+    images: ['/images/products/remote-controller/09-016-00053-2.png'],
+    price: 546000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'Remote Controller', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-016-00053' }, { label: 'Model', value: 'ARC3 Pro' }, { label: 'RTK', value: 'Built-in' }],
+  },
+
   // ==================== GNSS RTK ====================
   'gnss-xrtk7-mobile-station': {
     id: '09-016-00083',
@@ -690,7 +1545,76 @@ Kenmerken:
     ],
   },
 
+  'gnss-rtk-fix-station': {
+    id: '09-010-00019',
+    sku: '09-010-00019',
+    slug: 'gnss-rtk-fix-station',
+    translations: {
+      pl: { name: 'XAG GNSS RTK Fix Station', tagline: 'Wysokoprecyzyjny moduł RTK ±10mm dokładności', description: 'Stacja XAG GNSS RTK Fix Station zapewnia najwyższą precyzję pozycjonowania ±10mm dla profesjonalnych operacji rolniczych.' },
+      en: { name: 'XAG GNSS RTK Fix Station', tagline: 'High-precision RTK module ±10mm accuracy', description: 'The XAG GNSS RTK Fix Station provides highest positioning precision of ±10mm for professional agricultural operations.' },
+      es: { name: 'XAG GNSS RTK Fix Station', tagline: 'Módulo RTK de alta precisión ±10mm de precisión', description: 'La Estación XAG GNSS RTK Fix proporciona la mayor precisión de posicionamiento de ±10mm para operaciones agrícolas profesionales.' },
+      de: { name: 'XAG GNSS RTK Fix Station', tagline: 'Hochpräzisions-RTK-Modul ±10mm Genauigkeit', description: 'Die XAG GNSS RTK Fix Station bietet höchste Positioniergenauigkeit von ±10mm für professionelle landwirtschaftliche Operationen.' },
+      cs: { name: 'XAG GNSS RTK Fix Station', tagline: 'Vysokopřesný RTK modul ±10mm přesnost', description: 'Stanice XAG GNSS RTK Fix poskytuje nejvyšší přesnost pozicování ±10mm pro profesionální zemědělské operace.' },
+      nl: { name: 'XAG GNSS RTK Fix Station', tagline: 'Hoge precisie RTK-module ±10mm nauwkeurigheid', description: 'Het XAG GNSS RTK Fix Station biedt de hoogste positioneringsnauwkeurigheid van ±10mm voor professionele landbouwoperaties.' },
+    },
+    mainImage: '/images/products/gnss-rtk/09-010-00019-1.png',
+    images: ['/images/products/gnss-rtk/09-010-00019-1.png'],
+    price: 1154400, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-010-00019' }, { label: 'Accuracy', value: '±10mm' }, { label: 'Type', value: 'Fix Station' }],
+  },
+  'gnss-xrtk4-rover': {
+    id: '09-010-00036',
+    sku: '09-010-00036',
+    slug: 'gnss-xrtk4-rover',
+    translations: {
+      pl: { name: 'XAG GNSS XRTK4 Rover', tagline: 'Moduł pozycjonowania RTK do zastosowań rolniczych', description: 'Moduł XAG GNSS XRTK4 Rover zapewnia precyzyjne pozycjonowanie RTK dla dronów rolniczych.' },
+      en: { name: 'XAG GNSS XRTK4 Rover', tagline: 'RTK positioning module for agricultural use', description: 'The XAG GNSS XRTK4 Rover module provides precision RTK positioning for agricultural drones.' },
+      es: { name: 'XAG GNSS XRTK4 Rover', tagline: 'Módulo de posicionamiento RTK para uso agrícola', description: 'El módulo XAG GNSS XRTK4 Rover proporciona posicionamiento RTK de precisión para drones agrícolas.' },
+      de: { name: 'XAG GNSS XRTK4 Rover', tagline: 'RTK-Positionierungsmodul für landwirtschaftliche Nutzung', description: 'Das XAG GNSS XRTK4 Rover Modul bietet präzise RTK-Positionierung für Agrardrohnen.' },
+      cs: { name: 'XAG GNSS XRTK4 Rover', tagline: 'RTK poziční modul pro zemědělské použití', description: 'Modul XAG GNSS XRTK4 Rover poskytuje přesné RTK pozicování pro zemědělské drony.' },
+      nl: { name: 'XAG GNSS XRTK4 Rover', tagline: 'RTK-positioneringsmodule voor landbouwgebruik', description: 'De XAG GNSS XRTK4 Rover module biedt nauwkeurige RTK-positionering voor landbouwdrones.' },
+    },
+    mainImage: '/images/products/gnss-rtk/09-010-00036-1.jpg',
+    images: ['/images/products/gnss-rtk/09-010-00036-1.jpg'],
+    price: 1144000, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '09-010-00036' }, { label: 'Model', value: 'XRTK4' }, { label: 'Type', value: 'Rover' }],
+  },
+  'station-tripod': {
+    id: '13-001-00056',
+    sku: '13-001-00056',
+    slug: 'station-tripod',
+    translations: {
+      pl: { name: 'XAG Statyw Stacji', tagline: 'Statyw dla stacji GNSS RTK', description: 'Profesjonalny statyw XAG do montażu stacji GNSS RTK. Stabilna konstrukcja dla precyzyjnych pomiarów.' },
+      en: { name: 'XAG Station Tripod', tagline: 'Tripod for GNSS RTK stations', description: 'Professional XAG tripod for mounting GNSS RTK stations. Stable construction for precise measurements.' },
+      es: { name: 'XAG Trípode de Estación', tagline: 'Trípode para estaciones GNSS RTK', description: 'Trípode profesional XAG para montar estaciones GNSS RTK. Construcción estable para mediciones precisas.' },
+      de: { name: 'XAG Stationsstativ', tagline: 'Stativ für GNSS RTK Stationen', description: 'Professionelles XAG-Stativ zur Montage von GNSS RTK-Stationen. Stabile Konstruktion für präzise Messungen.' },
+      cs: { name: 'XAG Stativ Stanice', tagline: 'Stativ pro GNSS RTK stanice', description: 'Profesionální stativ XAG pro montáž GNSS RTK stanic. Stabilní konstrukce pro přesná měření.' },
+      nl: { name: 'XAG Station Statief', tagline: 'Statief voor GNSS RTK-stations', description: 'Professioneel XAG-statief voor montage van GNSS RTK-stations. Stabiele constructie voor nauwkeurige metingen.' },
+    },
+    mainImage: '/images/products/gnss-rtk/13-001-00056-1.png',
+    images: ['/images/products/gnss-rtk/13-001-00056-1.png'],
+    price: 67600, compareAtPrice: null, currency: 'PLN', stock: 0, category: 'GNSS RTK', type: 'ACCESSORY',
+    specifications: [{ label: 'SKU', value: '13-001-00056' }, { label: 'Brand', value: 'XAG' }, { label: 'Type', value: 'Tripod' }],
+  },
+
   // ==================== AIRBORNE (DRONES) ====================
+  'p100-pro-rtk-package': {
+    id: 'AU-XAG-PROP6',
+    sku: 'AU-XAG-PROP6',
+    slug: 'p100-pro-rtk-package',
+    translations: {
+      pl: { name: 'XAG P100 Pro Package + RTK', tagline: 'Pełny pakiet z RTK dla precyzji centymetrowej', description: 'Kompletny pakiet drona XAG P100 Pro z systemem RTK dla najwyższej precyzji pozycjonowania na poziomie centymetrów.' },
+      en: { name: 'XAG P100 Pro Package + RTK', tagline: 'Full package with RTK for centimetre-level precision', description: 'Complete XAG P100 Pro drone package with RTK system for highest centimeter-level positioning precision.' },
+      es: { name: 'XAG P100 Pro Package + RTK', tagline: 'Paquete completo con RTK para precisión centimétrica', description: 'Paquete completo de dron XAG P100 Pro con sistema RTK para la mayor precisión de posicionamiento a nivel de centímetros.' },
+      de: { name: 'XAG P100 Pro Package + RTK', tagline: 'Komplettpaket mit RTK für Zentimeter-Präzision', description: 'Komplettes XAG P100 Pro Drohnenpaket mit RTK-System für höchste Zentimeter-Positioniergenauigkeit.' },
+      cs: { name: 'XAG P100 Pro Package + RTK', tagline: 'Kompletní balíček s RTK pro centimetrovou přesnost', description: 'Kompletní balíček dronu XAG P100 Pro se systémem RTK pro nejvyšší centimetrovou přesnost pozicování.' },
+      nl: { name: 'XAG P100 Pro Package + RTK', tagline: 'Compleet pakket met RTK voor centimeter-nauwkeurigheid', description: 'Compleet XAG P100 Pro dronepakket met RTK-systeem voor hoogste centimeter-positioneringsnauwkeurigheid.' },
+    },
+    mainImage: '/images/products/drones/au-xag-prop6-1.png',
+    images: ['/images/products/drones/au-xag-prop6-1.png'],
+    price: 12480000, compareAtPrice: 15293200, currency: 'PLN', stock: 1, category: 'Airborne', type: 'PRODUCT',
+    specifications: [{ label: 'SKU', value: 'AU-XAG-PROP6' }, { label: 'Model', value: 'P100 Pro + RTK' }, { label: 'Precision', value: 'Centimeter-level' }],
+  },
   'p100-pro-basic-package': {
     id: 'AU-XAG-PROP4',
     sku: 'AU-XAG-PROP4',

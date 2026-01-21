@@ -429,6 +429,15 @@ const mockProducts = [
   },
 ];
 
+// Type for database prices
+type DbProductPrices = Record<string, {
+  price: number;
+  priceEUR: number;
+  compareAtPrice: number | null;
+  compareAtPriceEUR: number | null;
+  stock: number;
+}>;
+
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category') || '';
@@ -437,11 +446,40 @@ export default function ProductsPage() {
   const [category, setCategory] = useState(categoryParam);
   const [sortBy, setSortBy] = useState('featured');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dbPrices, setDbPrices] = useState<DbProductPrices>({});
 
   // Sync category state with URL parameter changes
   useEffect(() => {
     setCategory(categoryParam);
   }, [categoryParam]);
+
+  // Fetch prices from database
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const response = await fetch('/api/products');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.products) {
+            const pricesMap: DbProductPrices = {};
+            data.products.forEach((p: { slug: string; price: number; priceEUR: number; compareAtPrice: number | null; compareAtPriceEUR: number | null; stock: number }) => {
+              pricesMap[p.slug] = {
+                price: p.price,
+                priceEUR: p.priceEUR,
+                compareAtPrice: p.compareAtPrice,
+                compareAtPriceEUR: p.compareAtPriceEUR,
+                stock: p.stock,
+              };
+            });
+            setDbPrices(pricesMap);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch product prices:', error);
+      }
+    };
+    fetchPrices();
+  }, []);
 
   const categories = [
     { value: '', label: t('allProducts') },
@@ -465,7 +503,21 @@ export default function ProductsPage() {
   ];
 
   const filteredProducts = useMemo(() => {
-    let products = [...mockProducts];
+    // Merge database prices with static product data
+    let products = mockProducts.map(p => {
+      const dbPrice = dbPrices[p.slug];
+      if (dbPrice) {
+        return {
+          ...p,
+          price: dbPrice.price,
+          priceEUR: dbPrice.priceEUR,
+          compareAtPrice: dbPrice.compareAtPrice,
+          compareAtPriceEUR: dbPrice.compareAtPriceEUR,
+          stock: dbPrice.stock,
+        };
+      }
+      return p;
+    });
 
     if (category) {
       if (category === 'accessories') {
@@ -509,7 +561,7 @@ export default function ProductsPage() {
     }
 
     return products;
-  }, [category, sortBy, searchQuery]);
+  }, [category, sortBy, searchQuery, dbPrices]);
 
   const getCurrentCategoryLabel = () => {
     return categories.find((c) => c.value === category)?.label || t('allProducts');

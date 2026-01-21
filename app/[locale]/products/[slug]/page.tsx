@@ -1,11 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
 import { useTranslations, useLocale } from 'next-intl';
+
+// Type for database prices
+type DbPrices = {
+  price: number;
+  priceEUR: number;
+  compareAtPrice: number | null;
+  compareAtPriceEUR: number | null;
+  stock: number;
+} | null;
 
 type Locale = 'pl' | 'en' | 'es' | 'de' | 'cs' | 'nl';
 
@@ -2186,6 +2195,35 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
 
+  // State for database prices
+  const [dbPrices, setDbPrices] = useState<DbPrices>(null);
+
+  // Fetch prices from database
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const response = await fetch(`/api/products?slug=${slug}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.product) {
+            setDbPrices({
+              price: data.product.price,
+              priceEUR: data.product.priceEUR,
+              compareAtPrice: data.product.compareAtPrice,
+              compareAtPriceEUR: data.product.compareAtPriceEUR,
+              stock: data.product.stock,
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch product prices:', error);
+      }
+    };
+    if (slug) {
+      fetchPrices();
+    }
+  }, [slug]);
+
   if (!product) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center py-16">
@@ -2217,8 +2255,16 @@ export default function ProductDetailPage() {
   // Use EUR for all languages except Polish
   const isPolish = locale === 'pl';
   const currency = isPolish ? 'PLN' : 'EUR';
-  const displayPrice = isPolish ? product.price : product.priceEUR;
-  const displayCompareAtPrice = isPolish ? product.compareAtPrice : product.compareAtPriceEUR;
+
+  // Use database prices if available, otherwise fallback to static prices
+  const actualPrice = dbPrices?.price ?? product.price;
+  const actualPriceEUR = dbPrices?.priceEUR ?? product.priceEUR;
+  const actualCompareAtPrice = dbPrices?.compareAtPrice ?? product.compareAtPrice;
+  const actualCompareAtPriceEUR = dbPrices?.compareAtPriceEUR ?? product.compareAtPriceEUR;
+  const actualStock = dbPrices?.stock ?? product.stock;
+
+  const displayPrice = isPolish ? actualPrice : actualPriceEUR;
+  const displayCompareAtPrice = isPolish ? actualCompareAtPrice : actualCompareAtPriceEUR;
 
   const hasDiscount = displayCompareAtPrice && displayCompareAtPrice > displayPrice;
   const discountPercent = hasDiscount
@@ -2306,7 +2352,7 @@ export default function ProductDetailPage() {
                 {hasDiscount && (
                   <span className="badge badge-sale">-{discountPercent}%</span>
                 )}
-                {product.stock === 0 && (
+                {actualStock === 0 && (
                   <span className="badge badge-out-of-stock">{t('outOfStock')}</span>
                 )}
               </div>
@@ -2376,11 +2422,11 @@ export default function ProductDetailPage() {
 
             {/* Stock Status */}
             <div className="flex items-center gap-2">
-              {product.stock > 0 ? (
+              {actualStock > 0 ? (
                 <>
                   <span className="w-3 h-3 bg-green-500 rounded-full"></span>
                   <span className="text-green-700 font-medium">{t('inStock')}</span>
-                  <span className="text-gray-500">({product.stock} {t('available')})</span>
+                  <span className="text-gray-500">({actualStock} {t('available')})</span>
                 </>
               ) : (
                 <>
@@ -2433,14 +2479,14 @@ export default function ProductDetailPage() {
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    {product.stock === 0 ? t('preOrder') : t('addToCart')}
+                    {actualStock === 0 ? t('preOrder') : t('addToCart')}
                   </>
                 )}
               </button>
             </div>
 
             {/* Contact for Stock */}
-            {product.stock === 0 && (
+            {actualStock === 0 && (
               <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
                 <p className="text-orange-800 text-sm">
                   {t('backorderedMessage')}

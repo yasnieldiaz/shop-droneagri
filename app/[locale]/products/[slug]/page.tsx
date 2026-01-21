@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
+import { useB2BStore } from '@/lib/store/b2b';
 import { useTranslations, useLocale } from 'next-intl';
 
 // Type for database prices
@@ -2254,7 +2255,6 @@ export default function ProductDetailPage() {
 
   // Use EUR for all languages except Polish
   const isPolish = locale === 'pl';
-  const currency = isPolish ? 'PLN' : 'EUR';
 
   // Use database prices if available, otherwise fallback to static prices
   const actualPrice = dbPrices?.price ?? product.price;
@@ -2263,8 +2263,17 @@ export default function ProductDetailPage() {
   const actualCompareAtPriceEUR = dbPrices?.compareAtPriceEUR ?? product.compareAtPriceEUR;
   const actualStock = dbPrices?.stock ?? product.stock;
 
-  const displayPrice = isPolish ? actualPrice : actualPriceEUR;
-  const displayCompareAtPrice = isPolish ? actualCompareAtPrice : actualCompareAtPriceEUR;
+  // Check for B2B price
+  const { isLoggedIn, getB2BPrice } = useB2BStore();
+  const b2bPrice = isLoggedIn ? getB2BPrice(product.slug, actualPrice, actualPriceEUR) : null;
+
+  // Use B2B price if available, otherwise use regular price
+  const currency = b2bPrice ? b2bPrice.currency : (isPolish ? 'PLN' : 'EUR');
+  const displayPrice = b2bPrice ? b2bPrice.price : (isPolish ? actualPrice : actualPriceEUR);
+  const displayCompareAtPrice = b2bPrice
+    ? (isPolish ? actualPrice : actualPriceEUR) // Show regular price as compare when B2B
+    : (isPolish ? actualCompareAtPrice : actualCompareAtPriceEUR);
+  const isB2BPrice = b2bPrice?.isB2BPrice || false;
 
   const hasDiscount = displayCompareAtPrice && displayCompareAtPrice > displayPrice;
   const discountPercent = hasDiscount
@@ -2403,9 +2412,15 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Price - Netto & Brutto */}
-            <div className="space-y-1">
+            <div className="space-y-2">
+              {/* B2B Badge */}
+              {isB2BPrice && (
+                <span className="inline-block px-3 py-1 bg-green-500 text-white text-sm font-medium rounded-full">
+                  B2B Price
+                </span>
+              )}
               <div className="flex items-baseline gap-4">
-                <span className={`text-3xl font-bold ${hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
+                <span className={`text-3xl font-bold ${isB2BPrice ? 'text-green-600' : hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
                   {formatPrice(calculateNetto(displayPrice))}
                 </span>
                 <span className="text-sm text-gray-500">netto</span>
@@ -2417,6 +2432,11 @@ export default function ProductDetailPage() {
               </div>
               <div className="text-lg text-gray-600">
                 {formatPrice(displayPrice)} <span className="text-sm">brutto</span>
+                {hasDiscount && displayCompareAtPrice && (
+                  <span className="ml-2 text-gray-400 line-through">
+                    {formatPrice(displayCompareAtPrice)}
+                  </span>
+                )}
               </div>
             </div>
 

@@ -419,7 +419,6 @@ export async function POST() {
           category: product.category,
           type: product.type,
           isActive: true,
-          isFeatured: false,
         },
       });
       created++;

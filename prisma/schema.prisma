@@ -1,11 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../node_modules/.prisma/client"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Customer {
@@ -69,7 +68,7 @@ model Order {
   subtotal        Int
   shippingCost    Int         @default(0)
   tax             Int         @default(0)
-  total           Int
+  totalAmount     Int
   currency        String      @default("PLN")
 
   // Notes

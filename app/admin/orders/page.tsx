@@ -21,7 +21,7 @@ interface Order {
   orderNumber: string;
   customer: Customer;
   items: OrderItem[];
-  total: number;
+  totalAmount: number;
   currency: string;
   status: string;
   paymentStatus: string;
@@ -335,7 +335,7 @@ export default function OrdersPage() {
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-500">{order.items.length}</td>
                     <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                      {formatPrice(order.total, order.currency)}
+                      {formatPrice(order.totalAmount, order.currency)}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-col gap-1">

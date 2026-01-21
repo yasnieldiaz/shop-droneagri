@@ -121,9 +121,7 @@ export async function POST(request: NextRequest) {
         slug,
         name,
         tagline: tagline || null,
-        description: description || null,
         mainImage: mainImage || null,
-        images: images ? JSON.stringify(images) : null,
         price: price || 0,
         priceEUR: priceEUR || 0,
         compareAtPrice: compareAtPrice || null,
@@ -133,7 +131,6 @@ export async function POST(request: NextRequest) {
         category,
         type: type || 'PRODUCT',
         isActive: isActive ?? true,
-        isFeatured: isFeatured ?? false,
       },
     });
 

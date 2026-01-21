@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
           select: {
             id: true,
             orderNumber: true,
-            total: true,
+            totalAmount: true,
             status: true,
             createdAt: true,
           },
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     const customersWithStats = filteredCustomers.map(customer => ({
       ...customer,
       orderCount: customer.orders.length,
-      totalSpent: customer.orders.reduce((acc, order) => acc + order.total, 0),
+      totalSpent: customer.orders.reduce((acc, order) => acc + order.totalAmount, 0),
     }));
 
     return NextResponse.json({ customers: customersWithStats });

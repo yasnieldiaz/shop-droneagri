@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 interface Order {
   id: string;
   orderNumber: string;
-  total: number;
+  totalAmount: number;
   status: string;
   createdAt: string;
 }
@@ -349,7 +349,7 @@ export default function CustomersPage() {
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>
                           {order.status}
                         </span>
-                        <span className="font-semibold text-gray-900">{formatPrice(order.total)}</span>
+                        <span className="font-semibold text-gray-900">{formatPrice(order.totalAmount)}</span>
                       </div>
                     </div>
                   ))}

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface Product {
@@ -31,7 +31,6 @@ const formatPrice = (cents: number) => {
 
 export default function EditProductPage() {
   const params = useParams();
-  const router = useRouter();
   const productId = params.id as string;
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -39,6 +38,11 @@ export default function EditProductPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+
+  // Exchange rate state
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [rateDate, setRateDate] = useState<string>('');
+  const [rateLoading, setRateLoading] = useState(true);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -59,9 +63,51 @@ export default function EditProductPage() {
     isFeatured: false,
   });
 
+  // Calculate EUR from PLN
+  const calculateEUR = useCallback((plnCents: number): number => {
+    if (!exchangeRate || plnCents === 0) return 0;
+    // PLN to EUR: divide by rate
+    // plnCents / rate = eurCents
+    return Math.round(plnCents / exchangeRate);
+  }, [exchangeRate]);
+
+  // Fetch exchange rate
+  useEffect(() => {
+    const fetchExchangeRate = async () => {
+      try {
+        // Using frankfurter.app - free API for ECB rates
+        const response = await fetch('https://api.frankfurter.app/latest?from=EUR&to=PLN');
+        const data = await response.json();
+        if (data.rates?.PLN) {
+          setExchangeRate(data.rates.PLN);
+          setRateDate(data.date);
+        }
+      } catch (err) {
+        console.error('Failed to fetch exchange rate:', err);
+        // Fallback rate if API fails
+        setExchangeRate(4.30);
+        setRateDate('fallback');
+      } finally {
+        setRateLoading(false);
+      }
+    };
+    fetchExchangeRate();
+  }, []);
+
   useEffect(() => {
     fetchProduct();
   }, [productId]);
+
+  // Update EUR prices when PLN changes or rate loads
+  useEffect(() => {
+    if (exchangeRate && formData.price > 0) {
+      setFormData(prev => ({
+        ...prev,
+        priceEUR: calculateEUR(prev.price),
+        compareAtPriceEUR: prev.compareAtPrice > 0 ? calculateEUR(prev.compareAtPrice) : 0,
+      }));
+    }
+  }, [exchangeRate, calculateEUR]);
 
   const fetchProduct = async () => {
     try {
@@ -133,6 +179,25 @@ export default function EditProductPage() {
     }
   };
 
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const numValue = parseInt(value) || 0;
+
+    if (name === 'price') {
+      setFormData(prev => ({
+        ...prev,
+        price: numValue,
+        priceEUR: calculateEUR(numValue),
+      }));
+    } else if (name === 'compareAtPrice') {
+      setFormData(prev => ({
+        ...prev,
+        compareAtPrice: numValue,
+        compareAtPriceEUR: numValue > 0 ? calculateEUR(numValue) : 0,
+      }));
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
@@ -201,7 +266,7 @@ export default function EditProductPage() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4">Información Básica</h2>
+          <h2 className="text-lg font-semibold mb-4">Informacion Basica</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -244,7 +309,7 @@ export default function EditProductPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Categoría
+                Categoria
               </label>
               <input
                 type="text"
@@ -271,7 +336,16 @@ export default function EditProductPage() {
 
         {/* Pricing */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4">Precios</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Precios</h2>
+            {!rateLoading && exchangeRate && (
+              <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                1 EUR = {exchangeRate.toFixed(2)} PLN
+                {rateDate !== 'fallback' && <span className="text-xs ml-1">({rateDate})</span>}
+              </div>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -281,26 +355,26 @@ export default function EditProductPage() {
                 type="number"
                 name="price"
                 value={formData.price}
-                onChange={handleChange}
+                onChange={handlePriceChange}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
               />
               <p className="text-xs text-gray-400 mt-1">
-                = {formatPrice(formData.price)} PLN (100 groszy = 1 PLN)
+                = {formatPrice(formData.price)} PLN
               </p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Precio EUR (centavos)
+                Precio EUR (auto)
               </label>
               <input
                 type="number"
                 name="priceEUR"
                 value={formData.priceEUR}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                className="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600"
+                readOnly
               />
-              <p className="text-xs text-gray-400 mt-1">
-                = {formatPrice(formData.priceEUR)} EUR (100 cents = 1 EUR)
+              <p className="text-xs text-green-600 mt-1">
+                = {formatPrice(formData.priceEUR)} EUR (calculado automaticamente)
               </p>
             </div>
             <div>
@@ -311,7 +385,7 @@ export default function EditProductPage() {
                 type="number"
                 name="compareAtPrice"
                 value={formData.compareAtPrice}
-                onChange={handleChange}
+                onChange={handlePriceChange}
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
               />
               <p className="text-xs text-gray-400 mt-1">
@@ -320,17 +394,17 @@ export default function EditProductPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Precio anterior EUR (centavos)
+                Precio anterior EUR (auto)
               </label>
               <input
                 type="number"
                 name="compareAtPriceEUR"
                 value={formData.compareAtPriceEUR}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                className="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600"
+                readOnly
               />
-              <p className="text-xs text-gray-400 mt-1">
-                {formData.compareAtPriceEUR > 0 ? `= ${formatPrice(formData.compareAtPriceEUR)} EUR (precio tachado)` : 'Dejar en 0 si no hay descuento'}
+              <p className="text-xs text-green-600 mt-1">
+                {formData.compareAtPriceEUR > 0 ? `= ${formatPrice(formData.compareAtPriceEUR)} EUR (calculado)` : 'Se calcula automaticamente'}
               </p>
             </div>
           </div>

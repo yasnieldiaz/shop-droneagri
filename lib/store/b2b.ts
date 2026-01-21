@@ -200,7 +200,14 @@ export const useB2BStore = create<B2BState>()(
       partialize: (state) => ({
         customer: state.customer,
         isLoggedIn: state.isLoggedIn,
+        prices: state.prices, // Also persist B2B prices
       }),
+      onRehydrateStorage: () => (state) => {
+        // Refetch prices when store rehydrates if user is logged in
+        if (state?.isLoggedIn) {
+          state.fetchPrices();
+        }
+      },
     }
   )
 );

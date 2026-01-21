@@ -260,5 +260,25 @@
     "learnMore": "Learn more",
     "necessary": "Necessary only",
     "acceptAll": "Accept all"
+  },
+  "productDetail": {
+    "home": "Home",
+    "products": "Products",
+    "productNotFound": "Product Not Found",
+    "productNotFoundDesc": "The product you're looking for doesn't exist.",
+    "browseProducts": "Browse Products",
+    "outOfStock": "Out of Stock",
+    "inStock": "In Stock",
+    "available": "available",
+    "backordered": "Backordered",
+    "preOrder": "Pre-order",
+    "addToCart": "Add to Cart",
+    "adding": "Adding...",
+    "backorderedMessage": "This product is currently backordered. You can still place an order and we'll ship it as soon as it's back in stock.",
+    "officialWarranty": "Official XAG dealer warranty",
+    "freeShipping": "Free shipping on orders over 10,000 PLN",
+    "technicalSupport": "Technical support in Poland",
+    "description": "Description",
+    "specifications": "Specifications"
   }
 }

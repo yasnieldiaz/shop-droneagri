@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useParams } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
+import { useTranslations } from 'next-intl';
 
 // Product data - will be moved to database
 const mockProducts: Record<string, {
@@ -901,6 +902,7 @@ export default function ProductDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const product = mockProducts[slug];
+  const t = useTranslations('productDetail');
 
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'specifications'>('description');
@@ -923,10 +925,10 @@ export default function ProductDetailPage() {
             d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <h2 className="text-2xl font-bold text-navy mb-2">Product Not Found</h2>
-        <p className="text-gray-500 mb-6">The product you&apos;re looking for doesn&apos;t exist.</p>
+        <h2 className="text-2xl font-bold text-navy mb-2">{t('productNotFound')}</h2>
+        <p className="text-gray-500 mb-6">{t('productNotFoundDesc')}</p>
         <Link href="/products" className="btn-primary">
-          Browse Products
+          {t('browseProducts')}
         </Link>
       </div>
     );
@@ -971,11 +973,11 @@ export default function ProductDetailPage() {
       <div className="bg-gray-50 border-b">
         <div className="container py-4">
           <nav className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-navy">Home</Link>
+            <Link href="/" className="hover:text-navy">{t('home')}</Link>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <Link href="/products" className="hover:text-navy">Products</Link>
+            <Link href="/products" className="hover:text-navy">{t('products')}</Link>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -1012,7 +1014,7 @@ export default function ProductDetailPage() {
                   <span className="badge badge-sale">-{discountPercent}%</span>
                 )}
                 {product.stock === 0 && (
-                  <span className="badge badge-out-of-stock">Out of Stock</span>
+                  <span className="badge badge-out-of-stock">{t('outOfStock')}</span>
                 )}
               </div>
             </div>
@@ -1078,13 +1080,13 @@ export default function ProductDetailPage() {
               {product.stock > 0 ? (
                 <>
                   <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                  <span className="text-green-700 font-medium">In Stock</span>
-                  <span className="text-gray-500">({product.stock} available)</span>
+                  <span className="text-green-700 font-medium">{t('inStock')}</span>
+                  <span className="text-gray-500">({product.stock} {t('available')})</span>
                 </>
               ) : (
                 <>
                   <span className="w-3 h-3 bg-orange-500 rounded-full"></span>
-                  <span className="text-orange-700 font-medium">Backordered</span>
+                  <span className="text-orange-700 font-medium">{t('backordered')}</span>
                 </>
               )}
             </div>
@@ -1125,14 +1127,14 @@ export default function ProductDetailPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                     </svg>
-                    Adding...
+                    {t('adding')}
                   </>
                 ) : (
                   <>
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    {product.stock === 0 ? 'Pre-order' : 'Add to Cart'}
+                    {product.stock === 0 ? t('preOrder') : t('addToCart')}
                   </>
                 )}
               </button>
@@ -1142,7 +1144,7 @@ export default function ProductDetailPage() {
             {product.stock === 0 && (
               <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
                 <p className="text-orange-800 text-sm">
-                  This product is currently backordered. You can still place an order and we&apos;ll ship it as soon as it&apos;s back in stock.
+                  {t('backorderedMessage')}
                 </p>
               </div>
             )}
@@ -1153,19 +1155,19 @@ export default function ProductDetailPage() {
                 <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Official XAG dealer warranty</span>
+                <span>{t('officialWarranty')}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Free shipping on orders over 10,000 PLN</span>
+                <span>{t('freeShipping')}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Technical support in Poland</span>
+                <span>{t('technicalSupport')}</span>
               </div>
             </div>
           </div>
@@ -1182,7 +1184,7 @@ export default function ProductDetailPage() {
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              Description
+              {t('description')}
               {activeTab === 'description' && (
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-red" />
               )}
@@ -1195,7 +1197,7 @@ export default function ProductDetailPage() {
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              Specifications
+              {t('specifications')}
               {activeTab === 'specifications' && (
                 <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-red" />
               )}

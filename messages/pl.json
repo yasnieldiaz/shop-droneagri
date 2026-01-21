@@ -260,5 +260,25 @@
     "learnMore": "Dowiedz się więcej",
     "necessary": "Tylko niezbędne",
     "acceptAll": "Akceptuję wszystkie"
+  },
+  "productDetail": {
+    "home": "Strona główna",
+    "products": "Produkty",
+    "productNotFound": "Produkt nie znaleziony",
+    "productNotFoundDesc": "Produkt, którego szukasz, nie istnieje.",
+    "browseProducts": "Przeglądaj produkty",
+    "outOfStock": "Brak w magazynie",
+    "inStock": "Dostępny",
+    "available": "dostępnych",
+    "backordered": "Na zamówienie",
+    "preOrder": "Zamów",
+    "addToCart": "Dodaj do koszyka",
+    "adding": "Dodawanie...",
+    "backorderedMessage": "Ten produkt jest obecnie na zamówienie. Możesz złożyć zamówienie, a my wyślemy go, gdy będzie ponownie dostępny.",
+    "officialWarranty": "Oficjalna gwarancja dealera XAG",
+    "freeShipping": "Darmowa dostawa przy zamówieniach powyżej 10 000 PLN",
+    "technicalSupport": "Wsparcie techniczne w Polsce",
+    "description": "Opis",
+    "specifications": "Specyfikacja"
   }
 }

@@ -260,5 +260,25 @@
     "learnMore": "Meer informatie",
     "necessary": "Alleen noodzakelijk",
     "acceptAll": "Alles accepteren"
+  },
+  "productDetail": {
+    "home": "Home",
+    "products": "Producten",
+    "productNotFound": "Product niet gevonden",
+    "productNotFoundDesc": "Het product dat u zoekt bestaat niet.",
+    "browseProducts": "Producten bekijken",
+    "outOfStock": "Niet op voorraad",
+    "inStock": "Op voorraad",
+    "available": "beschikbaar",
+    "backordered": "Nabesteld",
+    "preOrder": "Voorbestellen",
+    "addToCart": "In winkelwagen",
+    "adding": "Toevoegen...",
+    "backorderedMessage": "Dit product is momenteel nabesteld. U kunt nog steeds bestellen en we verzenden het zodra het weer op voorraad is.",
+    "officialWarranty": "Officiële XAG-dealergarantie",
+    "freeShipping": "Gratis verzending bij bestellingen boven 10.000 PLN",
+    "technicalSupport": "Technische ondersteuning in Polen",
+    "description": "Beschrijving",
+    "specifications": "Specificaties"
   }
 }

@@ -260,5 +260,25 @@
     "learnMore": "Zjistit více",
     "necessary": "Pouze nezbytné",
     "acceptAll": "Přijmout vše"
+  },
+  "productDetail": {
+    "home": "Domů",
+    "products": "Produkty",
+    "productNotFound": "Produkt nenalezen",
+    "productNotFoundDesc": "Produkt, který hledáte, neexistuje.",
+    "browseProducts": "Procházet produkty",
+    "outOfStock": "Není skladem",
+    "inStock": "Skladem",
+    "available": "dostupných",
+    "backordered": "Na objednávku",
+    "preOrder": "Předobjednat",
+    "addToCart": "Přidat do košíku",
+    "adding": "Přidávání...",
+    "backorderedMessage": "Tento produkt je aktuálně na objednávku. Můžete si jej objednat a my vám ho zašleme, jakmile bude opět skladem.",
+    "officialWarranty": "Oficiální záruka dealera XAG",
+    "freeShipping": "Doprava zdarma u objednávek nad 10 000 PLN",
+    "technicalSupport": "Technická podpora v Polsku",
+    "description": "Popis",
+    "specifications": "Specifikace"
   }
 }

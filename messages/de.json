@@ -260,5 +260,25 @@
     "learnMore": "Mehr erfahren",
     "necessary": "Nur notwendige",
     "acceptAll": "Alle akzeptieren"
+  },
+  "productDetail": {
+    "home": "Startseite",
+    "products": "Produkte",
+    "productNotFound": "Produkt nicht gefunden",
+    "productNotFoundDesc": "Das gesuchte Produkt existiert nicht.",
+    "browseProducts": "Produkte ansehen",
+    "outOfStock": "Nicht auf Lager",
+    "inStock": "Auf Lager",
+    "available": "verfügbar",
+    "backordered": "Nachbestellt",
+    "preOrder": "Vorbestellen",
+    "addToCart": "In den Warenkorb",
+    "adding": "Hinzufügen...",
+    "backorderedMessage": "Dieses Produkt ist derzeit nachbestellt. Sie können trotzdem bestellen und wir versenden es, sobald es wieder verfügbar ist.",
+    "officialWarranty": "Offizielle XAG-Händlergarantie",
+    "freeShipping": "Kostenloser Versand bei Bestellungen über 10.000 PLN",
+    "technicalSupport": "Technischer Support in Polen",
+    "description": "Beschreibung",
+    "specifications": "Spezifikationen"
   }
 }

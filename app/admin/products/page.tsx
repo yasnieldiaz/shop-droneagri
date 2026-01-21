@@ -1,21 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-// Mock products data
-const mockProducts = [
-  { id: '1', sku: '09-017-00064', name: 'Smart Battery B13970S', category: 'Smart Battery', price: 743600, stock: 0, status: 'active', image: '/images/products/smart-battery/09-017-00064-1.jpg' },
-  { id: '2', sku: '09-017-00025', name: 'Smart Battery B13960S', category: 'Smart Battery', price: 494000, stock: 2, status: 'active', image: '/images/products/smart-battery/09-017-00025-1.png' },
-  { id: '3', sku: '09-017-00069', name: 'S-Charger CM13600S', category: 'Battery Chargers', price: 494000, stock: 4, status: 'active', image: '/images/products/battery-chargers/09-017-00069-1.jpg' },
-  { id: '4', sku: '09-023-00025', name: 'RevoSpray P3', category: 'Task System', price: 910000, stock: 0, status: 'active', image: '/images/products/task-system/09-023-00025-1.jpg' },
-  { id: '5', sku: '09-016-00085', name: 'Remote Controller SRC5', category: 'Remote Controller', price: 598000, stock: 1, status: 'active', image: '/images/products/remote-controller/09-016-00085-2.png' },
-  { id: '6', sku: '09-016-00083', name: 'GNSS XRTK7 Mobile Station', category: 'GNSS RTK', price: 475800, stock: 3, status: 'active', image: '/images/products/gnss-rtk/09-016-00083-1.png' },
-  { id: '7', sku: 'AU-XAG-PROP4', name: 'P100 Pro Basic Package', category: 'Airborne', price: 10920000, stock: 0, status: 'active', image: '/images/products/drones/au-xag-prop4-1.png' },
-  { id: '8', sku: '09-007-00136', name: 'P100 Pro', category: 'Airborne', price: 7280000, stock: 0, status: 'draft', image: '/images/products/drones/09-007-00136-1.png' },
-  { id: '9', sku: 'AU-XAG-PROP5', name: 'P100 Pro Spreader Package', category: 'Airborne', price: 11700000, stock: 0, status: 'active', image: '/images/products/drones/au-xag-prop5-1.png' },
-];
+interface Product {
+  id: string;
+  sku: string;
+  slug: string;
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
+  isActive: boolean;
+  mainImage: string | null;
+}
 
 const statusColors: Record<string, string> = {
   active: 'bg-green-100 text-green-800',
@@ -32,14 +31,33 @@ const formatPrice = (amount: number) => {
 };
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
-  const filteredProducts = mockProducts.filter(product => {
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('/api/admin/products');
+      const data = await response.json();
+      setProducts(data.products || []);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()) ||
                           product.sku.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter === 'all' || product.status === filter;
+    const status = product.isActive ? 'active' : 'draft';
+    const matchesFilter = filter === 'all' || status === filter;
     return matchesSearch && matchesFilter;
   });
 
@@ -57,6 +75,14 @@ export default function ProductsPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-red"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Page header */}
@@ -67,7 +93,7 @@ export default function ProductsPage() {
         </div>
         <Link
           href="/admin/products/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-xag-green text-white rounded-lg hover:bg-xag-green/90 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -89,7 +115,7 @@ export default function ProductsPage() {
               placeholder="Search products..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
           </div>
 
@@ -97,12 +123,11 @@ export default function ProductsPage() {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-xag-green/50"
+            className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
             <option value="draft">Draft</option>
-            <option value="archived">Archived</option>
           </select>
 
           {/* Bulk actions */}
@@ -128,7 +153,7 @@ export default function ProductsPage() {
                     type="checkbox"
                     checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
                     onChange={toggleSelectAll}
-                    className="rounded border-gray-300 text-xag-green focus:ring-xag-green"
+                    className="rounded border-gray-300 text-brand-red focus:ring-brand-red"
                   />
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
@@ -141,74 +166,82 @@ export default function ProductsPage() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {filteredProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedProducts.includes(product.id)}
-                      onChange={() => toggleSelect(product.id)}
-                      className="rounded border-gray-300 text-xag-green focus:ring-xag-green"
-                    />
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                        {product.image ? (
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={48}
-                            height={48}
-                            className="w-full h-full object-contain"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-gray-400">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                      <span className="font-medium text-gray-900">{product.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-500 font-mono">{product.sku}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500">{product.category}</td>
-                  <td className="px-4 py-3 text-sm font-medium text-gray-900">{formatPrice(product.price)}</td>
-                  <td className="px-4 py-3">
-                    <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-600' : product.stock < 5 ? 'text-orange-600' : 'text-brand-red'}`}>
-                      {product.stock}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusColors[product.status]}`}>
-                      {product.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/admin/products/${product.id}`}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
-                        title="Edit"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </Link>
-                      <button
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                        title="Delete"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                    </div>
+              {filteredProducts.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="px-4 py-12 text-center text-gray-500">
+                    No products found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredProducts.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedProducts.includes(product.id)}
+                        onChange={() => toggleSelect(product.id)}
+                        className="rounded border-gray-300 text-brand-red focus:ring-brand-red"
+                      />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                          {product.mainImage ? (
+                            <Image
+                              src={product.mainImage}
+                              alt={product.name}
+                              width={48}
+                              height={48}
+                              className="w-full h-full object-contain"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">
+                              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        <span className="font-medium text-gray-900">{product.name}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-500 font-mono">{product.sku}</td>
+                    <td className="px-4 py-3 text-sm text-gray-500">{product.category}</td>
+                    <td className="px-4 py-3 text-sm font-medium text-gray-900">{formatPrice(product.price)}</td>
+                    <td className="px-4 py-3">
+                      <span className={`text-sm font-medium ${product.stock === 0 ? 'text-red-600' : product.stock < 5 ? 'text-orange-600' : 'text-green-600'}`}>
+                        {product.stock}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${product.isActive ? statusColors.active : statusColors.draft}`}>
+                        {product.isActive ? 'active' : 'draft'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/admin/products/${product.id}`}
+                          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+                          title="Edit"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </Link>
+                        <button
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                          title="Delete"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -216,7 +249,7 @@ export default function ProductsPage() {
         {/* Pagination */}
         <div className="px-4 py-3 border-t flex items-center justify-between">
           <p className="text-sm text-gray-500">
-            Showing {filteredProducts.length} of {mockProducts.length} products
+            Showing {filteredProducts.length} of {products.length} products
           </p>
           <div className="flex items-center gap-2">
             <button className="px-3 py-1 text-sm border rounded hover:bg-gray-50 disabled:opacity-50" disabled>

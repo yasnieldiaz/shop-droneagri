@@ -62,7 +62,7 @@ function validateVATFormat(countryCode: string, vatNumber: string): boolean {
   return regex.test(fullVat);
 }
 
-// VIES SOAP validation
+// VIES REST API validation (new EU API)
 async function validateVIES(countryCode: string, vatNumber: string): Promise<{
   valid: boolean;
   name?: string;
@@ -72,62 +72,68 @@ async function validateVIES(countryCode: string, vatNumber: string): Promise<{
   // Clean VAT number (remove country code if present)
   const cleanVat = vatNumber.replace(/^[A-Z]{2}/, '').replace(/\s/g, '');
 
-  const soapRequest = `<?xml version="1.0" encoding="UTF-8"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-  xmlns:tns1="urn:ec.europa.eu:taxud:vies:services:checkVat:types">
-  <soap:Body>
-    <tns1:checkVat>
-      <tns1:countryCode>${countryCode}</tns1:countryCode>
-      <tns1:vatNumber>${cleanVat}</tns1:vatNumber>
-    </tns1:checkVat>
-  </soap:Body>
-</soap:Envelope>`;
-
   try {
+    // Try the new EU VIES REST API first
     const response = await fetch(
-      'https://ec.europa.eu/taxation_customs/vies/services/checkVatService',
+      `https://ec.europa.eu/taxation_customs/vies/rest-api/ms/${countryCode}/vat/${cleanVat}`,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
-          'Content-Type': 'text/xml;charset=UTF-8',
-          'SOAPAction': '',
+          'Accept': 'application/json',
         },
-        body: soapRequest,
       }
     );
 
-    const text = await response.text();
-
-    // Parse SOAP response
-    const validMatch = text.match(/<valid>(\w+)<\/valid>/);
-    const nameMatch = text.match(/<name>([^<]*)<\/name>/);
-    const addressMatch = text.match(/<address>([^<]*)<\/address>/);
-
-    if (validMatch) {
+    if (response.ok) {
+      const data = await response.json();
       return {
-        valid: validMatch[1].toLowerCase() === 'true',
-        name: nameMatch?.[1] || undefined,
-        address: addressMatch?.[1] || undefined,
+        valid: data.isValid === true,
+        name: data.name || undefined,
+        address: data.address || undefined,
       };
     }
 
-    // Check for fault
-    const faultMatch = text.match(/<faultstring>([^<]*)<\/faultstring>/);
-    if (faultMatch) {
+    // If REST API fails, try alternative validation via web scraping approach
+    const altResponse = await fetch(
+      `https://ec.europa.eu/taxation_customs/vies/rest-api/check-vat-number`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          countryCode: countryCode,
+          vatNumber: cleanVat,
+        }),
+      }
+    );
+
+    if (altResponse.ok) {
+      const altData = await altResponse.json();
       return {
-        valid: false,
-        error: faultMatch[1],
+        valid: altData.valid === true || altData.isValid === true,
+        name: altData.name || altData.traderName || undefined,
+        address: altData.address || altData.traderAddress || undefined,
       };
     }
 
+    // If both fail, return format validation only
+    const formatValid = validateVATFormat(countryCode, cleanVat);
     return {
-      valid: false,
-      error: 'Could not parse VIES response',
+      valid: formatValid,
+      error: formatValid
+        ? 'VIES service unavailable - format validation only'
+        : 'Invalid VAT format',
     };
   } catch (error) {
+    // Fallback to format validation
+    const formatValid = validateVATFormat(countryCode, cleanVat);
     return {
-      valid: false,
-      error: error instanceof Error ? error.message : 'VIES service unavailable',
+      valid: formatValid,
+      error: formatValid
+        ? 'VIES service unavailable - format validation only'
+        : 'Invalid VAT format',
     };
   }
 }

@@ -178,31 +178,49 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// PATCH - Update customer status
+// PATCH - Update customer status or VIES validation
 export async function PATCH(request: NextRequest) {
   try {
     const prisma = await getPrisma();
     const body = await request.json();
-    const { customerId, status } = body;
+    const { customerId, status, viesValidated } = body;
 
-    if (!customerId || !status) {
+    if (!customerId) {
       return NextResponse.json(
-        { error: 'Customer ID and status are required' },
+        { error: 'Customer ID is required' },
         { status: 400 }
       );
     }
 
-    if (!['pending', 'approved', 'rejected'].includes(status)) {
-      return NextResponse.json(
-        { error: 'Invalid status' },
-        { status: 400 }
-      );
+    const updateData: Record<string, unknown> = {};
+
+    // Handle status update
+    if (status !== undefined) {
+      if (!['pending', 'approved', 'rejected'].includes(status)) {
+        return NextResponse.json(
+          { error: 'Invalid status' },
+          { status: 400 }
+        );
+      }
+      updateData.status = status;
+      if (status === 'approved') {
+        updateData.approvedAt = new Date();
+      }
     }
 
-    const updateData: Record<string, unknown> = { status };
+    // Handle VIES validation update
+    if (viesValidated !== undefined) {
+      updateData.viesValidated = viesValidated;
+      if (viesValidated) {
+        updateData.viesValidatedAt = new Date();
+      }
+    }
 
-    if (status === 'approved') {
-      updateData.approvedAt = new Date();
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { error: 'No fields to update' },
+        { status: 400 }
+      );
     }
 
     const customer = await prisma.b2BCustomer.update({

@@ -70,6 +70,21 @@ const mockProducts = [
     category: 'Airborne',
     type: 'PRODUCT',
   },
+  {
+    id: 'XAG-P150-MAX',
+    sku: 'XAG-P150-MAX',
+    slug: 'p150-max',
+    name: 'XAG P150 Max',
+    tagline: '80kg payload, 80L spray tank - maksymalna wydajność',
+    mainImage: '/images/products/drones/p150-max/p150-max-1.png',
+    price: 11500000,
+    priceEUR: 2674000,
+    compareAtPrice: null,
+    compareAtPriceEUR: null,
+    stock: 3,
+    category: 'Airborne',
+    type: 'PRODUCT',
+  },
 
   // ==================== LANDBORNE (UGV) ====================
   {

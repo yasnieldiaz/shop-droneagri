@@ -40,6 +40,14 @@ interface B2BPrice {
   updatedAt: string;
 }
 
+interface Product {
+  id: string;
+  sku: string;
+  slug: string;
+  name: string;
+  price: number;
+}
+
 export default function B2BAdminPage() {
   const [activeTab, setActiveTab] = useState<'customers' | 'prices'>('customers');
   const [customers, setCustomers] = useState<B2BCustomer[]>([]);
@@ -49,6 +57,16 @@ export default function B2BAdminPage() {
   const [editingPrice, setEditingPrice] = useState<B2BPrice | null>(null);
   const [showCustomerModal, setShowCustomerModal] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState<B2BCustomer | null>(null);
+  const [isValidatingVies, setIsValidatingVies] = useState(false);
+  const [viesResult, setViesResult] = useState<{
+    valid: boolean;
+    companyName?: string;
+    companyAddress?: string;
+    error?: string;
+  } | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productSearch, setProductSearch] = useState('');
+  const [showProductDropdown, setShowProductDropdown] = useState(false);
 
   // Customer form state
   const [customerForm, setCustomerForm] = useState({
@@ -84,16 +102,19 @@ export default function B2BAdminPage() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const [customersRes, pricesRes] = await Promise.all([
+      const [customersRes, pricesRes, productsRes] = await Promise.all([
         fetch('/api/admin/b2b/customers'),
         fetch('/api/admin/b2b/prices'),
+        fetch('/api/admin/products'),
       ]);
 
       const customersData = await customersRes.json();
       const pricesData = await pricesRes.json();
+      const productsData = await productsRes.json();
 
       setCustomers(customersData.customers || []);
       setPrices(pricesData.prices || []);
+      setProducts(productsData.products || []);
     } catch (error) {
       console.error('Failed to fetch B2B data:', error);
     } finally {
@@ -177,6 +198,7 @@ export default function B2BAdminPage() {
 
   const openEditCustomerModal = (customer: B2BCustomer) => {
     setEditingCustomer(customer);
+    setViesResult(null);
     setCustomerForm({
       email: customer.email,
       password: '',
@@ -196,6 +218,7 @@ export default function B2BAdminPage() {
 
   const openNewCustomerModal = () => {
     setEditingCustomer(null);
+    setViesResult(null);
     setCustomerForm({
       email: '',
       password: '',
@@ -252,6 +275,8 @@ export default function B2BAdminPage() {
 
   const editPrice = (price: B2BPrice) => {
     setEditingPrice(price);
+    const product = products.find(p => p.slug === price.productId);
+    setProductSearch(product?.name || price.productId);
     setPriceForm({
       productId: price.productId,
       productSku: price.productSku,
@@ -277,6 +302,56 @@ export default function B2BAdminPage() {
       }
     } catch (error) {
       console.error('Failed to delete price:', error);
+    }
+  };
+
+  const validateVies = async () => {
+    if (!customerForm.vatNumber || !customerForm.country) {
+      alert('Please enter a VAT number and select a country first');
+      return;
+    }
+
+    setIsValidatingVies(true);
+    setViesResult(null);
+
+    try {
+      const response = await fetch('/api/b2b/validate-vat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          countryCode: customerForm.country,
+          vatNumber: customerForm.vatNumber,
+        }),
+      });
+
+      const data = await response.json();
+      setViesResult({
+        valid: data.valid,
+        companyName: data.companyName,
+        companyAddress: data.companyAddress,
+        error: data.error,
+      });
+
+      // If valid and we have an editing customer, update the viesValidated status
+      if (data.valid && editingCustomer) {
+        await fetch('/api/admin/b2b/customers', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customerId: editingCustomer.id,
+            viesValidated: true,
+          }),
+        });
+        fetchData();
+      }
+    } catch (error) {
+      console.error('VIES validation error:', error);
+      setViesResult({
+        valid: false,
+        error: 'Error connecting to VIES service',
+      });
+    } finally {
+      setIsValidatingVies(false);
     }
   };
 
@@ -480,6 +555,7 @@ export default function B2BAdminPage() {
             <button
               onClick={() => {
                 setEditingPrice(null);
+                setProductSearch('');
                 setPriceForm({
                   productId: '',
                   productSku: '',
@@ -588,35 +664,66 @@ export default function B2BAdminPage() {
               </h3>
 
               <form onSubmit={handlePriceSubmit} className="space-y-4">
-                {/* Row 1: Product ID, SKU, Customer */}
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
+                {/* Row 1: Product Search & Customer */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="relative">
                     <label className="block text-sm font-medium text-gray-700">
-                      Product ID (slug)
+                      Search Product
                     </label>
                     <input
                       type="text"
-                      value={priceForm.productId}
-                      onChange={(e) => setPriceForm({ ...priceForm, productId: e.target.value })}
+                      value={productSearch}
+                      onChange={(e) => {
+                        setProductSearch(e.target.value);
+                        setShowProductDropdown(true);
+                      }}
+                      onFocus={() => setShowProductDropdown(true)}
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
-                      placeholder="xag-p100-pro"
-                      required
+                      placeholder="Search by name or SKU..."
                       disabled={!!editingPrice}
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Product SKU
-                    </label>
-                    <input
-                      type="text"
-                      value={priceForm.productSku}
-                      onChange={(e) => setPriceForm({ ...priceForm, productSku: e.target.value })}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
-                      placeholder="P100-PRO"
-                      required
-                    />
+                    {showProductDropdown && productSearch && !editingPrice && (
+                      <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+                        {products
+                          .filter(p =>
+                            p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
+                            p.sku.toLowerCase().includes(productSearch.toLowerCase()) ||
+                            p.slug.toLowerCase().includes(productSearch.toLowerCase())
+                          )
+                          .slice(0, 10)
+                          .map(product => (
+                            <button
+                              key={product.id}
+                              type="button"
+                              onClick={() => {
+                                setPriceForm({
+                                  ...priceForm,
+                                  productId: product.slug,
+                                  productSku: product.sku,
+                                });
+                                setProductSearch(product.name);
+                                setShowProductDropdown(false);
+                              }}
+                              className="w-full px-3 py-2 text-left hover:bg-gray-100 border-b border-gray-100 last:border-0"
+                            >
+                              <div className="font-medium text-sm">{product.name}</div>
+                              <div className="text-xs text-gray-500">SKU: {product.sku} | Slug: {product.slug}</div>
+                            </button>
+                          ))}
+                        {products.filter(p =>
+                          p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
+                          p.sku.toLowerCase().includes(productSearch.toLowerCase()) ||
+                          p.slug.toLowerCase().includes(productSearch.toLowerCase())
+                        ).length === 0 && (
+                          <div className="px-3 py-2 text-sm text-gray-500">No products found</div>
+                        )}
+                      </div>
+                    )}
+                    {priceForm.productId && (
+                      <div className="mt-1 text-xs text-green-600">
+                        Selected: {priceForm.productSku} ({priceForm.productId})
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -803,47 +910,78 @@ export default function B2BAdminPage() {
                   </div>
                 </div>
 
-                {/* Row 3: Country, VAT, Region, Phone - all same size */}
+                {/* Row 3: Country & VAT */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       Country *
                     </label>
-                    <select
-                      value={customerForm.country}
-                      onChange={(e) => {
-                        const country = e.target.value;
-                        const region = country === 'PL' ? 'POLAND' : 'EU';
-                        setCustomerForm({ ...customerForm, country, region });
-                      }}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
-                      required
-                    >
-                      <option value="PL">PL - Poland</option>
-                      <option value="DE">DE - Germany</option>
-                      <option value="FR">FR - France</option>
-                      <option value="ES">ES - Spain</option>
-                      <option value="IT">IT - Italy</option>
-                      <option value="NL">NL - Netherlands</option>
-                      <option value="BE">BE - Belgium</option>
-                      <option value="AT">AT - Austria</option>
-                      <option value="CZ">CZ - Czech Republic</option>
-                      <option value="SK">SK - Slovakia</option>
-                      <option value="HU">HU - Hungary</option>
-                      <option value="RO">RO - Romania</option>
-                    </select>
+                    <div className="mt-1">
+                      <select
+                        value={customerForm.country}
+                        onChange={(e) => {
+                          const country = e.target.value;
+                          const region = country === 'PL' ? 'POLAND' : 'EU';
+                          setCustomerForm({ ...customerForm, country, region });
+                        }}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
+                        required
+                      >
+                        <option value="PL">PL - Poland</option>
+                        <option value="DE">DE - Germany</option>
+                        <option value="FR">FR - France</option>
+                        <option value="ES">ES - Spain</option>
+                        <option value="IT">IT - Italy</option>
+                        <option value="NL">NL - Netherlands</option>
+                        <option value="BE">BE - Belgium</option>
+                        <option value="AT">AT - Austria</option>
+                        <option value="CZ">CZ - Czech Republic</option>
+                        <option value="SK">SK - Slovakia</option>
+                        <option value="HU">HU - Hungary</option>
+                        <option value="RO">RO - Romania</option>
+                      </select>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       VAT Number (NIP)
                     </label>
-                    <input
-                      type="text"
-                      value={customerForm.vatNumber}
-                      onChange={(e) => setCustomerForm({ ...customerForm, vatNumber: e.target.value })}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
-                      placeholder="1234567890"
-                    />
+                    <div className="mt-1 flex gap-2">
+                      <input
+                        type="text"
+                        value={customerForm.vatNumber}
+                        onChange={(e) => {
+                          setCustomerForm({ ...customerForm, vatNumber: e.target.value });
+                          setViesResult(null);
+                        }}
+                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"
+                        placeholder="1234567890"
+                      />
+                      <button
+                        type="button"
+                        onClick={validateVies}
+                        disabled={isValidatingVies || !customerForm.vatNumber}
+                        className="px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      >
+                        {isValidatingVies ? 'Validando...' : 'Validar VIES'}
+                      </button>
+                    </div>
+                    {viesResult && (
+                      <div className={`mt-2 p-2 rounded text-sm ${viesResult.valid ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                        {viesResult.valid ? (
+                          <div>
+                            <span className="font-medium">VIES Válido</span>
+                            {viesResult.companyName && <div>Empresa: {viesResult.companyName}</div>}
+                            {viesResult.companyAddress && <div>Dirección: {viesResult.companyAddress}</div>}
+                          </div>
+                        ) : (
+                          <div>
+                            <span className="font-medium">VIES Inválido</span>
+                            {viesResult.error && <div>{viesResult.error}</div>}
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
 

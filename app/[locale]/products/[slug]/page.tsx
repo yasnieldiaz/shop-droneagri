@@ -53,100 +53,68 @@ const mockProducts: Record<string, Product> = {
       pl: {
         name: 'XAG R200',
         tagline: 'Sześciokołowa platforma precyzyjnego oprysku dla sadów i szklarni',
-        description: `XAG R200 to inteligentny robot polowy zaprojektowany do operacji rolniczych na dużą skalę. Sześciokołowy napęd niezależny z aluminiowym podwoziem zapewnia stabilność i mobilność w trudnym terenie.
-
-Kluczowe cechy:
-- Sześciokołowy napęd niezależny
-- System RevoSpray z 4 pompami wirnikowymi
-- Pojemność zbiornika 240L
-- Zasięg oprysku 7m na stronę
-- Kontroler SRC 5 z wyświetlaczem 7"
-- Nawigacja SuperX 5 Ultra
-- Asystent bezpieczeństwa AI z wykrywaniem pieszych
-
-Specyfikacje:
-- Szerokość: 80 cm
-- Masa własna: 130 kg
-- Prędkość max: 1,5 m/s
-- Prześwit: 270 mm
-- Czas pracy: do 15 minut`,
+        description: `Pakiet zawiera:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       en: {
         name: 'XAG R200',
         tagline: 'Six-wheel precision spraying platform for orchards and greenhouses',
-        description: `The XAG R200 is an intelligent field rover designed for large-scale agricultural operations. Six-wheel independent drive with aluminum casting chassis provides stability and mobility in challenging terrain.
-
-Key Features:
-- Six-wheel independent drive
-- RevoSpray system with 4 impeller pumps
-- 240L tank capacity
-- 7m spray range per side
-- SRC 5 controller with 7" display
-- SuperX 5 Ultra navigation
-- AI Safety Assistant with pedestrian detection
-
-Specifications:
-- Width: 80 cm
-- Curb weight: 130 kg
-- Max speed: 1.5 m/s
-- Ground clearance: 270 mm
-- Operating time: up to 15 minutes`,
+        description: `Package includes:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       es: {
         name: 'XAG R200',
         tagline: 'Plataforma de pulverización de precisión de seis ruedas para huertos e invernaderos',
-        description: `El XAG R200 es un rover de campo inteligente diseñado para operaciones agrícolas a gran escala. La tracción independiente de seis ruedas con chasis de aluminio proporciona estabilidad y movilidad en terrenos difíciles.
-
-Características principales:
-- Tracción independiente de seis ruedas
-- Sistema RevoSpray con 4 bombas de impulsor
-- Capacidad del tanque de 240L
-- Alcance de pulverización de 7m por lado
-- Controlador SRC 5 con pantalla de 7"
-- Navegación SuperX 5 Ultra
-- Asistente de seguridad AI con detección de peatones`,
+        description: `El paquete incluye:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       de: {
         name: 'XAG R200',
         tagline: 'Sechsrad-Präzisionssprühplattform für Obstgärten und Gewächshäuser',
-        description: `Der XAG R200 ist ein intelligenter Feldroboter für großflächige landwirtschaftliche Operationen. Sechsrad-Einzelradantrieb mit Aluminiumgusschassis bietet Stabilität und Mobilität in schwierigem Gelände.
-
-Hauptmerkmale:
-- Sechsrad-Einzelradantrieb
-- RevoSpray-System mit 4 Kreiselpumpen
-- 240L Tankkapazität
-- 7m Sprühreichweite pro Seite
-- SRC 5 Controller mit 7" Display
-- SuperX 5 Ultra Navigation
-- KI-Sicherheitsassistent mit Fußgängererkennung`,
+        description: `Paket enthält:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       cs: {
         name: 'XAG R200',
         tagline: 'Šestikolová platforma pro přesné postřikování v sadech a sklenících',
-        description: `XAG R200 je inteligentní polní robot navržený pro rozsáhlé zemědělské operace. Šestikolový nezávislý pohon s hliníkovým podvozkem poskytuje stabilitu a mobilitu v náročném terénu.
-
-Klíčové vlastnosti:
-- Šestikolový nezávislý pohon
-- Systém RevoSpray se 4 oběžnými čerpadly
-- Kapacita nádrže 240L
-- Dosah postřiku 7m na stranu
-- Ovladač SRC 5 se 7" displejem
-- Navigace SuperX 5 Ultra
-- AI bezpečnostní asistent s detekcí chodců`,
+        description: `Balení obsahuje:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       nl: {
         name: 'XAG R200',
         tagline: 'Zeswiel precisie-sproeiplatform voor boomgaarden en kassen',
-        description: `De XAG R200 is een intelligente veldrover ontworpen voor grootschalige landbouwoperaties. Zeswiel onafhankelijke aandrijving met aluminium gegoten chassis biedt stabiliteit en mobiliteit in uitdagend terrein.
-
-Belangrijkste kenmerken:
-- Zeswiel onafhankelijke aandrijving
-- RevoSpray-systeem met 4 impellerpompen
-- 240L tankinhoud
-- 7m sproei-bereik per zijde
-- SRC 5 controller met 7" display
-- SuperX 5 Ultra navigatie
-- AI-veiligheidsassistent met voetgangerdetectie`,
+        description: `Pakket bevat:
+- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
+- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
+- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
     },
     mainImage: '/images/products/ugv/r200.png',
@@ -1940,10 +1908,10 @@ Kenmerken:
         description: `Pakiet zawiera:
 - 1x XAG P150 Max Agricultural Drone z RevoSpray 5 (09-007-00158)
 - 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 1x XAG CM13600S Charger (09-017-00069)
-- 1x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
-- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       en: {
         name: 'XAG P150 Max',
@@ -1951,10 +1919,10 @@ Kenmerken:
         description: `Package includes:
 - 1x XAG P150 Max Agricultural Drone with RevoSpray 5 (09-007-00158)
 - 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 1x XAG CM13600S Charger (09-017-00069)
-- 1x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
-- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Charger (09-017-00069)
+- 2x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       es: {
         name: 'XAG P150 Max',
@@ -1962,10 +1930,10 @@ Kenmerken:
         description: `El paquete incluye:
 - 1x Dron Agrícola XAG P150 Max con RevoSpray 5 (09-007-00158)
 - 1x Control Remoto XAG SRC5 (05-002-02725)
-- 1x Batería XAG B141050 Smart Super Charge (09-017-00073)
-- 1x Cargador XAG CM13600S (09-017-00069)
-- 1x Cable de alimentación XAG EU para CM13600S (01-027-02823)
-- 1x Torre de enfriamiento XAG 2024 Battery Cooling (09-017-00065)`,
+- 4x Batería XAG B141050 Smart Super Charge (09-017-00073)
+- 2x Cargador XAG CM13600S (09-017-00069)
+- 2x Cable de alimentación XAG EU para CM13600S (01-027-02823)
+- 2x Torre de enfriamiento XAG 2024 Battery Cooling (09-017-00065)`,
       },
       de: {
         name: 'XAG P150 Max',
@@ -1973,10 +1941,10 @@ Kenmerken:
         description: `Paket enthält:
 - 1x XAG P150 Max Agrardrohne mit RevoSpray 5 (09-007-00158)
 - 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 1x XAG CM13600S Ladegerät (09-017-00069)
-- 1x XAG Netzkabel-EU für CM13600S (01-027-02823)
-- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Ladegerät (09-017-00069)
+- 2x XAG Netzkabel-EU für CM13600S (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       cs: {
         name: 'XAG P150 Max',
@@ -1984,10 +1952,10 @@ Kenmerken:
         description: `Balení obsahuje:
 - 1x XAG P150 Max Agricultural Drone s RevoSpray 5 (09-007-00158)
 - 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 1x XAG CM13600S Nabíječka (09-017-00069)
-- 1x XAG Napájecí kabel-EU pro CM13600S (01-027-02823)
-- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Nabíječka (09-017-00069)
+- 2x XAG Napájecí kabel-EU pro CM13600S (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
       nl: {
         name: 'XAG P150 Max',
@@ -1995,10 +1963,10 @@ Kenmerken:
         description: `Pakket bevat:
 - 1x XAG P150 Max Agricultural Drone met RevoSpray 5 (09-007-00158)
 - 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 1x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 1x XAG CM13600S Lader (09-017-00069)
-- 1x XAG Voedingskabel-EU voor CM13600S (01-027-02823)
-- 1x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
+- 2x XAG CM13600S Lader (09-017-00069)
+- 2x XAG Voedingskabel-EU voor CM13600S (01-027-02823)
+- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
     },
     mainImage: '/images/products/drones/p150-max/p150-max-1.png',

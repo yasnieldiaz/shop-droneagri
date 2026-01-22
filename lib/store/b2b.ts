@@ -10,6 +10,11 @@ export interface B2BCustomer {
   vatNumber: string;
   country: string;
   region: 'POLAND' | 'EU';
+  contactName: string;
+  contactPhone: string | null;
+  street: string;
+  city: string;
+  postalCode: string;
 }
 
 export interface B2BPrices {
@@ -34,6 +39,7 @@ interface B2BState {
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   fetchPrices: () => Promise<void>;
+  refreshCustomer: () => Promise<void>;
 
   // Price helpers
   getB2BPrice: (productId: string, basePricePLN: number, basePriceEUR: number) => {
@@ -132,6 +138,21 @@ export const useB2BStore = create<B2BState>()(
         }
       },
 
+      refreshCustomer: async () => {
+        try {
+          const response = await fetch('/api/b2b/me');
+
+          if (!response.ok) {
+            return;
+          }
+
+          const data = await response.json();
+          set({ customer: data.customer });
+        } catch (error) {
+          console.error('Failed to refresh customer:', error);
+        }
+      },
+
       fetchPrices: async () => {
         try {
           const response = await fetch('/api/b2b/prices');
@@ -200,10 +221,9 @@ export const useB2BStore = create<B2BState>()(
       partialize: (state) => ({
         customer: state.customer,
         isLoggedIn: state.isLoggedIn,
-        prices: state.prices, // Also persist B2B prices
+        prices: state.prices,
       }),
       onRehydrateStorage: () => (state) => {
-        // Refetch prices when store rehydrates if user is logged in
         if (state?.isLoggedIn) {
           state.fetchPrices();
         }

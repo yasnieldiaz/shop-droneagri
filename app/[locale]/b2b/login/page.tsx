@@ -7,6 +7,19 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useB2BStore } from '@/lib/store/b2b';
 import { useAdminStore } from '@/lib/store/admin';
 
+// Map country codes to preferred locale
+const countryToLocale: Record<string, string> = {
+  ES: 'es',
+  PL: 'pl',
+  DE: 'de',
+  AT: 'de',
+  CH: 'de',
+  CZ: 'cs',
+  SK: 'cs',
+  NL: 'nl',
+  BE: 'nl',
+};
+
 export default function B2BLoginPage() {
   const locale = useLocale();
   const router = useRouter();
@@ -30,7 +43,6 @@ export default function B2BLoginPage() {
     const adminResult = await adminLogin(email, password);
 
     if (adminResult.success) {
-      // Admin login successful - redirect to admin panel
       router.push('/admin');
       return;
     }
@@ -39,12 +51,14 @@ export default function B2BLoginPage() {
     const b2bResult = await b2bLogin(email, password);
 
     if (b2bResult.success) {
-      // B2B login successful - redirect to dashboard or specified redirect
       if (redirectTo === 'admin') {
-        // User tried to access admin but is not an admin
         setError('Access denied. Admin privileges required.');
       } else {
-        router.push(`/${locale}/b2b/dashboard`);
+        // Get customer country and redirect to preferred locale
+        const state = useB2BStore.getState();
+        const customerCountry = state.customer?.country;
+        const preferredLocale = customerCountry ? (countryToLocale[customerCountry] || 'en') : locale;
+        router.push(`/${preferredLocale}/b2b/dashboard`);
       }
     } else {
       setError(b2bResult.error || 'Login failed');

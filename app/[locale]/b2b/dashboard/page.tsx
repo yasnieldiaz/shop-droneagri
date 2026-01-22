@@ -27,15 +27,39 @@ interface B2BOrder {
   }[];
 }
 
+type TabType = 'overview' | 'profile' | 'password' | 'orders';
+
 export default function B2BDashboardPage() {
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations('b2b.dashboard');
-  const { customer, isLoggedIn, isLoading, logout, checkAuth, prices } = useB2BStore();
+  const { customer, isLoggedIn, isLoading, logout, checkAuth, prices, refreshCustomer } = useB2BStore();
   const [isInitialized, setIsInitialized] = useState(false);
   const [orders, setOrders] = useState<B2BOrder[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<B2BOrder | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
+
+  // Profile form state
+  const [profileForm, setProfileForm] = useState({
+    companyName: '',
+    contactName: '',
+    contactPhone: '',
+    street: '',
+    city: '',
+    postalCode: '',
+  });
+  const [profileSaving, setProfileSaving] = useState(false);
+  const [profileMessage, setProfileMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Password form state
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -57,6 +81,19 @@ export default function B2BDashboardPage() {
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    if (customer) {
+      setProfileForm({
+        companyName: customer.companyName || '',
+        contactName: customer.contactName || '',
+        contactPhone: customer.contactPhone || '',
+        street: customer.street || '',
+        city: customer.city || '',
+        postalCode: customer.postalCode || '',
+      });
+    }
+  }, [customer]);
+
   const fetchOrders = async () => {
     setOrdersLoading(true);
     try {
@@ -69,6 +106,72 @@ export default function B2BDashboardPage() {
       console.error('Failed to fetch orders:', error);
     } finally {
       setOrdersLoading(false);
+    }
+  };
+
+  const handleProfileSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProfileSaving(true);
+    setProfileMessage(null);
+
+    try {
+      const response = await fetch('/api/b2b/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileForm),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setProfileMessage({ type: 'success', text: t('profileUpdated') });
+        await refreshCustomer();
+      } else {
+        setProfileMessage({ type: 'error', text: data.error || t('profileUpdateFailed') });
+      }
+    } catch {
+      setProfileMessage({ type: 'error', text: t('profileUpdateFailed') });
+    } finally {
+      setProfileSaving(false);
+    }
+  };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordSaving(true);
+    setPasswordMessage(null);
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordMessage({ type: 'error', text: t('passwordsDoNotMatch') });
+      setPasswordSaving(false);
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 8) {
+      setPasswordMessage({ type: 'error', text: t('passwordTooShort') });
+      setPasswordSaving(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/b2b/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(passwordForm),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setPasswordMessage({ type: 'success', text: t('passwordChanged') });
+        setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      } else {
+        setPasswordMessage({ type: 'error', text: data.error || t('passwordChangeFailed') });
+      }
+    } catch {
+      setPasswordMessage({ type: 'error', text: t('passwordChangeFailed') });
+    } finally {
+      setPasswordSaving(false);
     }
   };
 
@@ -117,6 +220,13 @@ export default function B2BDashboardPage() {
 
   const priceCount = Object.keys(prices).length;
 
+  const tabs = [
+    { id: 'overview' as TabType, label: t('tabOverview'), icon: '📊' },
+    { id: 'profile' as TabType, label: t('tabProfile'), icon: '👤' },
+    { id: 'password' as TabType, label: t('tabPassword'), icon: '🔒' },
+    { id: 'orders' as TabType, label: t('tabOrders'), icon: '📦' },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -146,197 +256,383 @@ export default function B2BDashboardPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Status Banner */}
-        <div className={`mb-6 p-4 rounded-lg ${customer.region === 'POLAND' ? 'bg-red-50 border border-red-200' : 'bg-blue-50 border border-blue-200'}`}>
-          <div className="flex items-center">
-            <div className={`flex-shrink-0 ${customer.region === 'POLAND' ? 'text-red-400' : 'text-blue-400'}`}>
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className={`text-sm font-medium ${customer.region === 'POLAND' ? 'text-red-800' : 'text-blue-800'}`}>
-                {customer.region === 'POLAND' ? t('polishCustomer') : t('euCustomer')} -
-                {t('seePrices', { currency: customer.region === 'POLAND' ? 'PLN' : 'EUR' })}
-              </p>
-            </div>
-          </div>
+        {/* Tabs */}
+        <div className="border-b border-gray-200 mb-8">
+          <nav className="-mb-px flex space-x-8">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`${
+                  activeTab === tab.id
+                    ? 'border-brand-red text-brand-red'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2`}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </nav>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
-          {/* Company Info Card */}
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
+        {/* Tab Content */}
+        {activeTab === 'overview' && (
+          <>
+            {/* Status Banner */}
+            <div className={`mb-6 p-4 rounded-lg ${customer.region === 'POLAND' ? 'bg-red-50 border border-red-200' : 'bg-blue-50 border border-blue-200'}`}>
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <div className={`flex-shrink-0 ${customer.region === 'POLAND' ? 'text-red-400' : 'text-blue-400'}`}>
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">{t('company')}</dt>
-                    <dd className="text-lg font-semibold text-gray-900">{customer.companyName}</dd>
-                  </dl>
+                <div className="ml-3">
+                  <p className={`text-sm font-medium ${customer.region === 'POLAND' ? 'text-red-800' : 'text-blue-800'}`}>
+                    {customer.region === 'POLAND' ? t('polishCustomer') : t('euCustomer')} -
+                    {t('seePrices', { currency: customer.region === 'POLAND' ? 'PLN' : 'EUR' })}
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* VAT Number Card */}
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+              {/* Company Info Card */}
+              <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="p-5">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    </div>
+                    <div className="ml-5 w-0 flex-1">
+                      <dl>
+                        <dt className="text-sm font-medium text-gray-500 truncate">{t('company')}</dt>
+                        <dd className="text-lg font-semibold text-gray-900">{customer.companyName}</dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">{t('vatNumber')}</dt>
-                    <dd className="text-lg font-semibold text-gray-900">{customer.country}{customer.vatNumber}</dd>
-                  </dl>
+              </div>
+
+              {/* VAT Number Card */}
+              <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="p-5">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <svg className="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div className="ml-5 w-0 flex-1">
+                      <dl>
+                        <dt className="text-sm font-medium text-gray-500 truncate">{t('vatNumber')}</dt>
+                        <dd className="text-lg font-semibold text-gray-900">{customer.country}{customer.vatNumber}</dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Special Prices Card */}
+              <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="p-5">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <svg className="h-6 w-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-5 w-0 flex-1">
+                      <dl>
+                        <dt className="text-sm font-medium text-gray-500 truncate">{t('productsWithB2B')}</dt>
+                        <dd className="text-lg font-semibold text-gray-900">{priceCount}</dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Special Prices Card */}
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg className="h-6 w-6 text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">{t('productsWithB2B')}</dt>
-                    <dd className="text-lg font-semibold text-gray-900">{priceCount}</dd>
-                  </dl>
-                </div>
+            {/* Account Details */}
+            <div className="bg-white shadow rounded-lg">
+              <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">{t('accountDetails')}</h3>
+              </div>
+              <div className="px-4 py-5 sm:p-6">
+                <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('email')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer.email}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('contactName')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer.contactName}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('contactPhone')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer.contactPhone || '-'}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('address')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer.street}, {customer.postalCode} {customer.city}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('region')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${customer.region === 'POLAND' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
+                        {customer.region}
+                      </span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">{t('countryLabel')}</dt>
+                    <dd className="mt-1 text-sm text-gray-900">{customer.country}</dd>
+                  </div>
+                </dl>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Account Details */}
-        <div className="bg-white shadow rounded-lg">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">{t('accountDetails')}</h3>
-          </div>
-          <div className="px-4 py-5 sm:p-6">
-            <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-              <div>
-                <dt className="text-sm font-medium text-gray-500">{t('email')}</dt>
-                <dd className="mt-1 text-sm text-gray-900">{customer.email}</dd>
+            {/* B2B Pricing Info */}
+            <div className="mt-8 bg-red-50 border border-red-200 rounded-lg p-6">
+              <h3 className="text-lg font-medium text-red-900 mb-2">{t('benefits.title')}</h3>
+              <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
+                <li>{t('benefits.specialPricing')}</li>
+                <li>{t('benefits.displayedIn', { currency: customer.region === 'POLAND' ? 'PLN' : 'EUR' })}</li>
+                <li>{t('benefits.netPrices')}</li>
+                <li>{t('benefits.dedicatedSupport')}</li>
+              </ul>
+              <div className="mt-4">
+                <Link
+                  href={`/${locale}/products`}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-red hover:bg-brand-red-hover"
+                >
+                  {t('browseProducts')}
+                </Link>
               </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">{t('region')}</dt>
-                <dd className="mt-1 text-sm text-gray-900">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${customer.region === 'POLAND' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`}>
-                    {customer.region}
-                  </span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">{t('countryLabel')}</dt>
-                <dd className="mt-1 text-sm text-gray-900">{customer.country}</dd>
-              </div>
-              <div>
-                <dt className="text-sm font-medium text-gray-500">{t('currency')}</dt>
-                <dd className="mt-1 text-sm text-gray-900">
-                  {customer.region === 'POLAND' ? t('plnCurrency') : t('eurCurrency')}
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </div>
+            </div>
+          </>
+        )}
 
-        {/* Order History */}
-        <div className="mt-8 bg-white shadow rounded-lg">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">{t('orderHistory')}</h3>
-            <p className="mt-1 text-sm text-gray-500">{t('orderHistoryDescription')}</p>
+        {activeTab === 'profile' && (
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">{t('editProfile')}</h3>
+              <p className="mt-1 text-sm text-gray-500">{t('editProfileDescription')}</p>
+            </div>
+            <form onSubmit={handleProfileSubmit} className="px-4 py-5 sm:p-6">
+              {profileMessage && (
+                <div className={`mb-4 p-4 rounded-md ${profileMessage.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                  {profileMessage.text}
+                </div>
+              )}
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="companyName" className="block text-sm font-medium text-gray-700">{t('companyName')}</label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    value={profileForm.companyName}
+                    onChange={(e) => setProfileForm({ ...profileForm, companyName: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="contactName" className="block text-sm font-medium text-gray-700">{t('contactName')}</label>
+                  <input
+                    type="text"
+                    id="contactName"
+                    value={profileForm.contactName}
+                    onChange={(e) => setProfileForm({ ...profileForm, contactName: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="contactPhone" className="block text-sm font-medium text-gray-700">{t('contactPhone')}</label>
+                  <input
+                    type="tel"
+                    id="contactPhone"
+                    value={profileForm.contactPhone}
+                    onChange={(e) => setProfileForm({ ...profileForm, contactPhone: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="street" className="block text-sm font-medium text-gray-700">{t('street')}</label>
+                  <input
+                    type="text"
+                    id="street"
+                    value={profileForm.street}
+                    onChange={(e) => setProfileForm({ ...profileForm, street: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700">{t('city')}</label>
+                  <input
+                    type="text"
+                    id="city"
+                    value={profileForm.city}
+                    onChange={(e) => setProfileForm({ ...profileForm, city: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700">{t('postalCode')}</label>
+                  <input
+                    type="text"
+                    id="postalCode"
+                    value={profileForm.postalCode}
+                    onChange={(e) => setProfileForm({ ...profileForm, postalCode: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  disabled={profileSaving}
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand-red hover:bg-brand-red-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red disabled:opacity-50"
+                >
+                  {profileSaving ? t('saving') : t('saveChanges')}
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="overflow-x-auto">
-            {ordersLoading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red"></div>
+        )}
+
+        {activeTab === 'password' && (
+          <div className="bg-white shadow rounded-lg max-w-lg">
+            <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">{t('changePassword')}</h3>
+              <p className="mt-1 text-sm text-gray-500">{t('changePasswordDescription')}</p>
+            </div>
+            <form onSubmit={handlePasswordSubmit} className="px-4 py-5 sm:p-6">
+              {passwordMessage && (
+                <div className={`mb-4 p-4 rounded-md ${passwordMessage.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+                  {passwordMessage.text}
+                </div>
+              )}
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">{t('currentPassword')}</label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">{t('newPassword')}</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                    minLength={8}
+                  />
+                  <p className="mt-1 text-xs text-gray-500">{t('passwordMinLength')}</p>
+                </div>
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">{t('confirmPassword')}</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    value={passwordForm.confirmPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-red focus:ring-brand-red sm:text-sm"
+                    required
+                  />
+                </div>
               </div>
-            ) : orders.length === 0 ? (
-              <div className="px-6 py-12 text-center text-gray-500">
-                <svg className="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-                <p>{t('noOrders')}</p>
-                <p className="text-sm mt-1">{t('noOrdersDescription')}</p>
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  disabled={passwordSaving}
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand-red hover:bg-brand-red-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-red disabled:opacity-50"
+                >
+                  {passwordSaving ? t('saving') : t('changePasswordBtn')}
+                </button>
               </div>
-            ) : (
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('orderNumber')}</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('date')}</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('status')}</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('total')}</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('actions')}</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {order.orderNumber}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(order.createdAt)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {formatPrice(order.total, order.currency)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <button
-                          onClick={() => setSelectedOrder(order)}
-                          className="text-brand-red hover:text-brand-red-hover font-medium"
-                        >
-                          {t('viewDetails')}
-                        </button>
-                      </td>
+            </form>
+          </div>
+        )}
+
+        {activeTab === 'orders' && (
+          <div className="bg-white shadow rounded-lg">
+            <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">{t('orderHistory')}</h3>
+              <p className="mt-1 text-sm text-gray-500">{t('orderHistoryDescription')}</p>
+            </div>
+            <div className="overflow-x-auto">
+              {ordersLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red"></div>
+                </div>
+              ) : orders.length === 0 ? (
+                <div className="px-6 py-12 text-center text-gray-500">
+                  <svg className="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <p>{t('noOrders')}</p>
+                  <p className="text-sm mt-1">{t('noOrdersDescription')}</p>
+                </div>
+              ) : (
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('orderNumber')}</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('date')}</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('status')}</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('total')}</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('actions')}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {orders.map((order) => (
+                      <tr key={order.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {order.orderNumber}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {formatDate(order.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
+                            {order.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {formatPrice(order.total, order.currency)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <button
+                            onClick={() => setSelectedOrder(order)}
+                            className="text-brand-red hover:text-brand-red-hover font-medium"
+                          >
+                            {t('viewDetails')}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
           </div>
-        </div>
-
-        {/* B2B Pricing Info */}
-        <div className="mt-8 bg-red-50 border border-red-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-red-900 mb-2">{t('benefits.title')}</h3>
-          <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
-            <li>{t('benefits.specialPricing')}</li>
-            <li>{t('benefits.displayedIn', { currency: customer.region === 'POLAND' ? 'PLN' : 'EUR' })}</li>
-            <li>{t('benefits.netPrices')}</li>
-            <li>{t('benefits.dedicatedSupport')}</li>
-          </ul>
-          <div className="mt-4">
-            <Link
-              href={`/${locale}/products`}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-red hover:bg-brand-red-hover"
-            >
-              {t('browseProducts')}
-            </Link>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Order Details Modal */}

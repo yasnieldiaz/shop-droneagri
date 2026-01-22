@@ -47,7 +47,9 @@ export const metadata: Metadata = {
     description: "Sklep internetowy z dronami rolniczymi XAG. Autoryzowany dystrybutor w Polsce. Drony do oprysku, roboty naziemne, części zamienne.",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "https://shop.droneagri.pl/images/og-image.jpg",
+        secureUrl: "https://shop.droneagri.pl/images/og-image.jpg",
+        type: "image/jpeg",
         width: 1200,
         height: 630,
         alt: "DroneAgri.pl - Drony rolnicze XAG"

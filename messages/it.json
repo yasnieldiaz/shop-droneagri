@@ -1,0 +1,527 @@
+{
+  "common": {
+    "shopAllProducts": "Acquista tutti i prodotti",
+    "viewDrones": "Visualizza droni",
+    "viewFullDetails": "Visualizza dettagli completi",
+    "watchVideo": "Guarda il video",
+    "browseProducts": "Sfoglia i prodotti",
+    "contactUs": "Contattaci",
+    "callUs": "Chiamaci",
+    "subscribe": "Iscriviti",
+    "addToCart": "Aggiungi al carrello",
+    "cart": "Carrello",
+    "checkout": "Checkout",
+    "products": "Prodotti",
+    "search": "Cerca",
+    "login": "Accedi",
+    "register": "Registrati"
+  },
+  "hero": {
+    "badge": "Rivenditore ufficiale XAG in Polonia",
+    "title": "Droni agricoli",
+    "titleHighlight": "professionali",
+    "description": "Scopri gli ultimi droni e robot agricoli XAG. Tecnologia di precisione per l'agricoltura moderna in Polonia."
+  },
+  "features": {
+    "officialDealer": "Rivenditore ufficiale",
+    "officialDealerDesc": "Distributore XAG autorizzato in Polonia",
+    "warrantySupport": "Supporto in garanzia",
+    "warrantySupportDesc": "Garanzia completa del produttore su tutti i prodotti",
+    "localService": "Servizio locale",
+    "localServiceDesc": "Supporto tecnico e riparazioni in Polonia",
+    "flexiblePayment": "Pagamento flessibile",
+    "flexiblePaymentDesc": "Carta, PayPal o bonifico bancario"
+  },
+  "categories": {
+    "title": "Acquista per categoria",
+    "description": "Dai sistemi droni completi ai singoli pezzi di ricambio, trova tutto ciò di cui hai bisogno per l'agricoltura di precisione.",
+    "airborne": "Aerei",
+    "airborneDesc": "Droni agricoli per irrorazione e spargimento di precisione",
+    "landborne": "Terrestri",
+    "landborneDesc": "Robot terrestri per operazioni sul campo senza pilota",
+    "accessories": "Accessori",
+    "accessoriesDesc": "Batterie, caricabatterie, custodie e altro",
+    "spareParts": "Pezzi di ricambio",
+    "sparePartsDesc": "Parti di ricambio originali per le tue attrezzature"
+  },
+  "p150Max": {
+    "badge": "NUOVO 2024",
+    "title": "XAG P150 Max",
+    "description": "Il drone agricolo tuttofare che ridefinisce ciò che un singolo operatore può ottenere. Irrorazione, spargimento e logistica - tutto in un'unica piattaforma.",
+    "maxPayload": "Carico massimo",
+    "spreadingTank": "Serbatoio di spargimento",
+    "maxSpeed": "Velocità massima",
+    "droneWeight": "Peso del drone"
+  },
+  "cta": {
+    "title": "Hai bisogno di aiuto per scegliere?",
+    "description": "Il nostro team di esperti di droni agricoli è qui per aiutarti a trovare la soluzione perfetta per le tue esigenze agricole."
+  },
+  "newsletter": {
+    "title": "Rimani aggiornato",
+    "description": "Iscriviti alla nostra newsletter per i prodotti più recenti, offerte e novità sui droni agricoli.",
+    "placeholder": "Inserisci la tua email",
+    "subscribe": "Iscriviti",
+    "success": "Ti sei iscritto con successo!",
+    "alreadySubscribed": "Sei già iscritto alla nostra newsletter.",
+    "error": "Si è verificato un errore. Per favore riprova.",
+    "invalidEmail": "Inserisci un indirizzo email valido."
+  },
+  "footer": {
+    "description": "Rivenditore ufficiale XAG in Polonia. Droni e robot agricoli professionali per l'agricoltura moderna.",
+    "products": "Prodotti",
+    "drones": "Droni",
+    "robots": "Robot",
+    "accessories": "Accessori",
+    "spareParts": "Pezzi di ricambio",
+    "support": "Supporto",
+    "contact": "Contatto",
+    "faq": "FAQ",
+    "shipping": "Spedizione",
+    "returns": "Resi",
+    "company": "Azienda",
+    "about": "Chi siamo",
+    "careers": "Lavora con noi",
+    "privacy": "Privacy",
+    "terms": "Termini",
+    "rights": "Tutti i diritti riservati"
+  },
+  "header": {
+    "home": "Home",
+    "products": "Prodotti",
+    "about": "Chi siamo",
+    "contact": "Contatto"
+  },
+  "nav": {
+    "products": "Prodotti",
+    "accessories": "Accessori",
+    "allAccessories": "Tutti gli accessori",
+    "spareParts": "Pezzi di ricambio",
+    "smartBattery": "Batteria intelligente",
+    "batteryChargers": "Caricabatterie",
+    "taskSystem": "Sistema di attività",
+    "remoteController": "Telecomando",
+    "gnssRtk": "GNSS RTK"
+  },
+  "products": {
+    "title": "Tutti i prodotti",
+    "subtitle": "Sfoglia la nostra selezione di attrezzature agricole professionali",
+    "home": "Home",
+    "breadcrumbProducts": "Prodotti",
+    "searchPlaceholder": "Cerca prodotti...",
+    "allProducts": "Tutti i prodotti",
+    "airborne": "Aerei (Droni)",
+    "landborne": "Terrestri (Robot)",
+    "allAccessories": "Tutti gli accessori",
+    "smartBattery": "Batteria intelligente",
+    "batteryChargers": "Caricabatterie",
+    "taskSystem": "Sistema di attività",
+    "remoteController": "Telecomando",
+    "gnssRtk": "GNSS RTK",
+    "spareParts": "Pezzi di ricambio",
+    "featured": "In evidenza",
+    "priceLowHigh": "Prezzo: dal più basso",
+    "priceHighLow": "Prezzo: dal più alto",
+    "nameAZ": "Nome: A-Z",
+    "nameZA": "Nome: Z-A",
+    "activeFilters": "Filtri attivi:",
+    "clearAll": "Cancella tutto",
+    "showing": "Mostrando",
+    "productsCount": "prodotti",
+    "noProductsFound": "Nessun prodotto trovato",
+    "noProductsMessage": "Prova a modificare i criteri di ricerca o filtro",
+    "clearFilters": "Cancella filtri",
+    "outOfStock": "Esaurito",
+    "addToCart": "Aggiungi al carrello"
+  },
+  "privacy": {
+    "title": "Informativa sulla privacy",
+    "metaDescription": "Informativa sulla privacy per il negozio DroneAgri.pl - distributore ufficiale XAG in Polonia. Scopri come proteggiamo i tuoi dati personali.",
+    "administrator": {
+      "title": "Amministratore dei dati",
+      "content": "L'amministratore dei dati è IMEGA Sp. z o.o. con sede a Rybnik, ul. Smolna 14, 44-200 Rybnik, Polonia (NIP: 6423233602)."
+    },
+    "dataCollection": {
+      "title": "Raccolta dei dati",
+      "intro": "Raccogliamo le seguenti categorie di dati:",
+      "personalData": "Identificatori personali: nome, indirizzo, email, numero di telefono",
+      "businessData": "Informazioni aziendali: nome dell'azienda e dettagli operativi",
+      "technicalData": "Dati tecnici: indirizzi IP, tipi di browser, informazioni sul dispositivo",
+      "usageData": "Dati di utilizzo: pagine visitate e tempo trascorso sul sito"
+    },
+    "processingPurposes": {
+      "title": "Finalità del trattamento",
+      "services": "Fornitura di servizi e gestione dell'account",
+      "newsletter": "Distribuzione di newsletter commerciali",
+      "orders": "Evasione degli ordini",
+      "complaints": "Gestione di reclami e resi",
+      "inquiries": "Risposte alle richieste dei clienti",
+      "marketing": "Attività di marketing diretto",
+      "legal": "Conformità legale (contabilità, tassazione)"
+    },
+    "dataRetention": {
+      "title": "Conservazione dei dati",
+      "content": "Le informazioni vengono conservate per la durata dei rapporti contrattuali e degli obblighi legali applicabili, o fino al ritiro del consenso o all'obiezione formale."
+    },
+    "dataRecipients": {
+      "title": "Destinatari dei dati",
+      "content": "Le informazioni possono essere condivise con fornitori di servizi IT, agenzie di marketing, corrieri, studi di contabilità e autorità pubbliche quando richiesto dalla legge. Non vengono effettuati trasferimenti transfrontalieri al di fuori dello Spazio Economico Europeo."
+    },
+    "userRights": {
+      "title": "Diritti dell'utente (GDPR)",
+      "intro": "Hai i seguenti diritti:",
+      "access": "Diritto di accesso ai dati",
+      "correction": "Diritto di rettifica",
+      "deletion": "Diritto alla cancellazione",
+      "restriction": "Diritto alla limitazione del trattamento",
+      "portability": "Diritto alla portabilità dei dati",
+      "objection": "Diritto di opposizione",
+      "complaint": "Diritto di presentare reclamo all'autorità di controllo"
+    },
+    "cookies": {
+      "title": "Cookie",
+      "content": "Il sito utilizza cookie per:",
+      "session": "Gestione delle sessioni",
+      "analytics": "Analisi e statistiche",
+      "marketing": "Scopi di marketing",
+      "functionality": "Funzionalità del sito",
+      "disable": "Puoi disabilitare i cookie tramite le impostazioni del browser, anche se questo potrebbe limitare le funzionalità."
+    },
+    "security": {
+      "title": "Sicurezza",
+      "content": "Utilizziamo crittografia SSL, database protetti e controllo degli accessi in conformità con i requisiti GDPR."
+    },
+    "contact": {
+      "title": "Contatto",
+      "phone": "Telefono",
+      "address": "Indirizzo"
+    }
+  },
+  "terms": {
+    "title": "Termini di servizio",
+    "metaDescription": "Termini di servizio per il negozio DroneAgri.pl - distributore ufficiale XAG in Polonia. Condizioni di vendita per droni e robot agricoli.",
+    "general": {
+      "title": "Disposizioni generali",
+      "content": "IMEGA Sp. z o.o., con sede a Rybnik (ul. Smolna 14, 44-200), gestisce shop.droneagri.pl vendendo piattaforme agricole professionali inclusi droni XAG e robot terrestri. I clienti devono essere adulti con capacità giuridica. I consumatori sono individui che acquistano per scopi non professionali."
+    },
+    "technical": {
+      "title": "Requisiti tecnici",
+      "content": "Richiesto accesso a Internet e browser con supporto JavaScript (Chrome, Firefox, Safari, Edge). Risoluzione minima dello schermo: 1024×768 pixel.",
+      "prohibited": "Gli utenti non possono impegnarsi in attività illegali, violare i diritti altrui, interrompere le funzionalità del sito o distribuire contenuti illegali."
+    },
+    "orderProcess": {
+      "title": "Processo di ordine",
+      "intro": "Ordini accettati online in qualsiasi momento tramite:",
+      "step1": "Selezione del prodotto",
+      "step2": "Scelta del metodo di consegna e pagamento",
+      "step3": "Revisione del riepilogo",
+      "step4": "Conferma dell'ordine",
+      "confirmation": "Il venditore verifica i dettagli e la disponibilità. I contratti di vendita si formano alla conferma del pagamento."
+    },
+    "payments": {
+      "title": "Pagamenti accettati",
+      "bankTransfer": "Bonifico bancario",
+      "online": "Pagamenti online (carte, BLIK)",
+      "cod": "Contrassegno"
+    },
+    "delivery": {
+      "title": "Consegna",
+      "content": "Prodotti spediti in tutta la Polonia e nell'UE tramite servizi di corriere. La consegna richiede generalmente 2-7 giorni lavorativi a seconda della disponibilità."
+    },
+    "withdrawal": {
+      "title": "Diritto di recesso",
+      "content": "I consumatori hanno 14 giorni per recedere dai contratti a distanza senza penalità. Le dichiarazioni di recesso scritte rispettano il termine. Il periodo inizia dalla data di ricezione."
+    },
+    "complaints": {
+      "title": "Reclami",
+      "content": "Il venditore garantisce merce priva di difetti. I clienti segnalano i difetti entro un anno dalla scoperta (se scoperti entro due anni dalla consegna). Il venditore risponde entro 14 giorni."
+    },
+    "warranty": {
+      "title": "Garanzia di qualità",
+      "content": "Garanzia di un anno dalla ricezione che copre i difetti di fabbricazione solo nel territorio polacco/UE.",
+      "exclusions": "Esclude installazione impropria, uso improprio, negligenza o usura normale. I rimedi includono: riparazione, sostituzione o riduzione del prezzo/rimborso."
+    },
+    "dataProtection": {
+      "title": "Protezione dei dati",
+      "content": "I dati dei clienti vengono trattati secondo la legislazione polacca sulla protezione dei dati personali e la legge sui servizi elettronici. Consulta l'Informativa sulla privacy per i dettagli."
+    },
+    "finalProvisions": {
+      "title": "Disposizioni finali",
+      "content": "Le controversie vengono risolte secondo la legge applicabile. I consumatori possono accedere alla risoluzione alternativa delle controversie tramite UOKIK, RZU o uffici regionali di protezione dei consumatori. Le controversie commerciali sono gestite dai tribunali presso la sede del venditore. La legge polacca disciplina le questioni non regolamentate. I termini non limitano i diritti dei consumatori previsti dalla legge."
+    },
+    "contact": {
+      "title": "Contatto",
+      "phone": "Telefono",
+      "address": "Indirizzo"
+    }
+  },
+  "cookies": {
+    "message": "Questo sito utilizza i cookie per fornire la migliore qualità del servizio. Continuando a navigare, acconsenti al loro utilizzo.",
+    "learnMore": "Scopri di più",
+    "necessary": "Solo necessari",
+    "acceptAll": "Accetta tutti"
+  },
+  "productDetail": {
+    "home": "Home",
+    "products": "Prodotti",
+    "productNotFound": "Prodotto non trovato",
+    "productNotFoundDesc": "Il prodotto che stai cercando non esiste.",
+    "browseProducts": "Sfoglia i prodotti",
+    "outOfStock": "Esaurito",
+    "inStock": "Disponibile",
+    "available": "disponibili",
+    "backordered": "In prenotazione",
+    "preOrder": "Pre-ordine",
+    "addToCart": "Aggiungi al carrello",
+    "adding": "Aggiunta in corso...",
+    "preOrderTitle": "Pre-ordine disponibile",
+    "preOrderMessage": "Questo prodotto è disponibile per il pre-ordine. Paga ora e lo spediremo non appena sarà disponibile.",
+    "estimatedDelivery": "Tempo di consegna stimato",
+    "outOfStockMessage": "Questo prodotto è attualmente esaurito. Contattaci per la disponibilità.",
+    "officialWarranty": "Garanzia ufficiale rivenditore XAG",
+    "freeShipping": "Spedizione gratuita per ordini superiori a 10.000 PLN",
+    "technicalSupport": "Supporto tecnico in Polonia",
+    "description": "Descrizione",
+    "specifications": "Specifiche"
+  },
+  "shop": {
+    "hero": {
+      "title": "Negozio ufficiale XAG",
+      "subtitle": "Droni agricoli professionali, robot e accessori. Direttamente dal distributore ufficiale polacco.",
+      "cta": "Sfoglia i prodotti"
+    },
+    "categories": {
+      "title": "Acquista per categoria"
+    },
+    "featured": {
+      "title": "Prodotti in evidenza",
+      "viewAll": "Vedi tutti",
+      "sale": "SALDI",
+      "lowStock": "Solo {count} rimasti",
+      "outOfStock": "Esaurito"
+    },
+    "benefits": {
+      "shipping": {
+        "title": "Spedizione gratuita",
+        "description": "Per ordini superiori a 10.000 PLN"
+      },
+      "warranty": {
+        "title": "Garanzia ufficiale",
+        "description": "Garanzia completa del produttore"
+      },
+      "payment": {
+        "title": "Pagamento sicuro",
+        "description": "Carta, PayPal, bonifico bancario"
+      },
+      "support": {
+        "title": "Supporto esperto",
+        "description": "Assistenza tecnica in Polonia"
+      }
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "shop": "Negozio",
+      "products": "Prodotti"
+    },
+    "filters": {
+      "title": "Filtri",
+      "search": "Cerca",
+      "searchPlaceholder": "Cerca prodotti...",
+      "categories": "Categorie",
+      "allCategories": "Tutte le categorie",
+      "type": "Tipo di prodotto",
+      "allTypes": "Tutti i tipi",
+      "products": "Prodotti completi",
+      "accessories": "Accessori",
+      "spareParts": "Pezzi di ricambio"
+    },
+    "products": {
+      "allProducts": "Tutti i prodotti",
+      "count": "{count} prodotti",
+      "noProducts": "Nessun prodotto trovato",
+      "noProductsDescription": "Prova a modificare i filtri o i termini di ricerca.",
+      "clearFilters": "Cancella tutti i filtri",
+      "sale": "SALDI",
+      "featured": "IN EVIDENZA",
+      "inStock": "Disponibile",
+      "lowStock": "Scorte limitate",
+      "outOfStock": "Esaurito"
+    },
+    "product": {
+      "sale": "SALDI",
+      "inStock": "Disponibile",
+      "lowStock": "Solo {count} rimasti in magazzino",
+      "outOfStock": "Esaurito",
+      "euroPrice": "Prezzo in EUR",
+      "youSave": "Risparmi {amount}",
+      "description": "Descrizione",
+      "features": "Caratteristiche",
+      "specifications": "Specifiche",
+      "spareParts": "Pezzi di ricambio",
+      "relatedProducts": "Prodotti correlati"
+    },
+    "cart": {
+      "quantity": "Quantità",
+      "onlyLeft": "Solo {count} rimasti",
+      "addToCart": "Aggiungi al carrello",
+      "addedToCart": "Aggiunto al carrello!",
+      "buyNow": "Acquista ora",
+      "outOfStock": "Esaurito",
+      "notifyWhenAvailable": "Avvisami quando disponibile"
+    }
+  },
+  "b2b": {
+    "login": {
+      "title": "Accesso portale B2B",
+      "subtitle": "Accedi al tuo account aziendale con prezzi speciali",
+      "emailLabel": "Indirizzo email",
+      "passwordLabel": "Password",
+      "signingIn": "Accesso in corso...",
+      "signIn": "Accedi",
+      "noAccount": "Non hai un account?",
+      "registerLink": "Registrati come cliente B2B"
+    },
+    "register": {
+      "title": "Registrazione cliente B2B",
+      "subtitle": "Registra la tua azienda per accedere ai prezzi speciali B2B",
+      "businessVerification": "Verifica aziendale",
+      "country": "Paese",
+      "vatNumber": "Partita IVA",
+      "nip": "NIP",
+      "optional": "Opzionale",
+      "validating": "Convalida in corso...",
+      "validateVat": "Convalida IVA",
+      "vatValid": "✓ Partita IVA valida",
+      "vatInvalid": "✗ Partita IVA non convalidata",
+      "companyLabel": "Azienda:",
+      "addressLabel": "Indirizzo:",
+      "companyInfo": "Informazioni aziendali",
+      "companyName": "Nome azienda",
+      "contactPerson": "Persona di contatto",
+      "phoneNumber": "Numero di telefono",
+      "businessAddress": "Indirizzo aziendale",
+      "streetAddress": "Via",
+      "city": "Città",
+      "postalCode": "CAP",
+      "accountCredentials": "Credenziali account",
+      "emailAddress": "Indirizzo email",
+      "password": "Password",
+      "confirmPassword": "Conferma password",
+      "registering": "Registrazione in corso...",
+      "registerButton": "Registra account aziendale",
+      "hasAccount": "Hai già un account?",
+      "signInLink": "Accedi",
+      "errors": {
+        "enterVat": "Inserisci una partita IVA",
+        "vatFailed": "Convalida partita IVA fallita",
+        "passwordsMismatch": "Le password non corrispondono",
+        "passwordTooShort": "La password deve avere almeno 8 caratteri",
+        "registrationFailed": "Registrazione fallita. Riprova."
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard B2B",
+      "welcome": "Benvenuto, {companyName}",
+      "goToShop": "Vai al negozio",
+      "logout": "Esci",
+      "polishCustomer": "Cliente B2B polacco",
+      "euCustomer": "Cliente B2B UE",
+      "seePrices": "Vedi i prezzi speciali in {currency}",
+      "company": "Azienda",
+      "vatNumber": "Partita IVA",
+      "productsWithB2B": "Prodotti con prezzo B2B",
+      "accountDetails": "Dettagli account",
+      "email": "Email",
+      "region": "Regione",
+      "countryLabel": "Paese",
+      "currency": "Valuta",
+      "plnCurrency": "PLN (Złoty polacco)",
+      "eurCurrency": "EUR (Euro)",
+      "benefits": {
+        "title": "I tuoi vantaggi B2B",
+        "specialPricing": "Prezzi B2B speciali su prodotti selezionati",
+        "displayedIn": "Prezzi visualizzati in {currency}",
+        "netPrices": "Prezzi netti (IVA calcolata al checkout)",
+        "dedicatedSupport": "Supporto dedicato per clienti aziendali"
+      },
+      "browseProducts": "Sfoglia prodotti con prezzi B2B",
+      "orderHistory": "Storico ordini",
+      "orderHistoryDescription": "Visualizza i tuoi ordini precedenti",
+      "noOrders": "Nessun ordine ancora",
+      "noOrdersDescription": "Gli ordini appariranno qui quando effettuerai acquisti.",
+      "orderNumber": "Numero ordine",
+      "date": "Data",
+      "status": "Stato",
+      "total": "Totale",
+      "actions": "Azioni",
+      "viewDetails": "Visualizza dettagli",
+      "orderDetails": "Dettagli ordine",
+      "paymentStatus": "Stato pagamento",
+      "orderItems": "Articoli ordine",
+      "product": "Prodotto",
+      "quantity": "Quantità",
+      "unitPrice": "Prezzo unitario",
+      "subtotal": "Subtotale",
+      "shipping": "Spedizione",
+      "tax": "IVA",
+      "close": "Chiudi",
+      "tabOverview": "Panoramica",
+      "tabProfile": "Il mio profilo",
+      "tabPassword": "Password",
+      "tabOrders": "Ordini",
+      "editProfile": "Modifica profilo",
+      "editProfileDescription": "Aggiorna le informazioni aziendali e di contatto",
+      "companyName": "Nome azienda",
+      "contactName": "Nome contatto",
+      "contactPhone": "Numero di telefono",
+      "street": "Via",
+      "city": "Città",
+      "postalCode": "CAP",
+      "address": "Indirizzo",
+      "saving": "Salvataggio...",
+      "saveChanges": "Salva modifiche",
+      "profileUpdated": "Profilo aggiornato con successo",
+      "profileUpdateFailed": "Aggiornamento profilo fallito",
+      "changePassword": "Cambia password",
+      "changePasswordDescription": "Aggiorna la password del tuo account",
+      "currentPassword": "Password attuale",
+      "newPassword": "Nuova password",
+      "confirmPassword": "Conferma nuova password",
+      "passwordMinLength": "Minimo 8 caratteri",
+      "changePasswordBtn": "Cambia password",
+      "passwordChanged": "Password cambiata con successo",
+      "passwordChangeFailed": "Cambio password fallito",
+      "passwordsDoNotMatch": "Le nuove password non corrispondono",
+      "passwordTooShort": "La password deve avere almeno 8 caratteri"
+    },
+    "countries": {
+      "PL": "Polonia",
+      "DE": "Germania",
+      "FR": "Francia",
+      "IT": "Italia",
+      "ES": "Spagna",
+      "NL": "Paesi Bassi",
+      "BE": "Belgio",
+      "AT": "Austria",
+      "CZ": "Repubblica Ceca",
+      "SK": "Slovacchia",
+      "HU": "Ungheria",
+      "RO": "Romania",
+      "BG": "Bulgaria",
+      "PT": "Portogallo",
+      "GR": "Grecia",
+      "SE": "Svezia",
+      "DK": "Danimarca",
+      "FI": "Finlandia",
+      "IE": "Irlanda",
+      "LT": "Lituania",
+      "LV": "Lettonia",
+      "EE": "Estonia",
+      "SI": "Slovenia",
+      "HR": "Croazia",
+      "LU": "Lussemburgo",
+      "MT": "Malta",
+      "CY": "Cipro"
+    }
+  }
+}

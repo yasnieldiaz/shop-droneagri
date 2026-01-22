@@ -441,17 +441,23 @@ type DbProductPrices = Record<string, {
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category') || '';
+  const searchParam = searchParams.get('search') || '';
   const t = useTranslations('products');
 
   const [category, setCategory] = useState(categoryParam);
   const [sortBy, setSortBy] = useState('featured');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParam);
   const [dbPrices, setDbPrices] = useState<DbProductPrices>({});
 
   // Sync category state with URL parameter changes
   useEffect(() => {
     setCategory(categoryParam);
   }, [categoryParam]);
+
+  // Sync search state with URL parameter changes
+  useEffect(() => {
+    setSearchQuery(searchParam);
+  }, [searchParam]);
 
   // Fetch prices from database
   useEffect(() => {

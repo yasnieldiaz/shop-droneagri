@@ -56,12 +56,12 @@ const mockProducts: Record<string, Product> = {
         name: 'XAG R200',
         tagline: 'Sześciokołowa platforma precyzyjnego oprysku dla sadów i szklarni',
         description: `Pakiet zawiera:
-- 1x XAG R200 Agricultural Rover RevoSpray (09-020-00134)
-- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 2x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 2x XAG CM13600S Charger with Plug Power Cord (09-017-00069)
-- 2x XAG Plug Power Cord-EU for CM13600S Charger (01-027-02823)
-- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 1x Robot Rolniczy XAG R200 z RevoSpray (09-020-00134)
+- 1x Pilot Zdalnego Sterowania XAG SRC5 (05-002-02725)
+- 2x Inteligentna Bateria XAG B141050 Smart Super Charge (09-017-00073)
+- 2x Ładowarka XAG CM13600S z kablem zasilającym (09-017-00069)
+- 2x Kabel Zasilający EU do Ładowarki CM13600S (01-027-02823)
+- 2x Wieża Chłodząca Baterie XAG 2024 (09-017-00065)`,
       },
       en: {
         name: 'XAG R200',
@@ -1906,14 +1906,14 @@ Kenmerken:
     translations: {
       pl: {
         name: 'XAG P150 Max',
-        tagline: '80kg payload, 80L spray tank - maksymalna wydajność',
+        tagline: 'Ładowność 80kg, zbiornik 80L - maksymalna wydajność',
         description: `Pakiet zawiera:
-- 1x XAG P150 Max Agricultural Drone z RevoSpray 5 (09-007-00158)
-- 1x XAG SRC5 Smart Remote Controller (05-002-02725)
-- 4x XAG B141050 Smart Super Charge Battery (09-017-00073)
-- 2x XAG CM13600S Charger (09-017-00069)
-- 2x XAG Plug Power Cord-EU for CM13600S (01-027-02823)
-- 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
+- 1x Dron Rolniczy XAG P150 Max z RevoSpray 5 (09-007-00158)
+- 1x Pilot Zdalnego Sterowania XAG SRC5 (05-002-02725)
+- 4x Inteligentna Bateria XAG B141050 Smart Super Charge (09-017-00073)
+- 2x Ładowarka XAG CM13600S (09-017-00069)
+- 2x Kabel Zasilający EU do Ładowarki CM13600S (01-027-02823)
+- 2x Wieża Chłodząca Baterie XAG 2024 (09-017-00065)`,
       },
       en: {
         name: 'XAG P150 Max',

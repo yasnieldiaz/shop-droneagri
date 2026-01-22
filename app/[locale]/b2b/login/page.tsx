@@ -1,31 +1,53 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { useB2BStore } from '@/lib/store/b2b';
+import { useAdminStore } from '@/lib/store/admin';
 
 export default function B2BLoginPage() {
   const locale = useLocale();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect');
   const t = useTranslations('b2b.login');
-  const { login, isLoading } = useB2BStore();
+  const { login: b2bLogin, isLoading: b2bLoading } = useB2BStore();
+  const { login: adminLogin, isLoading: adminLoading } = useAdminStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const isLoading = b2bLoading || adminLoading;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    const result = await login(email, password);
+    // First, try admin login
+    const adminResult = await adminLogin(email, password);
 
-    if (result.success) {
-      router.push(`/${locale}/b2b/dashboard`);
+    if (adminResult.success) {
+      // Admin login successful - redirect to admin panel
+      router.push('/admin');
+      return;
+    }
+
+    // If not admin, try B2B customer login
+    const b2bResult = await b2bLogin(email, password);
+
+    if (b2bResult.success) {
+      // B2B login successful - redirect to dashboard or specified redirect
+      if (redirectTo === 'admin') {
+        // User tried to access admin but is not an admin
+        setError('Access denied. Admin privileges required.');
+      } else {
+        router.push(`/${locale}/b2b/dashboard`);
+      }
     } else {
-      setError(result.error || 'Login failed');
+      setError(b2bResult.error || 'Login failed');
     }
   };
 

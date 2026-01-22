@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { AdminAuthProvider } from '@/components/admin/AdminAuthProvider';
+import { useAdminStore } from '@/lib/store/admin';
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: 'dashboard' },
@@ -53,13 +55,20 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
-export default function AdminLayoutClient({
+function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { admin, logout } = useAdminStore();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/b2b/login');
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -115,22 +124,33 @@ export default function AdminLayoutClient({
           <div className="p-4 border-t border-white/10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center text-white font-medium">
-                AD
+                {admin?.name?.charAt(0) || 'A'}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-white truncate">Admin</p>
-                <p className="text-xs text-gray-400 truncate">admin@droneagri.pl</p>
+                <p className="text-sm font-medium text-white truncate">{admin?.name || 'Admin'}</p>
+                <p className="text-xs text-gray-400 truncate">{admin?.email || ''}</p>
               </div>
             </div>
-            <Link
-              href="/pl"
-              className="mt-3 flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-              </svg>
-              Back to Store
-            </Link>
+            <div className="mt-3 space-y-2">
+              <Link
+                href="/pl"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                </svg>
+                Back to Store
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-red-400 transition-colors w-full"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </aside>
@@ -176,5 +196,18 @@ export default function AdminLayoutClient({
         </main>
       </div>
     </div>
+  );
+}
+
+// Wrap with AdminAuthProvider
+export default function AdminLayoutClient({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AdminAuthProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </AdminAuthProvider>
   );
 }

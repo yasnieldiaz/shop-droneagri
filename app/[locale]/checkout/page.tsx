@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/lib/store/cart';
@@ -18,6 +19,9 @@ export default function CheckoutPage() {
   const currency = useCartStore((state) => state.currency);
   const itemCount = useCartStore((state) => state.itemCount);
   const clearCart = useCartStore((state) => state.clearCart);
+
+  const locale = useLocale();
+  const isPolish = locale === 'pl';
 
   const [step, setStep] = useState<CheckoutStep>('cart');
   const [paymentMethod, setPaymentMethod] = useState<string>('stripe');
@@ -587,7 +591,7 @@ export default function CheckoutPage() {
                   <span className="font-medium">{formatPrice(vatAmount)}</span>
                 </div>
                 <div className="flex justify-between text-sm border-t pt-2">
-                  <span className="text-gray-600">Subtotal brutto</span>
+                  <span className="text-gray-600">Subtotal {isPolish ? "brutto" : "incl. VAT"}</span>
                   <span className="font-medium">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
@@ -609,7 +613,7 @@ export default function CheckoutPage() {
 
               <div className="border-t pt-4">
                 <div className="flex justify-between">
-                  <span className="font-bold text-navy">Total brutto</span>
+                  <span className="font-bold text-navy">Total {isPolish ? "brutto" : "incl. VAT"}</span>
                   <span className="font-bold text-xl text-navy">
                     {formatPrice(total)}
                   </span>

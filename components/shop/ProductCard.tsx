@@ -141,7 +141,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 )}
               </div>
               <div className="text-sm text-gray-500">
-                {formatPrice(price)} {currency} <span className="text-xs">brutto</span>
+                {formatPrice(price)} {currency} <span className="text-xs">{isPolish ? "brutto" : "incl. VAT"}</span>
               </div>
             </>
           )}

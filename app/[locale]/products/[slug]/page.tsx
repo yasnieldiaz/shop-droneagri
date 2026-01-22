@@ -2436,7 +2436,7 @@ export default function ProductDetailPage() {
                     )}
                   </div>
                   <div className="text-lg text-gray-600">
-                    {formatPrice(displayPrice)} <span className="text-sm">brutto</span>
+                    {formatPrice(displayPrice)} <span className="text-sm">{isPolish ? "brutto" : "incl. VAT"}</span>
                     {hasDiscount && displayCompareAtPrice && (
                       <span className="ml-2 text-gray-400 line-through">
                         {formatPrice(displayCompareAtPrice)}

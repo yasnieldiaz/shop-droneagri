@@ -155,8 +155,8 @@ export async function sendB2BWelcomeEmail(
   const isPL = data.region === 'POLAND';
 
   const subject = isPL
-    ? 'Witamy w XAG Polska B2B - Twoje konto zostało aktywowane'
-    : 'Welcome to XAG Polska B2B - Your account has been activated';
+    ? 'XAG Polska B2B - Potwierdzenie rejestracji konta'
+    : 'XAG Polska B2B - Account Registration Confirmation';
 
   const html = `
 <!DOCTYPE html>
@@ -165,203 +165,162 @@ export async function sendB2BWelcomeEmail(
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f3f4f6;">
+<body style="margin: 0; padding: 0; background-color: #f8f9fa; font-family: Arial, Helvetica, sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #f8f9fa;">
     <tr>
       <td align="center" style="padding: 40px 20px;">
-        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
 
-          <!-- Header with gradient -->
+        <!-- Main Container -->
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="background-color: #ffffff; border: 1px solid #e0e0e0;">
+
+          <!-- Header -->
           <tr>
-            <td style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); padding: 40px 40px 30px;">
+            <td style="background-color: #b91c1c; padding: 32px 40px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">
-                      XAG Polska
+                    <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: 0.5px;">
+                      XAG POLSKA
                     </h1>
-                    <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">
+                    <p style="margin: 4px 0 0; color: rgba(255,255,255,0.85); font-size: 13px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase;">
                       B2B Partner Program
                     </p>
                   </td>
-                  <td align="right" style="vertical-align: top;">
-                    <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 12px 16px;">
-                      <span style="color: #ffffff; font-size: 24px;">🚁</span>
-                    </div>
+                  <td align="right" style="vertical-align: middle;">
+                    <span style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 500; background: rgba(255,255,255,0.15); padding: 8px 16px; border: 1px solid rgba(255,255,255,0.3);">
+                      ${isPL ? 'KONTO AKTYWNE' : 'ACCOUNT ACTIVE'}
+                    </span>
                   </td>
                 </tr>
               </table>
-            </td>
-          </tr>
-
-          <!-- Welcome Badge -->
-          <tr>
-            <td align="center" style="padding: 0;">
-              <div style="background: #fef2f2; margin: -20px 40px 0; padding: 16px 24px; border-radius: 12px; border: 2px solid #fecaca; display: inline-block;">
-                <span style="color: #dc2626; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
-                  ✓ ${isPL ? 'Konto Aktywowane' : 'Account Activated'}
-                </span>
-              </div>
             </td>
           </tr>
 
           <!-- Main Content -->
           <tr>
             <td style="padding: 40px;">
-              <h2 style="margin: 0 0 8px; color: #111827; font-size: 24px; font-weight: 600;">
-                ${isPL ? 'Witaj' : 'Welcome'}, ${data.contactName}!
-              </h2>
-              <p style="margin: 0 0 24px; color: #6b7280; font-size: 16px; line-height: 1.6;">
+
+              <!-- Greeting -->
+              <p style="margin: 0 0 24px; color: #333333; font-size: 15px; line-height: 1.6;">
+                ${isPL ? 'Szanowny Partnerze' : 'Dear Partner'},
+              </p>
+
+              <p style="margin: 0 0 24px; color: #333333; font-size: 15px; line-height: 1.6;">
                 ${isPL
-                  ? `Cieszymy się, że ${data.companyName} dołącza do grona naszych partnerów B2B.`
-                  : `We're excited to have ${data.companyName} join our B2B partner network.`
+                  ? `Potwierdzamy rejestrację firmy <strong>${data.companyName}</strong> w programie B2B XAG Polska. Państwa konto zostało pomyślnie aktywowane.`
+                  : `We confirm the registration of <strong>${data.companyName}</strong> in the XAG Polska B2B program. Your account has been successfully activated.`
                 }
               </p>
 
-              <!-- Benefits Box -->
-              <div style="background: #f9fafb; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-                <h3 style="margin: 0 0 16px; color: #111827; font-size: 16px; font-weight: 600;">
-                  ${isPL ? '🎁 Twoje korzyści B2B' : '🎁 Your B2B Benefits'}
-                </h3>
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td style="padding: 8px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td style="width: 32px; vertical-align: top;">
-                            <div style="background: #dcfce7; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px;">
-                              <span style="color: #16a34a; font-size: 12px;">✓</span>
-                            </div>
-                          </td>
-                          <td style="color: #374151; font-size: 14px; line-height: 1.5;">
-                            ${isPL ? 'Specjalne ceny hurtowe dla partnerów' : 'Special wholesale prices for partners'}
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 8px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td style="width: 32px; vertical-align: top;">
-                            <div style="background: #dcfce7; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px;">
-                              <span style="color: #16a34a; font-size: 12px;">✓</span>
-                            </div>
-                          </td>
-                          <td style="color: #374151; font-size: 14px; line-height: 1.5;">
-                            ${isPL ? 'Dedykowany opiekun klienta' : 'Dedicated account manager'}
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 8px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td style="width: 32px; vertical-align: top;">
-                            <div style="background: #dcfce7; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px;">
-                              <span style="color: #16a34a; font-size: 12px;">✓</span>
-                            </div>
-                          </td>
-                          <td style="color: #374151; font-size: 14px; line-height: 1.5;">
-                            ${isPL ? 'Priorytetowa obsługa zamówień' : 'Priority order processing'}
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 8px 0;">
-                      <table role="presentation" cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td style="width: 32px; vertical-align: top;">
-                            <div style="background: #dcfce7; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px;">
-                              <span style="color: #16a34a; font-size: 12px;">✓</span>
-                            </div>
-                          </td>
-                          <td style="color: #374151; font-size: 14px; line-height: 1.5;">
-                            ${isPL ? 'Dostęp do szkoleń i wsparcia technicznego' : 'Access to training and technical support'}
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+              <!-- Account Details Box -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 32px;">
+                <tr>
+                  <td style="background-color: #f8f9fa; border-left: 3px solid #b91c1c; padding: 20px 24px;">
+                    <p style="margin: 0 0 4px; color: #666666; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                      ${isPL ? 'Dane dostępowe' : 'Access Details'}
+                    </p>
+                    <p style="margin: 8px 0 0; color: #333333; font-size: 14px;">
+                      <strong>Login:</strong> ${data.email}
+                    </p>
+                    <p style="margin: 4px 0 0; color: #666666; font-size: 13px;">
+                      ${isPL ? 'Hasło: ustalone podczas rejestracji' : 'Password: set during registration'}
+                    </p>
+                  </td>
+                </tr>
+              </table>
 
-              <!-- Account Info -->
-              <div style="background: #eff6ff; border-radius: 12px; padding: 24px; margin-bottom: 24px; border-left: 4px solid #3b82f6;">
-                <h3 style="margin: 0 0 12px; color: #1e40af; font-size: 14px; font-weight: 600;">
-                  ${isPL ? '📧 Dane logowania' : '📧 Login Details'}
-                </h3>
-                <p style="margin: 0; color: #374151; font-size: 14px;">
-                  <strong>Email:</strong> ${data.email}
-                </p>
-                <p style="margin: 8px 0 0; color: #6b7280; font-size: 13px;">
-                  ${isPL
-                    ? 'Użyj hasła ustalonego podczas rejestracji'
-                    : 'Use the password you set during registration'
-                  }
-                </p>
-              </div>
+              <!-- Benefits Section -->
+              <p style="margin: 0 0 16px; color: #333333; font-size: 14px; font-weight: 600;">
+                ${isPL ? 'W ramach współpracy B2B oferujemy:' : 'As part of B2B cooperation, we offer:'}
+              </p>
+
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 32px;">
+                <tr>
+                  <td style="padding: 6px 0; color: #444444; font-size: 14px;">
+                    <span style="color: #b91c1c; margin-right: 8px;">—</span>
+                    ${isPL ? 'Indywidualne warunki cenowe' : 'Individual pricing conditions'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; color: #444444; font-size: 14px;">
+                    <span style="color: #b91c1c; margin-right: 8px;">—</span>
+                    ${isPL ? 'Dedykowana obsługa klienta' : 'Dedicated customer service'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; color: #444444; font-size: 14px;">
+                    <span style="color: #b91c1c; margin-right: 8px;">—</span>
+                    ${isPL ? 'Priorytetowa realizacja zamówień' : 'Priority order fulfillment'}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0; color: #444444; font-size: 14px;">
+                    <span style="color: #b91c1c; margin-right: 8px;">—</span>
+                    ${isPL ? 'Wsparcie techniczne i szkolenia' : 'Technical support and training'}
+                  </td>
+                </tr>
+              </table>
 
               <!-- CTA Button -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td align="center" style="padding: 8px 0 24px;">
-                    <a href="https://shop.droneagri.pl/b2b/login" style="display: inline-block; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);">
-                      ${isPL ? 'Zaloguj się do panelu B2B' : 'Login to B2B Portal'}
+                  <td align="center" style="padding: 8px 0 32px;">
+                    <a href="https://shop.droneagri.pl/b2b/login" style="display: inline-block; background-color: #b91c1c; color: #ffffff; text-decoration: none; padding: 14px 32px; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">
+                      ${isPL ? 'PRZEJDŹ DO PANELU B2B' : 'GO TO B2B PANEL'}
                     </a>
                   </td>
                 </tr>
               </table>
 
-              <!-- Contact Info -->
-              <div style="text-align: center; padding-top: 16px; border-top: 1px solid #e5e7eb;">
-                <p style="margin: 0 0 8px; color: #6b7280; font-size: 14px;">
-                  ${isPL ? 'Masz pytania? Skontaktuj się z nami:' : 'Have questions? Contact us:'}
-                </p>
-                <p style="margin: 0;">
-                  <a href="mailto:biuro@imegagroup.pl" style="color: #dc2626; text-decoration: none; font-weight: 500;">
-                    biuro@imegagroup.pl
-                  </a>
-                </p>
-              </div>
+              <!-- Contact -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-top: 1px solid #e0e0e0; padding-top: 24px;">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 8px; color: #666666; font-size: 13px;">
+                      ${isPL ? 'W razie pytań pozostajemy do dyspozycji:' : 'For any questions, please contact us:'}
+                    </p>
+                    <p style="margin: 0; color: #333333; font-size: 14px;">
+                      <a href="mailto:biuro@imegagroup.pl" style="color: #b91c1c; text-decoration: none;">biuro@imegagroup.pl</a>
+                      <span style="color: #999999; margin: 0 8px;">|</span>
+                      <a href="tel:+48696350197" style="color: #333333; text-decoration: none;">+48 784 608 733</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Signature -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 32px;">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 4px; color: #333333; font-size: 14px;">
+                      ${isPL ? 'Z poważaniem,' : 'Best regards,'}
+                    </p>
+                    <p style="margin: 0; color: #333333; font-size: 14px; font-weight: 600;">
+                      ${isPL ? 'Zespół XAG Polska' : 'XAG Polska Team'}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="background: #1f2937; padding: 32px 40px;">
+            <td style="background-color: #1a1a1a; padding: 24px 40px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <p style="margin: 0 0 8px; color: #ffffff; font-size: 16px; font-weight: 600;">
-                      XAG Polska
+                    <p style="margin: 0 0 4px; color: #ffffff; font-size: 13px; font-weight: 600;">
+                      XAG Polska / iMega Group
                     </p>
-                    <p style="margin: 0; color: #9ca3af; font-size: 13px; line-height: 1.6;">
-                      ${isPL
-                        ? 'Oficjalny dystrybutor dronów XAG w Polsce i Europie'
-                        : 'Official XAG drone distributor in Poland and Europe'
-                      }
+                    <p style="margin: 0; color: #999999; font-size: 12px;">
+                      ${isPL ? 'Oficjalny dystrybutor dronów XAG w Polsce i Europie' : 'Official XAG drone distributor in Poland and Europe'}
                     </p>
                   </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 24px;">
-                    <table role="presentation" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td style="padding-right: 16px;">
-                          <a href="https://droneagri.pl" style="color: #9ca3af; text-decoration: none; font-size: 13px;">droneagri.pl</a>
-                        </td>
-                        <td style="padding-right: 16px; color: #4b5563;">|</td>
-                        <td>
-                          <a href="https://shop.droneagri.pl" style="color: #9ca3af; text-decoration: none; font-size: 13px;">shop.droneagri.pl</a>
-                        </td>
-                      </tr>
-                    </table>
+                  <td align="right" style="vertical-align: middle;">
+                    <a href="https://droneagri.pl" style="color: #999999; text-decoration: none; font-size: 12px; margin-right: 16px;">droneagri.pl</a>
+                    <a href="https://shop.droneagri.pl" style="color: #999999; text-decoration: none; font-size: 12px;">shop.droneagri.pl</a>
                   </td>
                 </tr>
               </table>
@@ -373,15 +332,14 @@ export async function sendB2BWelcomeEmail(
         <!-- Legal Footer -->
         <table role="presentation" width="600" cellspacing="0" cellpadding="0">
           <tr>
-            <td align="center" style="padding: 24px 40px;">
-              <p style="margin: 0; color: #9ca3af; font-size: 12px; line-height: 1.6;">
+            <td align="center" style="padding: 20px 40px;">
+              <p style="margin: 0; color: #999999; font-size: 11px; line-height: 1.5;">
                 ${isPL
-                  ? 'Ta wiadomość została wysłana automatycznie. Otrzymujesz ją, ponieważ zarejestrowałeś konto B2B w shop.droneagri.pl'
-                  : 'This message was sent automatically. You received it because you registered a B2B account at shop.droneagri.pl'
+                  ? 'Wiadomość wygenerowana automatycznie w związku z rejestracją konta B2B.'
+                  : 'This message was automatically generated due to B2B account registration.'
                 }
-              </p>
-              <p style="margin: 12px 0 0; color: #9ca3af; font-size: 11px;">
-                © ${new Date().getFullYear()} XAG Polska / iMega Group. ${isPL ? 'Wszelkie prawa zastrzeżone.' : 'All rights reserved.'}
+                <br/>
+                © ${new Date().getFullYear()} XAG Polska / iMega Group
               </p>
             </td>
           </tr>
@@ -395,8 +353,8 @@ export async function sendB2BWelcomeEmail(
   `;
 
   const text = isPL
-    ? `Witaj ${data.contactName}!\n\nCieszymy się, że ${data.companyName} dołącza do grona naszych partnerów B2B XAG Polska.\n\nTwoje konto zostało aktywowane. Możesz się zalogować na: https://shop.droneagri.pl/b2b/login\n\nEmail: ${data.email}\n\nKorzyści B2B:\n- Specjalne ceny hurtowe dla partnerów\n- Dedykowany opiekun klienta\n- Priorytetowa obsługa zamówień\n- Dostęp do szkoleń i wsparcia technicznego\n\nMasz pytania? Skontaktuj się: biuro@imegagroup.pl\n\nPozdrawiamy,\nZespół XAG Polska`
-    : `Welcome ${data.contactName}!\n\nWe're excited to have ${data.companyName} join our B2B partner network at XAG Polska.\n\nYour account has been activated. You can login at: https://shop.droneagri.pl/b2b/login\n\nEmail: ${data.email}\n\nB2B Benefits:\n- Special wholesale prices for partners\n- Dedicated account manager\n- Priority order processing\n- Access to training and technical support\n\nHave questions? Contact us: biuro@imegagroup.pl\n\nBest regards,\nXAG Polska Team`;
+    ? `Szanowny Partnerze,\n\nPotwierdzamy rejestrację firmy ${data.companyName} w programie B2B XAG Polska. Państwa konto zostało pomyślnie aktywowane.\n\nDane dostępowe:\nLogin: ${data.email}\nHasło: ustalone podczas rejestracji\n\nPanel B2B: https://shop.droneagri.pl/b2b/login\n\nW ramach współpracy B2B oferujemy:\n- Indywidualne warunki cenowe\n- Dedykowaną obsługę klienta\n- Priorytetową realizację zamówień\n- Wsparcie techniczne i szkolenia\n\nW razie pytań: biuro@imegagroup.pl | +48 784 608 733\n\nZ poważaniem,\nZespół XAG Polska`
+    : `Dear Partner,\n\nWe confirm the registration of ${data.companyName} in the XAG Polska B2B program. Your account has been successfully activated.\n\nAccess Details:\nLogin: ${data.email}\nPassword: set during registration\n\nB2B Panel: https://shop.droneagri.pl/b2b/login\n\nAs part of B2B cooperation, we offer:\n- Individual pricing conditions\n- Dedicated customer service\n- Priority order fulfillment\n- Technical support and training\n\nFor questions: biuro@imegagroup.pl | +48 784 608 733\n\nBest regards,\nXAG Polska Team`;
 
   return sendEmail({ to, subject, html, text });
 }

@@ -178,30 +178,10 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-// DELETE - Delete product
-export async function DELETE(request: NextRequest) {
-  try {
-    const prisma = await getPrisma();
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-
-    if (!id) {
-      return NextResponse.json(
-        { error: 'Product ID is required' },
-        { status: 400 }
-      );
-    }
-
-    await prisma.product.delete({
-      where: { id },
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Failed to delete product:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete product' },
-      { status: 500 }
-    );
-  }
+// DELETE - DISABLED - Products cannot be deleted
+export async function DELETE() {
+  return NextResponse.json(
+    { error: 'Product deletion is disabled. Contact administrator.' },
+    { status: 403 }
+  );
 }

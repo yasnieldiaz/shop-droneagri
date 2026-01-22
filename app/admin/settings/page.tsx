@@ -1,8 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SettingsPage() {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
   // General Settings
   const [storeName, setStoreName] = useState('DroneAgri.pl');
   const [storeEmail, setStoreEmail] = useState('biuro@imegagroup.pl');
@@ -19,6 +23,7 @@ export default function SettingsPage() {
   const [smtpFromName, setSmtpFromName] = useState('DroneAgri.pl');
   const [smtpFromEmail, setSmtpFromEmail] = useState('');
   const [showSmtpPassword, setShowSmtpPassword] = useState(false);
+  const [testingEmail, setTestingEmail] = useState(false);
 
   // Vonage SMS Settings
   const [smsEnabled, setSmsEnabled] = useState(false);
@@ -34,18 +39,152 @@ export default function SettingsPage() {
 
   // Bank Details
   const [bankName, setBankName] = useState('Bank Pekao S.A.');
-  const [bankAccountPLN, setBankAccountPLN] = useState('PL XX XXXX XXXX XXXX XXXX XXXX XXXX');
-  const [bankAccountEUR, setBankAccountEUR] = useState('PL XX XXXX XXXX XXXX XXXX XXXX XXXX');
+  const [bankAccountPLN, setBankAccountPLN] = useState('');
+  const [bankAccountEUR, setBankAccountEUR] = useState('');
   const [bankSwift, setBankSwift] = useState('PKOPPLPW');
   const [bankRecipient, setBankRecipient] = useState('IMEGA Sp. z o.o.');
 
-  const handleTestEmail = () => {
-    alert('Test email would be sent to: ' + storeEmail);
+  // Load settings on mount
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const response = await fetch('/api/admin/settings');
+      if (response.ok) {
+        const data = await response.json();
+        const s = data.settings || {};
+
+        setStoreName(s.store_name || 'DroneAgri.pl');
+        setStoreEmail(s.store_email || 'biuro@imegagroup.pl');
+        setStorePhone(s.store_phone || '+48 518 416 466');
+        setCurrency(s.currency || 'PLN');
+        setLowStockThreshold(s.low_stock_threshold || '5');
+
+        setSmtpEnabled(s.smtp_enabled !== 'false');
+        setSmtpHost(s.smtp_host || 'smtp.gmail.com');
+        setSmtpPort(s.smtp_port || '587');
+        setSmtpUser(s.smtp_user || '');
+        setSmtpPassword(s.smtp_password || '');
+        setSmtpFromName(s.smtp_from_name || 'DroneAgri.pl');
+        setSmtpFromEmail(s.smtp_from_email || '');
+
+        setSmsEnabled(s.sms_enabled === 'true');
+        setVonageApiKey(s.vonage_api_key || '');
+        setVonageApiSecret(s.vonage_api_secret || '');
+        setVonageFromNumber(s.vonage_from_number || '');
+        setSmsOrderConfirmation(s.sms_order_confirmation !== 'false');
+        setSmsShippingUpdate(s.sms_shipping_update !== 'false');
+        setSmsDeliveryConfirmation(s.sms_delivery_confirmation === 'true');
+
+        setBankName(s.bank_name || 'Bank Pekao S.A.');
+        setBankRecipient(s.bank_recipient || 'IMEGA Sp. z o.o.');
+        setBankAccountPLN(s.bank_account_pln || '');
+        setBankAccountEUR(s.bank_account_eur || '');
+        setBankSwift(s.bank_swift || 'PKOPPLPW');
+      }
+    } catch (error) {
+      console.error('Failed to load settings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setMessage(null);
+
+    try {
+      const response = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          store_name: storeName,
+          store_email: storeEmail,
+          store_phone: storePhone,
+          currency: currency,
+          low_stock_threshold: lowStockThreshold,
+          smtp_enabled: smtpEnabled.toString(),
+          smtp_host: smtpHost,
+          smtp_port: smtpPort,
+          smtp_user: smtpUser,
+          smtp_password: smtpPassword,
+          smtp_from_name: smtpFromName,
+          smtp_from_email: smtpFromEmail,
+          sms_enabled: smsEnabled.toString(),
+          vonage_api_key: vonageApiKey,
+          vonage_api_secret: vonageApiSecret,
+          vonage_from_number: vonageFromNumber,
+          sms_order_confirmation: smsOrderConfirmation.toString(),
+          sms_shipping_update: smsShippingUpdate.toString(),
+          sms_delivery_confirmation: smsDeliveryConfirmation.toString(),
+          bank_name: bankName,
+          bank_recipient: bankRecipient,
+          bank_account_pln: bankAccountPLN,
+          bank_account_eur: bankAccountEUR,
+          bank_swift: bankSwift,
+        }),
+      });
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Settings saved successfully!' });
+      } else {
+        const data = await response.json();
+        setMessage({ type: 'error', text: data.error || 'Failed to save settings' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to save settings' });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTestEmail = async () => {
+    if (!smtpUser || !smtpPassword) {
+      setMessage({ type: 'error', text: 'Please configure SMTP settings first and save them' });
+      return;
+    }
+
+    setTestingEmail(true);
+    setMessage(null);
+
+    try {
+      // First save the settings
+      await handleSave();
+
+      // Then send test email
+      const response = await fetch('/api/admin/test-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: storeEmail }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: `Test email sent to ${storeEmail}!` });
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to send test email' });
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Failed to send test email' });
+    } finally {
+      setTestingEmail(false);
+    }
   };
 
   const handleTestSms = () => {
-    alert('Test SMS would be sent to: ' + storePhone);
+    alert('SMS feature coming soon. Test SMS would be sent to: ' + storePhone);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -53,6 +192,12 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
         <p className="text-gray-500">Manage your store configuration</p>
       </div>
+
+      {message && (
+        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+          {message.text}
+        </div>
+      )}
 
       {/* General Settings */}
       <div className="bg-white rounded-xl shadow-sm border">
@@ -94,14 +239,14 @@ export default function SettingsPage() {
               onChange={(e) => setCurrency(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             >
-              <option value="PLN">PLN - Polish Złoty</option>
+              <option value="PLN">PLN - Polish Zloty</option>
               <option value="EUR">EUR - Euro</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Email SMTP Settings (Gmail) */}
+      {/* Email SMTP Settings */}
       <div className="bg-white rounded-xl shadow-sm border">
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -129,7 +274,7 @@ export default function SettingsPage() {
           <div className="p-6 space-y-4">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
               <p className="text-sm text-blue-800">
-                <strong>Note:</strong> For Gmail, you need to use an App Password. Go to your Google Account → Security → 2-Step Verification → App passwords to generate one.
+                <strong>Note:</strong> For Gmail, use an App Password. Go to Google Account &rarr; Security &rarr; 2-Step Verification &rarr; App passwords. Enter password <strong>without spaces</strong>.
               </p>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -161,34 +306,25 @@ export default function SettingsPage() {
                   value={smtpUser}
                   onChange={(e) => setSmtpUser(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                  placeholder="your-email@gmail.com"
+                  placeholder="biuro@imegagroup.pl"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">App Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">App Password (no spaces)</label>
                 <div className="relative">
                   <input
                     type={showSmtpPassword ? 'text' : 'password'}
                     value={smtpPassword}
-                    onChange={(e) => setSmtpPassword(e.target.value)}
+                    onChange={(e) => setSmtpPassword(e.target.value.replace(/\s/g, ''))}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 pr-10"
-                    placeholder="xxxx xxxx xxxx xxxx"
+                    placeholder="xxxxxxxxxxxxxxxx"
                   />
                   <button
                     type="button"
                     onClick={() => setShowSmtpPassword(!showSmtpPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                   >
-                    {showSmtpPassword ? (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    )}
+                    {showSmtpPassword ? '🙈' : '👁️'}
                   </button>
                 </div>
               </div>
@@ -209,16 +345,17 @@ export default function SettingsPage() {
                   value={smtpFromEmail}
                   onChange={(e) => setSmtpFromEmail(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                  placeholder="noreply@droneagri.pl"
+                  placeholder="biuro@imegagroup.pl"
                 />
               </div>
             </div>
             <div className="pt-4 border-t">
               <button
                 onClick={handleTestEmail}
-                className="px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red/10 transition-colors"
+                disabled={testingEmail}
+                className="px-4 py-2 border border-brand-red text-brand-red rounded-lg hover:bg-brand-red/10 transition-colors disabled:opacity-50"
               >
-                Send Test Email
+                {testingEmail ? 'Sending...' : 'Send Test Email'}
               </button>
             </div>
           </div>
@@ -251,11 +388,6 @@ export default function SettingsPage() {
         </div>
         {smsEnabled && (
           <div className="p-6 space-y-4">
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
-              <p className="text-sm text-purple-800">
-                <strong>Get your credentials:</strong> Log in to your <a href="https://dashboard.nexmo.com" target="_blank" rel="noopener noreferrer" className="underline">Vonage Dashboard</a> → API Settings to find your API Key and Secret.
-              </p>
-            </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">API Key</label>
@@ -264,36 +396,16 @@ export default function SettingsPage() {
                   value={vonageApiKey}
                   onChange={(e) => setVonageApiKey(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                  placeholder="abc12345"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">API Secret</label>
-                <div className="relative">
-                  <input
-                    type={showVonageSecret ? 'text' : 'password'}
-                    value={vonageApiSecret}
-                    onChange={(e) => setVonageApiSecret(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 pr-10"
-                    placeholder="••••••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowVonageSecret(!showVonageSecret)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showVonageSecret ? (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                    )}
-                  </button>
-                </div>
+                <input
+                  type={showVonageSecret ? 'text' : 'password'}
+                  value={vonageApiSecret}
+                  onChange={(e) => setVonageApiSecret(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Sender Number / Name</label>
@@ -304,53 +416,8 @@ export default function SettingsPage() {
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
                   placeholder="+48123456789 or DroneAgri"
                 />
-                <p className="text-xs text-gray-500 mt-1">Use a registered phone number or alphanumeric sender ID (max 11 characters)</p>
               </div>
             </div>
-
-            {/* SMS Notification Types */}
-            <div className="pt-4 border-t">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">SMS Notifications</h3>
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={smsOrderConfirmation}
-                    onChange={(e) => setSmsOrderConfirmation(e.target.checked)}
-                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
-                  />
-                  <div>
-                    <span className="text-sm font-medium text-gray-700">Order Confirmation</span>
-                    <p className="text-xs text-gray-500">Send SMS when a new order is placed</p>
-                  </div>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={smsShippingUpdate}
-                    onChange={(e) => setSmsShippingUpdate(e.target.checked)}
-                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
-                  />
-                  <div>
-                    <span className="text-sm font-medium text-gray-700">Shipping Update</span>
-                    <p className="text-xs text-gray-500">Send SMS when order is shipped</p>
-                  </div>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={smsDeliveryConfirmation}
-                    onChange={(e) => setSmsDeliveryConfirmation(e.target.checked)}
-                    className="w-4 h-4 text-brand-red border-gray-300 rounded focus:ring-brand-red"
-                  />
-                  <div>
-                    <span className="text-sm font-medium text-gray-700">Delivery Confirmation</span>
-                    <p className="text-xs text-gray-500">Send SMS when order is delivered</p>
-                  </div>
-                </label>
-              </div>
-            </div>
-
             <div className="pt-4 border-t">
               <button
                 onClick={handleTestSms}
@@ -377,7 +444,6 @@ export default function SettingsPage() {
               onChange={(e) => setLowStockThreshold(e.target.value)}
               className="w-full max-w-xs px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
             />
-            <p className="text-xs text-gray-500 mt-1">Products with stock below this number will trigger low stock alerts</p>
           </div>
         </div>
       </div>
@@ -386,7 +452,6 @@ export default function SettingsPage() {
       <div className="bg-white rounded-xl shadow-sm border">
         <div className="px-6 py-4 border-b">
           <h2 className="text-lg font-semibold text-gray-900">Bank Transfer Details</h2>
-          <p className="text-sm text-gray-500">Bank account information shown to customers for wire transfers</p>
         </div>
         <div className="p-6 space-y-4">
           <div className="grid md:grid-cols-2 gap-4">
@@ -397,7 +462,6 @@ export default function SettingsPage() {
                 value={bankName}
                 onChange={(e) => setBankName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                placeholder="Bank Pekao S.A."
               />
             </div>
             <div>
@@ -407,7 +471,6 @@ export default function SettingsPage() {
                 value={bankRecipient}
                 onChange={(e) => setBankRecipient(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                placeholder="IMEGA Sp. z o.o."
               />
             </div>
           </div>
@@ -438,7 +501,6 @@ export default function SettingsPage() {
               value={bankSwift}
               onChange={(e) => setBankSwift(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 font-mono uppercase"
-              placeholder="PKOPPLPW"
             />
           </div>
         </div>
@@ -446,11 +508,18 @@ export default function SettingsPage() {
 
       {/* Save Button */}
       <div className="flex justify-end gap-3">
-        <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+        <button
+          onClick={() => window.location.reload()}
+          className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+        >
           Cancel
         </button>
-        <button className="px-6 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red/90 transition-colors">
-          Save Changes
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="px-6 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red/90 transition-colors disabled:opacity-50"
+        >
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPrisma } from '@/lib/db/prisma';
 import bcrypt from 'bcryptjs';
+import { sendB2BWelcomeEmail } from '@/lib/services/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -92,6 +93,20 @@ export async function POST(request: NextRequest) {
         approvedAt: vatResult.valid ? new Date() : null,
       },
     });
+
+    // Send welcome email (don't fail registration if email fails)
+    try {
+      await sendB2BWelcomeEmail(customer.email, {
+        companyName: customer.companyName,
+        contactName: customer.contactName,
+        email: customer.email,
+        region: customer.region as 'POLAND' | 'EU',
+      });
+      console.log('Welcome email sent to:', customer.email);
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError);
+      // Continue with registration success even if email fails
+    }
 
     return NextResponse.json({
       success: true,

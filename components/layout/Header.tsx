@@ -72,6 +72,18 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
+            <a
+              href="https://droneagri.pl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-brand-red font-semibold hover:text-red-700 transition-colors"
+            >
+              XAG Polska
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+
             <Link
               href="/products"
               className="text-navy font-medium hover:text-brand-red transition-colors"
@@ -189,6 +201,18 @@ export function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden border-t border-gray-100 py-4">
             <div className="flex flex-col space-y-2">
+              <a
+                href="https://droneagri.pl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-brand-red font-semibold hover:text-red-700 transition-colors py-2"
+              >
+                XAG Polska
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+
               <Link
                 href="/products"
                 onClick={() => setIsMobileMenuOpen(false)}

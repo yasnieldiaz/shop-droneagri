@@ -23,17 +23,13 @@ const navigation: NavItem[] = [
     icon: 'inventory',
     children: [
       { name: 'Overview', href: '/admin/inventory' },
-      { name: 'Repuestos', href: '/admin/spare-parts' },
+      { name: 'P100 Pro', href: '/admin/spare-parts/p100-pro' },
+      { name: 'P150 Max', href: '/admin/spare-parts/p150-max' },
     ]
   },
   { name: 'Customers', href: '/admin/customers', icon: 'customers' },
   { name: 'B2B', href: '/admin/b2b', icon: 'b2b' },
   { name: 'Settings', href: '/admin/settings', icon: 'settings' },
-];
-
-const sparePartsNav = [
-  { name: 'P100 Pro', href: '/admin/spare-parts/p100-pro' },
-  { name: 'P150 Max', href: '/admin/spare-parts/p150-max' },
 ];
 
 const icons: Record<string, React.ReactNode> = {
@@ -73,12 +69,6 @@ const icons: Record<string, React.ReactNode> = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
     </svg>
   ),
-  spareParts: (
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  ),
 };
 
 function AdminLayoutContent({
@@ -104,8 +94,6 @@ function AdminLayoutContent({
         : [...prev, itemName]
     );
   };
-
-  const isSparePartsActive = pathname.startsWith('/admin/spare-parts');
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -142,6 +130,7 @@ function AdminLayoutContent({
               const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href) && !item.children);
               const hasChildren = item.children && item.children.length > 0;
               const isExpanded = expandedItems.includes(item.name);
+              const isParentActive = item.children?.some(child => pathname === child.href || pathname.startsWith(child.href));
 
               if (hasChildren) {
                 return (
@@ -149,7 +138,7 @@ function AdminLayoutContent({
                     <button
                       onClick={() => toggleExpand(item.name)}
                       className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
-                        pathname.startsWith(item.href) || isSparePartsActive && item.name === 'Inventory'
+                        isParentActive
                           ? 'bg-white/10 text-white'
                           : 'text-gray-300 hover:bg-white/10 hover:text-white'
                       }`}
@@ -179,41 +168,10 @@ function AdminLayoutContent({
                                 : 'text-gray-400 hover:bg-white/10 hover:text-white'
                             }`}
                           >
-                            <span className="w-1 h-1 bg-current rounded-full"></span>
+                            <span className="w-1.5 h-1.5 bg-current rounded-full"></span>
                             {child.name}
                           </Link>
                         ))}
-                        {/* Spare Parts submenu */}
-                        {item.name === 'Inventory' && (
-                          <div className="mt-1">
-                            <div
-                              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                                isSparePartsActive
-                                  ? 'bg-brand-red/20 text-white'
-                                  : 'text-gray-400'
-                              }`}
-                            >
-                              <span className="w-1 h-1 bg-current rounded-full"></span>
-                              <span className="font-medium">Repuestos</span>
-                            </div>
-                            <div className="ml-4 space-y-1">
-                              {sparePartsNav.map((sp) => (
-                                <Link
-                                  key={sp.href}
-                                  href={sp.href}
-                                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-colors ${
-                                    pathname === sp.href
-                                      ? 'bg-brand-red text-white'
-                                      : 'text-gray-500 hover:bg-white/10 hover:text-white'
-                                  }`}
-                                >
-                                  <span className="w-1 h-1 bg-current rounded-full"></span>
-                                  {sp.name}
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     )}
                   </div>

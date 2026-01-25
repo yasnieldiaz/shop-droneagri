@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useCartStore } from '@/lib/store/cart';
 
 export function CartDrawer() {
+  const t = useTranslations('cart');
   const isOpen = useCartStore((state) => state.isOpen);
   const items = useCartStore((state) => state.items);
   const subtotal = useCartStore((state) => state.subtotal);
@@ -26,7 +28,6 @@ export function CartDrawer() {
     useCartStore.getState().updateQuantity(productId, quantity);
   }, []);
 
-  // Close on escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleClose();
@@ -75,7 +76,7 @@ export function CartDrawer() {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-            Cart
+            {t('title')}
             {itemCount > 0 && (
               <span className="bg-brand-red text-white text-sm px-2 py-0.5 rounded-full">
                 {itemCount}
@@ -99,14 +100,14 @@ export function CartDrawer() {
             <svg className="w-20 h-20 text-gray-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Your cart is empty</h3>
-            <p className="text-gray-500 mb-6">Start shopping to add items to your cart.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('emptyCart')}</h3>
+            <p className="text-gray-500 mb-6">{t('emptyCartDesc')}</p>
             <Link
               href="/products"
               onClick={handleClose}
               className="btn-primary"
             >
-              Browse Products
+              {t('browseProducts')}
             </Link>
           </div>
         ) : (
@@ -174,7 +175,7 @@ export function CartDrawer() {
             {/* Footer */}
             <div className="border-t px-6 py-4 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Subtotal</span>
+                <span className="text-gray-600">{t('subtotal')}</span>
                 <span className="text-xl font-bold text-navy">
                   {formatPrice(
                     items.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -182,19 +183,19 @@ export function CartDrawer() {
                   )}
                 </span>
               </div>
-              <p className="text-sm text-gray-500">Shipping calculated at checkout</p>
+              <p className="text-sm text-gray-500">{t('shippingAtCheckout')}</p>
               <Link
                 href="/checkout"
                 onClick={handleClose}
                 className="btn-primary w-full justify-center"
               >
-                Checkout
+                {t('checkout')}
               </Link>
               <button
                 onClick={handleClose}
                 className="btn-secondary w-full justify-center"
               >
-                Continue Shopping
+                {t('continueShopping')}
               </button>
             </div>
           </>

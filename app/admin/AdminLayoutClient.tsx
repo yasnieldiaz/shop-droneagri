@@ -177,16 +177,6 @@ function AdminLayoutContent({
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* Quick actions */}
-            <Link
-              href="/admin/products/new"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-brand-red rounded-lg hover:bg-brand-red/90 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              New Product
-            </Link>
           </div>
         </header>
 

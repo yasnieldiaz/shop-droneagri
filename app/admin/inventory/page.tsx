@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 interface Product {
@@ -45,6 +45,8 @@ export default function InventoryPage() {
   const [adjustmentValue, setAdjustmentValue] = useState('');
   const [adjustmentReason, setAdjustmentReason] = useState('');
   const [showProductModal, setShowProductModal] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [productForm, setProductForm] = useState({
     sku: '',
     slug: '',
@@ -123,6 +125,39 @@ export default function InventoryPage() {
       }
     } catch (error) {
       console.error('Failed to adjust stock:', error);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('folder', 'products');
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        setProductForm({ ...productForm, mainImage: data.url });
+      } else {
+        alert(data.error || 'Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Upload failed:', error);
+      alert('Failed to upload image');
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -513,16 +548,66 @@ export default function InventoryPage() {
                 />
               </div>
 
-              {/* Row 4: Image URL */}
+              {/* Row 4: Image Upload */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Main Image URL</label>
-                <input
-                  type="text"
-                  value={productForm.mainImage}
-                  onChange={(e) => setProductForm({ ...productForm, mainImage: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                  placeholder="/images/products/smart-battery/09-017-00064-1.jpg"
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-1">Main Image</label>
+                <div className="flex gap-4">
+                  <div className="flex-1 space-y-2">
+                    <input
+                      type="text"
+                      value={productForm.mainImage}
+                      onChange={(e) => setProductForm({ ...productForm, mainImage: e.target.value })}
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                      placeholder="URL or upload an image"
+                    />
+                    <div className="flex items-center gap-2">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                        id="image-upload"
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className={`inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        {isUploading ? (
+                          <>
+                            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span className="text-sm text-gray-600">Uploading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span className="text-sm text-gray-600">Upload Image</span>
+                          </>
+                        )}
+                      </label>
+                      <span className="text-xs text-gray-400">JPG, PNG, WebP (max 5MB)</span>
+                    </div>
+                  </div>
+                  {productForm.mainImage && (
+                    <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 border">
+                      <Image
+                        src={productForm.mainImage}
+                        alt="Preview"
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Row 5: Prices */}

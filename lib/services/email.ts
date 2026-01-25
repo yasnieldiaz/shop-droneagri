@@ -263,7 +263,7 @@ export async function sendB2BWelcomeEmail(
                       biuro@imegagroup.pl
                     </p>
                     <p style="margin: 4px 0 0; color: #333333; font-size: 14px;">
-                      +48 784 608 733
+                      +48 518 416 466
                     </p>
                   </td>
                 </tr>
@@ -311,8 +311,8 @@ export async function sendB2BWelcomeEmail(
   `;
 
   const text = isPL
-    ? `Szanowny Partnerze,\n\nPotwierdzamy rejestrację firmy ${data.companyName} w programie B2B XAG Polska. Państwa konto zostało pomyślnie aktywowane.\n\nDane dostępowe:\nLogin: ${data.email}\nHasło: ustalone podczas rejestracji\n\nPanel B2B: https://shop.droneagri.pl/b2b/login\n\nW ramach współpracy B2B oferujemy:\n- Indywidualne warunki cenowe\n- Dedykowaną obsługę klienta\n- Priorytetową realizację zamówień\n- Wsparcie techniczne i szkolenia\n\nW razie pytań: biuro@imegagroup.pl | +48 784 608 733\n\nZ poważaniem,\nZespół XAG Polska`
-    : `Dear Partner,\n\nWe confirm the registration of ${data.companyName} in the XAG Polska B2B program. Your account has been successfully activated.\n\nAccess Details:\nLogin: ${data.email}\nPassword: set during registration\n\nB2B Panel: https://shop.droneagri.pl/b2b/login\n\nAs part of B2B cooperation, we offer:\n- Individual pricing conditions\n- Dedicated customer service\n- Priority order fulfillment\n- Technical support and training\n\nFor questions: biuro@imegagroup.pl | +48 784 608 733\n\nBest regards,\nXAG Polska Team`;
+    ? `Szanowny Partnerze,\n\nPotwierdzamy rejestrację firmy ${data.companyName} w programie B2B XAG Polska. Państwa konto zostało pomyślnie aktywowane.\n\nDane dostępowe:\nLogin: ${data.email}\nHasło: ustalone podczas rejestracji\n\nPanel B2B: https://shop.droneagri.pl/b2b/login\n\nW ramach współpracy B2B oferujemy:\n- Indywidualne warunki cenowe\n- Dedykowaną obsługę klienta\n- Priorytetową realizację zamówień\n- Wsparcie techniczne i szkolenia\n\nW razie pytań: biuro@imegagroup.pl | +48 518 416 466\n\nZ poważaniem,\nZespół XAG Polska`
+    : `Dear Partner,\n\nWe confirm the registration of ${data.companyName} in the XAG Polska B2B program. Your account has been successfully activated.\n\nAccess Details:\nLogin: ${data.email}\nPassword: set during registration\n\nB2B Panel: https://shop.droneagri.pl/b2b/login\n\nAs part of B2B cooperation, we offer:\n- Individual pricing conditions\n- Dedicated customer service\n- Priority order fulfillment\n- Technical support and training\n\nFor questions: biuro@imegagroup.pl | +48 518 416 466\n\nBest regards,\nXAG Polska Team`;
 
   return sendEmail({ to, subject, html, text });
 }

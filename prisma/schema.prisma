@@ -135,7 +135,8 @@ model B2BCustomer {
   lastLoginAt     DateTime?
 
   // Relations
-  orders          B2BOrder[]
+  orders        B2BOrder[]
+  serialRecords SerialRecord[]
   customPrices    B2BPrice[]
 }
 
@@ -257,4 +258,16 @@ model Settings {
   value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model SerialRecord {
+  id           String   @id @default(cuid())
+  productCode  String
+  productType  String   @default("drone")
+  serialNumber String   @unique
+  saleDate     DateTime
+  customerId   String
+  customer     B2BCustomer @relation(fields: [customerId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

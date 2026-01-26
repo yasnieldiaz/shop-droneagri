@@ -26,6 +26,7 @@ const droneOptions = [
 export default function SparePartsPage() {
   const t = useTranslations('products');
   const tc = useTranslations('common');
+  const ts = useTranslations('sparePartsPage');
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -37,11 +38,11 @@ export default function SparePartsPage() {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <span className="text-white">Spare Parts</span>
+            <span className="text-white">{ts('title')}</span>
           </nav>
-          <h1 className="text-3xl md:text-4xl font-bold">Spare Parts</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">{ts('title')}</h1>
           <p className="text-gray-300 mt-2">
-            Select your drone model to browse available spare parts
+            {ts('subtitle')}
           </p>
         </div>
       </div>
@@ -72,7 +73,7 @@ export default function SparePartsPage() {
                     {drone.name}
                   </h2>
                   <span className="px-3 py-1 bg-brand-red/10 text-brand-red text-sm font-medium rounded-full">
-                    {drone.partsCount} parts
+                    {drone.partsCount} {ts('parts')}
                   </span>
                 </div>
                 <p className="text-gray-600 mb-4">{drone.description}</p>
@@ -97,20 +98,20 @@ export default function SparePartsPage() {
         {/* Info Section */}
         <div className="mt-16 text-center max-w-2xl mx-auto">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">
-            Need help finding the right part?
+            {ts('needHelp')}
           </h3>
           <p className="text-gray-600 mb-6">
-            Contact our technical support team for assistance in identifying the correct spare parts for your XAG drone.
+            {ts('helpDescription')}
           </p>
-          <Link
-            href="/contact"
+          <a
+            href="mailto:biuro@imegagroup.pl"
             className="inline-flex items-center gap-2 px-6 py-3 bg-navy text-white rounded-lg hover:bg-navy/90 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            Contact Support
-          </Link>
+            {ts('contactSupport')}
+          </a>
         </div>
       </div>
     </div>

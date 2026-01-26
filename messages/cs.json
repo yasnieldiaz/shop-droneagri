@@ -45,6 +45,14 @@
     "spareParts": "Náhradní díly",
     "sparePartsDesc": "Originální náhradní díly pro vaše vybavení"
   },
+  "sparePartsPage": {
+    "title": "Náhradní díly",
+    "subtitle": "Vyberte model dronu pro procházení dostupných náhradních dílů",
+    "parts": "dílů",
+    "needHelp": "Potřebujete pomoc s nalezením správného dílu?",
+    "helpDescription": "Kontaktujte náš tým technické podpory pro pomoc s identifikací správných náhradních dílů pro váš dron XAG.",
+    "contactSupport": "Kontaktovat podporu"
+  },
   "p150Max": {
     "badge": "NOVINKA 2024",
     "title": "XAG P150 Max",

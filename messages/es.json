@@ -45,6 +45,14 @@
     "spareParts": "Repuestos",
     "sparePartsDesc": "Piezas de repuesto originales para tu equipo"
   },
+  "sparePartsPage": {
+    "title": "Repuestos",
+    "subtitle": "Selecciona tu modelo de dron para ver los repuestos disponibles",
+    "parts": "piezas",
+    "needHelp": "¿Necesitas ayuda para encontrar la pieza correcta?",
+    "helpDescription": "Contacta con nuestro equipo de soporte técnico para obtener ayuda en la identificación de los repuestos correctos para tu dron XAG.",
+    "contactSupport": "Contactar Soporte"
+  },
   "p150Max": {
     "badge": "NUEVO 2024",
     "title": "XAG P150 Max",

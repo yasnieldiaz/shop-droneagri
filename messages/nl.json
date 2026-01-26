@@ -45,6 +45,14 @@
     "spareParts": "Reserveonderdelen",
     "sparePartsDesc": "Originele reserveonderdelen voor uw apparatuur"
   },
+  "sparePartsPage": {
+    "title": "Reserveonderdelen",
+    "subtitle": "Selecteer uw dronemodel om beschikbare reserveonderdelen te bekijken",
+    "parts": "onderdelen",
+    "needHelp": "Hulp nodig bij het vinden van het juiste onderdeel?",
+    "helpDescription": "Neem contact op met ons technisch ondersteuningsteam voor hulp bij het identificeren van de juiste reserveonderdelen voor uw XAG-drone.",
+    "contactSupport": "Contact opnemen"
+  },
   "p150Max": {
     "badge": "NIEUW 2024",
     "title": "XAG P150 Max",

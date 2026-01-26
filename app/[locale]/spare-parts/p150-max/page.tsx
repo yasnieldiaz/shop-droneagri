@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { ProductImage } from '@/components/ui/ProductImage';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useCartStore } from '@/lib/store/cart';
 
 interface Product {
@@ -27,7 +27,12 @@ export default function P150MaxSparePartsPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const t = useTranslations('products');
   const tc = useTranslations('common');
+  const locale = useLocale();
   const { addItem } = useCartStore();
+
+  // Poland shows PLN, rest of world shows EUR
+  const isPoland = locale === 'pl';
+  const currency = isPoland ? 'PLN' : 'EUR';
 
   useEffect(() => {
     fetchProducts();
@@ -62,12 +67,19 @@ export default function P150MaxSparePartsPage() {
       return sortOrder === 'asc' ? comparison : -comparison;
     });
 
-  const formatPrice = (cents: number) => {
-    return new Intl.NumberFormat('pl-PL', {
+  const formatPrice = (pricePLN: number, priceEUR: number) => {
+    if (isPoland) {
+      return new Intl.NumberFormat('pl-PL', {
+        style: 'currency',
+        currency: 'PLN',
+        minimumFractionDigits: 2,
+      }).format(pricePLN / 100);
+    }
+    return new Intl.NumberFormat('en-EU', {
       style: 'currency',
-      currency: 'PLN',
+      currency: 'EUR',
       minimumFractionDigits: 2,
-    }).format(cents / 100);
+    }).format(priceEUR / 100);
   };
 
   const handleAddToCart = (product: Product) => {
@@ -75,10 +87,10 @@ export default function P150MaxSparePartsPage() {
       productId: product.id,
       name: product.name,
       slug: product.slug,
-      price: product.price,
+      price: isPoland ? product.price : product.priceEUR,
       quantity: 1,
       image: product.mainImage,
-      currency: 'PLN',
+      currency: currency,
     });
   };
 
@@ -183,7 +195,7 @@ export default function P150MaxSparePartsPage() {
                   </h3>
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-lg font-bold text-brand-red">
-                      {formatPrice(product.price)}
+                      {formatPrice(product.price, product.priceEUR)}
                     </span>
                     <span className={`text-xs px-2 py-1 rounded-full ${product.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                       {product.stock > 0 ? `In stock (${product.stock})` : 'Out of stock'}

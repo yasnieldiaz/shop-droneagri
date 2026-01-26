@@ -72,13 +72,13 @@ export default function P100ProSparePartsPage() {
 
   const handleAddToCart = (product: Product) => {
     addItem({
-      id: product.id,
+      productId: product.id,
       name: product.name,
+      slug: product.slug,
       price: product.price,
-      priceEUR: product.priceEUR,
       quantity: 1,
-      image: product.mainImage || '',
-      sku: product.sku,
+      image: product.mainImage,
+      currency: 'PLN',
     });
   };
 

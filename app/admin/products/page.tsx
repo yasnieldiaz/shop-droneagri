@@ -53,7 +53,13 @@ export default function ProductsPage() {
     }
   };
 
+  // Exclude spare parts categories (P100 Pro, P150 Max)
+  const sparePartsCategories = ['P100 Pro', 'P150 Max'];
+
   const filteredProducts = products.filter(product => {
+    // Exclude spare parts
+    if (sparePartsCategories.includes(product.category)) return false;
+
     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()) ||
                           product.sku.toLowerCase().includes(search.toLowerCase());
     const status = product.isActive ? 'active' : 'draft';

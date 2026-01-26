@@ -497,7 +497,6 @@ export default function ProductsPage() {
     { value: 'task-system', label: t('taskSystem') },
     { value: 'remote-controller', label: t('remoteController') },
     { value: 'gnss-rtk', label: t('gnssRtk') },
-    { value: 'parts', label: t('spareParts') },
   ];
 
   const sortOptions = [

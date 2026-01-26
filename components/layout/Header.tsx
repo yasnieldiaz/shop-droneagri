@@ -135,7 +135,7 @@ export function Header() {
             </div>
 
             <Link
-              href="/products?category=parts"
+              href="/spare-parts"
               className="text-navy font-medium hover:text-brand-red transition-colors"
             >
               {t('spareParts')}
@@ -262,7 +262,7 @@ export function Header() {
               </div>
 
               <Link
-                href="/products?category=parts"
+                href="/spare-parts"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-navy font-medium hover:text-brand-red transition-colors py-2"
               >

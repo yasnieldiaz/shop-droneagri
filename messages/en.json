@@ -14,7 +14,8 @@
     "products": "Products",
     "search": "Search",
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "browseParts": "Browse Parts"
   },
   "hero": {
     "badge": "Official XAG Dealer in Poland",

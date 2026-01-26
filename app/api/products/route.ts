@@ -36,9 +36,25 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ product });
     }
 
-    // Fetch all products
+    // Get optional category filter
+    const category = searchParams.get('category');
+    const limit = searchParams.get('limit');
+
+    // Build where clause
+    const whereClause: { isActive?: boolean; category?: string } = {};
+
+    // Only filter by isActive if not fetching spare parts
+    if (!category) {
+      whereClause.isActive = true;
+    }
+
+    if (category) {
+      whereClause.category = category;
+    }
+
+    // Fetch products
     const products = await prisma.product.findMany({
-      where: { isActive: true },
+      where: whereClause,
       select: {
         id: true,
         sku: true,
@@ -50,10 +66,13 @@ export async function GET(request: NextRequest) {
         compareAtPriceEUR: true,
         stock: true,
         mainImage: true,
+        isActive: true,
+        category: true,
         preorderEnabled: true,
         preorderLeadTime: true,
       },
       orderBy: { name: 'asc' },
+      ...(limit ? { take: parseInt(limit) } : {}),
     });
 
     return NextResponse.json({ products });

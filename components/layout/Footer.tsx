@@ -44,7 +44,7 @@ export function Footer() {
               <li><Link href="/products?category=airborne" className="hover:text-white transition-colors">{t('drones')}</Link></li>
               <li><Link href="/products?category=landborne" className="hover:text-white transition-colors">{t('robots')}</Link></li>
               <li><Link href="/products?category=accessories" className="hover:text-white transition-colors">{t('accessories')}</Link></li>
-              <li><Link href="/products?category=parts" className="hover:text-white transition-colors">{t('spareParts')}</Link></li>
+              <li><Link href="/spare-parts" className="hover:text-white transition-colors">{t('spareParts')}</Link></li>
             </ul>
           </div>
 

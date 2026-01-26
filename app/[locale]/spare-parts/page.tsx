@@ -11,7 +11,7 @@ const droneOptions = [
     description: '50kg payload, 50L tank - Professional agricultural drone',
     image: '/images/products/drones/p100-pro.webp',
     href: '/spare-parts/p100-pro',
-    partsCount: '150+',
+    partsCount: '260+',
   },
   {
     id: 'p150-max',
@@ -19,7 +19,7 @@ const droneOptions = [
     description: '80kg payload, 80L tank - Maximum performance drone',
     image: '/images/products/drones/p150-max/p150-max-1.png',
     href: '/spare-parts/p150-max',
-    partsCount: '120+',
+    partsCount: '100+',
   },
 ];
 

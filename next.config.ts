@@ -7,8 +7,9 @@ const nextConfig: NextConfig = {
   // Production optimizations
   output: 'standalone',
 
-  // Image optimization
+  // Image optimization - DISABLED for standalone mode
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -19,13 +20,6 @@ const nextConfig: NextConfig = {
         hostname: 'droneagri.pl',
       },
     ],
-    // Enable modern formats for better compression
-    formats: ['image/avif', 'image/webp'],
-    // Cache optimized images for 1 year
-    minimumCacheTTL: 31536000,
-    // Device sizes for responsive images
-    deviceSizes: [640, 750, 828, 1080, 1200],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
 
   // Security and cache headers
@@ -48,7 +42,6 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache static images for 1 year
       {
         source: '/images/:path*',
         headers: [

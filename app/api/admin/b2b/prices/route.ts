@@ -42,40 +42,63 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use the composite unique key for upsert
-    const price = await prisma.b2BPrice.upsert({
+    // Handle null b2bCustomerId separately (for all customers)
+    const customerId = b2bCustomerId || null;
+
+    // First, try to find existing price
+    const existingPrice = await prisma.b2BPrice.findFirst({
       where: {
-        productId_b2bCustomerId: {
-          productId,
-          b2bCustomerId: b2bCustomerId || null,
-        },
-      },
-      update: {
-        productSku,
-        pricePL: pricePL || 0,
-        priceEU: priceEU || 0,
-        discountPL: discountPL || null,
-        discountEU: discountEU || null,
-      },
-      create: {
         productId,
-        productSku,
-        pricePL: pricePL || 0,
-        priceEU: priceEU || 0,
-        discountPL: discountPL || null,
-        discountEU: discountEU || null,
-        b2bCustomerId: b2bCustomerId || null,
-      },
-      include: {
-        b2bCustomer: {
-          select: {
-            id: true,
-            companyName: true,
-            email: true,
-          },
-        },
+        b2bCustomerId: customerId,
       },
     });
+
+    let price;
+
+    if (existingPrice) {
+      // Update existing price
+      price = await prisma.b2BPrice.update({
+        where: { id: existingPrice.id },
+        data: {
+          productSku,
+          pricePL: pricePL || 0,
+          priceEU: priceEU || 0,
+          discountPL: discountPL || null,
+          discountEU: discountEU || null,
+        },
+        include: {
+          b2bCustomer: {
+            select: {
+              id: true,
+              companyName: true,
+              email: true,
+            },
+          },
+        },
+      });
+    } else {
+      // Create new price
+      price = await prisma.b2BPrice.create({
+        data: {
+          productId,
+          productSku,
+          pricePL: pricePL || 0,
+          priceEU: priceEU || 0,
+          discountPL: discountPL || null,
+          discountEU: discountEU || null,
+          b2bCustomerId: customerId,
+        },
+        include: {
+          b2bCustomer: {
+            select: {
+              id: true,
+              companyName: true,
+              email: true,
+            },
+          },
+        },
+      });
+    }
 
     return NextResponse.json({ success: true, price });
   } catch (error) {

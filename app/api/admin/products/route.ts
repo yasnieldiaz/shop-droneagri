@@ -178,10 +178,30 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-// DELETE - DISABLED - Products cannot be deleted
-export async function DELETE() {
-  return NextResponse.json(
-    { error: 'Product deletion is disabled. Contact administrator.' },
-    { status: 403 }
-  );
+// DELETE - Delete a product
+export async function DELETE(request: NextRequest) {
+  try {
+    const prisma = await getPrisma();
+    const { searchParams } = new URL(request.url);
+    const productId = searchParams.get('id');
+
+    if (!productId) {
+      return NextResponse.json(
+        { error: 'Product ID is required' },
+        { status: 400 }
+      );
+    }
+
+    await prisma.product.delete({
+      where: { id: productId },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Failed to delete product:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete product' },
+      { status: 500 }
+    );
+  }
 }

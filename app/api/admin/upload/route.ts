@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Invalid file type. Allowed: jpg, png, webp, gif' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid file type. Allowed: jpg, png, webp, gif, avif' }, { status: 400 });
     }
 
     // Validate file size (max 5MB)
@@ -46,6 +46,14 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(bytes);
     const filepath = path.join(uploadDir, filename);
     await writeFile(filepath, buffer);
+    
+    // Also save to standalone folder for production
+    const standaloneDir = path.join(process.cwd(), '.next', 'standalone', 'public', 'images', folder);
+    if (!existsSync(standaloneDir)) {
+      await mkdir(standaloneDir, { recursive: true });
+    }
+    const standaloneFilepath = path.join(standaloneDir, filename);
+    await writeFile(standaloneFilepath, buffer);
 
     // Return the public URL
     const publicUrl = `/images/${folder}/${filename}`;

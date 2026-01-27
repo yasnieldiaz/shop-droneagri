@@ -2165,43 +2165,123 @@ export default function ProductDetailPage() {
 
   // Handle old SKU-based URLs by redirecting to new clean slug
   const slug = slugMapping[rawSlug] || rawSlug;
-  const product = mockProducts[slug];
+  const staticProduct = mockProducts[slug];
 
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'description' | 'specifications'>('description');
   const [activeImage, setActiveImage] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
+  
+  // B2B store - must be called at top level (React Hooks rules)
+  const { isLoggedIn, getB2BPrice } = useB2BStore();
 
   // State for database prices
   const [dbPrices, setDbPrices] = useState<DbPrices>(null);
+  
+  // State for API product (full product from database)
+  const [apiProduct, setApiProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch prices from database
+  // Fetch product from database
   useEffect(() => {
-    const fetchPrices = async () => {
+    const fetchProduct = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(`/api/products?slug=${slug}`);
         if (response.ok) {
           const data = await response.json();
           if (data.product) {
+            const dbProduct = data.product;
+            
+            // Transform DB product to match the Product type
+            const transformedProduct: Product = {
+              id: dbProduct.id,
+              sku: dbProduct.sku || slug,
+              slug: dbProduct.slug,
+              translations: {
+                pl: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+                en: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+                es: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+                de: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+                cs: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+                nl: {
+                  name: dbProduct.name,
+                  tagline: dbProduct.tagline || null,
+                  description: dbProduct.description || '',
+                },
+              },
+              mainImage: dbProduct.mainImage || null,
+              images: Array.isArray(dbProduct.images) ? dbProduct.images : (dbProduct.mainImage ? [dbProduct.mainImage] : []),
+              price: dbProduct.price,
+              priceEUR: dbProduct.priceEUR,
+              compareAtPrice: dbProduct.compareAtPrice,
+              compareAtPriceEUR: dbProduct.compareAtPriceEUR,
+              currency: 'PLN',
+              stock: dbProduct.stock,
+              category: dbProduct.category || 'Uncategorized',
+              type: dbProduct.type || 'PRODUCT',
+              specifications: (dbProduct.specifications && dbProduct.specifications !== '') ? 
+                (typeof dbProduct.specifications === 'string' ? 
+                  (function() { try { return JSON.parse(dbProduct.specifications); } catch(e) { return []; } })() : 
+                  (Array.isArray(dbProduct.specifications) ? dbProduct.specifications : [])) : 
+                [],
+            };
+            
+            setApiProduct(transformedProduct);
             setDbPrices({
-              price: data.product.price,
-              priceEUR: data.product.priceEUR,
-              compareAtPrice: data.product.compareAtPrice,
-              compareAtPriceEUR: data.product.compareAtPriceEUR,
-              stock: data.product.stock,
-              preorderEnabled: data.product.preorderEnabled ?? false,
-              preorderLeadTime: data.product.preorderLeadTime ?? null,
+              price: dbProduct.price,
+              priceEUR: dbProduct.priceEUR,
+              compareAtPrice: dbProduct.compareAtPrice,
+              compareAtPriceEUR: dbProduct.compareAtPriceEUR,
+              stock: dbProduct.stock,
+              preorderEnabled: dbProduct.preorderEnabled ?? false,
+              preorderLeadTime: dbProduct.preorderLeadTime ?? null,
             });
           }
         }
       } catch (error) {
-        console.error('Failed to fetch product prices:', error);
+        console.error('Failed to fetch product:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (slug) {
-      fetchPrices();
+      fetchProduct();
     }
   }, [slug]);
+  
+  // Use API product if available, otherwise fallback to static mockProducts
+  const product = apiProduct || staticProduct;
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center py-16">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-navy mb-4"></div>
+        <p className="text-gray-500">Loading product...</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -2243,9 +2323,8 @@ export default function ProductDetailPage() {
   const actualPreorderEnabled = dbPrices?.preorderEnabled ?? false;
   const actualPreorderLeadTime = dbPrices?.preorderLeadTime ?? null;
 
-  // Check for B2B price
-  const { isLoggedIn, getB2BPrice } = useB2BStore();
-  const b2bPrice = isLoggedIn ? getB2BPrice(product.slug, actualPrice, actualPriceEUR) : null;
+  // Calculate B2B price now that we have the product
+  const b2bPrice = isLoggedIn && product ? getB2BPrice(product.slug, actualPrice, actualPriceEUR) : null;
 
   // Use B2B price if available, otherwise use regular price
   const currency = b2bPrice ? b2bPrice.currency : (isPolish ? 'PLN' : 'EUR');
@@ -2328,8 +2407,7 @@ export default function ProductDetailPage() {
                   src={currentImage}
                   alt={translation.name}
                   fill
-                  unoptimized
-                  className="object-contain p-8"
+                  className="object-contain p-8" unoptimized
                   priority
                 />
               ) : (

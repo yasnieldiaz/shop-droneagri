@@ -128,21 +128,21 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
             </>
           ) : (
-            /* Regular Customer - Show netto & brutto */
+            /* Regular Customer - Show netto & brutto on same line */
             <>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-1 flex-wrap">
                 <span className="text-lg font-bold text-gray-900">
                   {formatPrice(calculateNetto(price))} {currency}
                 </span>
                 <span className="text-xs text-gray-500">netto</span>
                 {hasDiscount && compareAtPrice && (
-                  <span className="text-sm text-gray-400 line-through">
+                  <span className="text-sm text-gray-400 line-through ml-1">
                     {formatPrice(calculateNetto(compareAtPrice))} {currency}
                   </span>
                 )}
               </div>
-              <div className="text-sm text-gray-500">
-                {formatPrice(price)} {currency} <span className="text-xs">{isPolish ? "brutto" : "incl. VAT"}</span>
+              <div className="text-xs text-gray-500">
+                {formatPrice(price)} {currency} {isPolish ? "brutto" : "incl. VAT"}
               </div>
             </>
           )}

@@ -29,7 +29,7 @@ export default function HomePage() {
       name: t('categories.spareParts'),
       description: t('categories.sparePartsDesc'),
       image: '/images/categories/parts.jpg',
-      href: '/products?category=parts',
+      href: '/spare-parts',
     },
   ];
 

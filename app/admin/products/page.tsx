@@ -53,6 +53,48 @@ export default function ProductsPage() {
     }
   };
 
+  const handleDelete = async (productId: string, productName: string) => {
+    if (!confirm(`¿Estás seguro de que quieres eliminar "${productName}"?`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/products?id=${productId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setProducts(prev => prev.filter(p => p.id !== productId));
+        setSelectedProducts(prev => prev.filter(id => id !== productId));
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Error al eliminar el producto');
+      }
+    } catch (error) {
+      console.error('Failed to delete product:', error);
+      alert('Error al eliminar el producto');
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (!confirm(`¿Estás seguro de que quieres eliminar ${selectedProducts.length} productos?`)) {
+      return;
+    }
+
+    for (const productId of selectedProducts) {
+      try {
+        await fetch(`/api/admin/products?id=${productId}`, {
+          method: 'DELETE',
+        });
+      } catch (error) {
+        console.error('Failed to delete product:', productId, error);
+      }
+    }
+
+    setProducts(prev => prev.filter(p => !selectedProducts.includes(p.id)));
+    setSelectedProducts([]);
+  };
+
   // Exclude spare parts categories (P100 Pro, P150 Max)
   const sparePartsCategories = ['P100 Pro', 'P150 Max'];
 
@@ -97,6 +139,15 @@ export default function ProductsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Products</h1>
           <p className="text-gray-500">Manage your product catalog</p>
         </div>
+        <Link
+          href="/admin/products/new"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-brand-red text-white rounded-lg hover:bg-brand-red-hover transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Add Product
+        </Link>
       </div>
 
       {/* Filters */}
@@ -131,7 +182,7 @@ export default function ProductsPage() {
           {selectedProducts.length > 0 && (
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-500">{selectedProducts.length} selected</span>
-              <button className="px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">
+              <button onClick={handleBulkDelete} className="px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">
                 Delete
               </button>
             </div>
@@ -227,7 +278,7 @@ export default function ProductsPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                           </svg>
                         </Link>
-                        <button
+                        <button onClick={() => handleDelete(product.id, product.name)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
                           title="Delete"
                         >

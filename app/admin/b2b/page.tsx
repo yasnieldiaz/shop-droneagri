@@ -95,6 +95,10 @@ export default function B2BAdminPage() {
     b2bCustomerId: '',
   });
 
+
+  // Apply to all products state
+  const [applyToAll, setApplyToAll] = useState(false);
+  const [isBulkSaving, setIsBulkSaving] = useState(false);
   useEffect(() => {
     fetchData();
   }, []);
@@ -240,6 +244,57 @@ export default function B2BAdminPage() {
     e.preventDefault();
 
     try {
+      // If applying to all products
+      if (applyToAll) {
+        setIsBulkSaving(true);
+        let successCount = 0;
+        let errorCount = 0;
+
+        for (const product of products) {
+          try {
+            const response = await fetch('/api/admin/b2b/prices', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                productId: product.slug,
+                productSku: product.sku,
+                pricePL: priceForm.pricePL ? parseInt(priceForm.pricePL) : 0,
+                priceEU: priceForm.priceEU ? parseInt(priceForm.priceEU) : 0,
+                discountPL: priceForm.discountPL ? parseFloat(priceForm.discountPL) : null,
+                discountEU: priceForm.discountEU ? parseFloat(priceForm.discountEU) : null,
+                b2bCustomerId: priceForm.b2bCustomerId || null,
+              }),
+            });
+
+            if (response.ok) {
+              successCount++;
+            } else {
+              errorCount++;
+            }
+          } catch {
+            errorCount++;
+          }
+        }
+
+        setIsBulkSaving(false);
+        alert(`Precios creados: ${successCount} exitosos, ${errorCount} errores`);
+        
+        setShowPriceModal(false);
+        setApplyToAll(false);
+        setPriceForm({
+          productId: '',
+          productSku: '',
+          pricePL: '',
+          priceEU: '',
+          discountPL: '',
+          discountEU: '',
+          b2bCustomerId: '',
+        });
+        fetchData();
+        return;
+      }
+
+      // Single product
       const response = await fetch('/api/admin/b2b/prices', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

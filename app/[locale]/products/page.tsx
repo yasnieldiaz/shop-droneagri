@@ -448,6 +448,8 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState('featured');
   const [searchQuery, setSearchQuery] = useState(searchParam);
   const [dbPrices, setDbPrices] = useState<DbProductPrices>({});
+  const [apiProducts, setApiProducts] = useState<typeof mockProducts>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
 
   // Sync category state with URL parameter changes
   useEffect(() => {
@@ -458,15 +460,60 @@ export default function ProductsPage() {
   useEffect(() => {
     setSearchQuery(searchParam);
   }, [searchParam]);
-
-  // Fetch prices from database
+  // Fetch products from database
   useEffect(() => {
-    const fetchPrices = async () => {
+    const fetchProducts = async () => {
       try {
+        setIsLoadingProducts(true);
         const response = await fetch('/api/products');
         if (response.ok) {
           const data = await response.json();
           if (data.products) {
+            // Transform API products to match expected format
+            const transformedProducts = data.products.map((p: {
+              id: string;
+              sku: string;
+              slug: string;
+              name: string;
+              tagline?: string | null;
+              description?: string | null;
+              specifications?: string | null;
+              price: number;
+              priceEUR: number;
+              compareAtPrice: number | null;
+              compareAtPriceEUR: number | null;
+              stock: number;
+              mainImage: string | null;
+              images?: string[] | null;
+              category: string;
+              type?: string | null;
+              isActive: boolean;
+              preorderEnabled: boolean;
+              preorderLeadTime: string | null;
+            }) => ({
+              id: p.id,
+              sku: p.sku,
+              slug: p.slug,
+              name: p.name,
+              tagline: p.tagline || '',
+              description: p.description || '',
+              specifications: p.specifications || '',
+              price: p.price,
+              priceEUR: p.priceEUR,
+              compareAtPrice: p.compareAtPrice,
+              compareAtPriceEUR: p.compareAtPriceEUR,
+              stock: p.stock,
+              mainImage: p.mainImage || '/images/products/placeholder.jpg',
+              images: p.images || [],
+              category: p.category,
+              type: p.type || 'PRODUCT',
+              isActive: p.isActive,
+              preorderEnabled: p.preorderEnabled,
+              preorderLeadTime: p.preorderLeadTime,
+            }));
+            setApiProducts(transformedProducts);
+            
+            // Also update prices map for compatibility
             const pricesMap: DbProductPrices = {};
             data.products.forEach((p: { slug: string; price: number; priceEUR: number; compareAtPrice: number | null; compareAtPriceEUR: number | null; stock: number }) => {
               pricesMap[p.slug] = {
@@ -481,10 +528,12 @@ export default function ProductsPage() {
           }
         }
       } catch (error) {
-        console.error('Failed to fetch product prices:', error);
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setIsLoadingProducts(false);
       }
     };
-    fetchPrices();
+    fetchProducts();
   }, []);
 
   const categories = [
@@ -506,24 +555,15 @@ export default function ProductsPage() {
     { value: 'name-asc', label: t('nameAZ') },
     { value: 'name-desc', label: t('nameZA') },
   ];
-
   const filteredProducts = useMemo(() => {
-    // Merge database prices with static product data
-    let products = mockProducts.map(p => {
-      const dbPrice = dbPrices[p.slug];
-      if (dbPrice) {
-        return {
-          ...p,
-          price: dbPrice.price,
-          priceEUR: dbPrice.priceEUR,
-          compareAtPrice: dbPrice.compareAtPrice,
-          compareAtPriceEUR: dbPrice.compareAtPriceEUR,
-          stock: dbPrice.stock,
-        };
-      }
-      return p;
-    });
-
+    // Use API products if available, otherwise fallback to mockProducts with prices
+    let products = apiProducts.length > 0 
+      ? [...apiProducts] 
+      : mockProducts.map(p => {
+          const dbPrice = dbPrices[p.slug];
+          return dbPrice ? { ...p, ...dbPrice } : p;
+        });
+    
     if (category) {
       if (category === 'accessories') {
         const accessoryCategories = ['smart battery', 'battery chargers', 'task system', 'remote controller', 'gnss rtk'];
@@ -537,6 +577,12 @@ export default function ProductsPage() {
           (p) => p.category.toLowerCase() === categoryNormalized
         );
       }
+    } else {
+      // Default: show only main products (drones), exclude spare parts and accessories
+      const mainProductCategories = ['airborne', 'landborne'];
+      products = products.filter(
+        (p) => mainProductCategories.includes(p.category.toLowerCase())
+      );
     }
 
     if (searchQuery) {
@@ -544,7 +590,8 @@ export default function ProductsPage() {
       products = products.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
-          p.tagline?.toLowerCase().includes(query)
+          p.tagline?.toLowerCase().includes(query) ||
+          p.sku.toLowerCase().includes(query)
       );
     }
 
@@ -566,7 +613,7 @@ export default function ProductsPage() {
     }
 
     return products;
-  }, [category, sortBy, searchQuery, dbPrices]);
+  }, [category, sortBy, searchQuery, dbPrices, apiProducts]);
 
   const getCurrentCategoryLabel = () => {
     return categories.find((c) => c.value === category)?.label || t('allProducts');

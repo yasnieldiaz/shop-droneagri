@@ -11,6 +11,7 @@ interface Product {
   name: string;
   tagline: string | null;
   description: string | null;
+  specifications: string | null;
   mainImage: string | null;
   images: string | null;
   price: number;
@@ -53,6 +54,8 @@ export default function EditProductPage() {
     slug: '',
     tagline: '',
     description: '',
+    specifications: '',
+    mainImage: '',
     price: 0,
     priceEUR: 0,
     compareAtPrice: 0,
@@ -66,6 +69,10 @@ export default function EditProductPage() {
     preorderEnabled: false,
     preorderLeadTime: '',
   });
+  
+  // Image upload state
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Calculate EUR from PLN
   const calculateEUR = useCallback((plnCents: number): number => {
@@ -127,6 +134,8 @@ export default function EditProductPage() {
           slug: found.slug || '',
           tagline: found.tagline || '',
           description: found.description || '',
+          specifications: found.specifications || '',
+          mainImage: found.mainImage || '',
           price: found.price || 0,
           priceEUR: found.priceEUR || 0,
           compareAtPrice: found.compareAtPrice || 0,
@@ -201,6 +210,38 @@ export default function EditProductPage() {
         compareAtPrice: numValue,
         compareAtPriceEUR: numValue > 0 ? calculateEUR(numValue) : 0,
       }));
+    }
+  };
+
+  // Handle image upload
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadError(null);
+
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('file', file);
+      formDataUpload.append('folder', 'products');
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formDataUpload,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        setFormData(prev => ({ ...prev, mainImage: data.url }));
+      } else {
+        setUploadError(data.error || 'Error al subir imagen');
+      }
+    } catch (err) {
+      setUploadError('Error al subir imagen');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -296,8 +337,7 @@ export default function EditProductPage() {
                 name="sku"
                 value={formData.sku}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 bg-gray-50"
-                readOnly
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
               />
             </div>
             <div>
@@ -309,21 +349,30 @@ export default function EditProductPage() {
                 name="slug"
                 value={formData.slug}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 bg-gray-50"
-                readOnly
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Categoria
               </label>
-              <input
-                type="text"
+              <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-              />
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 bg-white"
+              >
+                <option value="">Seleccionar categoria...</option>
+                <option value="Airborne">Airborne (Drones)</option>
+                <option value="Landborne">Landborne (Robots)</option>
+                <option value="Smart Battery">Smart Battery</option>
+                <option value="Battery Chargers">Battery Chargers</option>
+                <option value="Task System">Task System</option>
+                <option value="Remote Controller">Remote Controller</option>
+                <option value="GNSS RTK">GNSS RTK</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Spare Parts">Spare Parts</option>
+              </select>
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -340,6 +389,113 @@ export default function EditProductPage() {
           </div>
         </div>
 
+
+        {/* Image */}
+        <div className="bg-white rounded-xl shadow-sm border p-6">
+          <h2 className="text-lg font-semibold mb-4">Imagen del Producto</h2>
+          <div className="space-y-4">
+            {/* Current image preview */}
+            {formData.mainImage && (
+              <div className="relative w-48 h-48 bg-gray-100 rounded-lg overflow-hidden">
+                <img
+                  src={formData.mainImage}
+                  alt="Producto"
+                  className="w-full h-full object-contain"
+                />
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, mainImage: '' }))}
+                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            )}
+            
+            {/* Upload input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {formData.mainImage ? 'Cambiar imagen' : 'Subir imagen'}
+              </label>
+              <div className="flex items-center gap-4">
+                <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg border border-dashed border-gray-300 transition-colors">
+                  <span className="text-sm text-gray-600">
+                    {isUploading ? 'Subiendo...' : 'Seleccionar archivo'}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={isUploading}
+                    className="hidden"
+                  />
+                </label>
+                {isUploading && (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-brand-red"></div>
+                )}
+              </div>
+              {uploadError && (
+                <p className="text-sm text-red-600 mt-2">{uploadError}</p>
+              )}
+              <p className="text-xs text-gray-400 mt-2">
+                Formatos: JPG, PNG, WebP, GIF, AVIF. Maximo 5MB
+              </p>
+            </div>
+
+            {/* Manual URL input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                O ingresar URL de imagen manualmente
+              </label>
+              <input
+                type="text"
+                name="mainImage"
+                value={formData.mainImage}
+                onChange={handleChange}
+                placeholder="/images/products/mi-imagen.jpg"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Content - Description & Specifications */}
+        <div className="bg-white rounded-xl shadow-sm border p-6">
+          <h2 className="text-lg font-semibold mb-4">Contenido</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Descripcion
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows={6}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 resize-y"
+                placeholder="Descripcion detallada del producto..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Especificaciones
+              </label>
+              <textarea
+                name="specifications"
+                value={formData.specifications}
+                onChange={handleChange}
+                rows={6}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 resize-y"
+                placeholder="Especificaciones tecnicas del producto (formato libre o JSON)..."
+              />
+              <p className="text-xs text-gray-400 mt-1">
+                Puedes usar formato de lista o JSON para las especificaciones
+              </p>
+            </div>
+          </div>
+        </div>
         {/* Pricing */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
           <div className="flex items-center justify-between mb-4">
@@ -377,7 +533,6 @@ export default function EditProductPage() {
                 name="priceEUR"
                 value={formData.priceEUR}
                 className="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600"
-                readOnly
               />
               <p className="text-xs text-green-600 mt-1">
                 = {formatPrice(formData.priceEUR)} EUR (calculado automaticamente)
@@ -407,7 +562,6 @@ export default function EditProductPage() {
                 name="compareAtPriceEUR"
                 value={formData.compareAtPriceEUR}
                 className="w-full px-3 py-2 border rounded-lg bg-gray-50 text-gray-600"
-                readOnly
               />
               <p className="text-xs text-green-600 mt-1">
                 {formData.compareAtPriceEUR > 0 ? `= ${formatPrice(formData.compareAtPriceEUR)} EUR (calculado)` : 'Se calcula automaticamente'}

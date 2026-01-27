@@ -219,6 +219,7 @@ model Product {
   name            String
   tagline         String?
   description     String?
+  specifications  String?
 
   // Images
   mainImage       String?

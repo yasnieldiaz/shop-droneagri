@@ -117,6 +117,7 @@ export default function P100ProSparePartsPage() {
                 alt="P100 Pro"
                 width={80}
                 height={80}
+                unoptimized
                 className="w-full h-full object-contain"
               />
             </div>

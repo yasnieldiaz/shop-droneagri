@@ -49,6 +49,7 @@ export function ProductImage({ src, alt, className = '', fill = false, width, he
           src={src}
           alt={alt}
           fill
+          unoptimized
           className={`object-contain p-4 ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300 ${className}`}
           onError={() => setHasError(true)}
           onLoad={() => setIsLoading(false)}
@@ -73,6 +74,7 @@ export function ProductImage({ src, alt, className = '', fill = false, width, he
         alt={alt}
         width={width}
         height={height}
+        unoptimized
         className={`object-contain ${isLoading ? 'hidden' : ''} ${className}`}
         onError={() => setHasError(true)}
         onLoad={() => setIsLoading(false)}

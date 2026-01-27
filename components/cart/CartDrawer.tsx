@@ -123,6 +123,7 @@ export function CartDrawer() {
                         alt={item.name}
                         width={80}
                         height={80}
+                        unoptimized
                         className="w-full h-full object-contain"
                       />
                     ) : (

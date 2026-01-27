@@ -167,6 +167,7 @@ export default function HomePage() {
                   src={category.image}
                   alt={category.name}
                   fill
+                  unoptimized
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
@@ -203,6 +204,7 @@ export default function HomePage() {
                 src="/images/products/p150-max/radar.jpg"
                 alt="XAG P150 Max"
                 fill
+                unoptimized
                 className="object-cover opacity-40"
               />
             </div>

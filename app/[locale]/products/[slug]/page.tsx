@@ -2328,6 +2328,7 @@ export default function ProductDetailPage() {
                   src={currentImage}
                   alt={translation.name}
                   fill
+                  unoptimized
                   className="object-contain p-8"
                   priority
                 />
@@ -2366,6 +2367,7 @@ export default function ProductDetailPage() {
                       alt={`${translation.name} ${idx + 1}`}
                       width={80}
                       height={80}
+                      unoptimized
                       className="w-full h-full object-contain bg-gray-50"
                     />
                   </button>

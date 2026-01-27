@@ -330,6 +330,7 @@ export default function InventoryPage() {
                                 alt={item.name}
                                 width={40}
                                 height={40}
+                                unoptimized
                                 className="w-full h-full object-contain"
                               />
                             ) : (
@@ -600,6 +601,7 @@ export default function InventoryPage() {
                         alt="Preview"
                         width={96}
                         height={96}
+                        unoptimized
                         className="w-full h-full object-contain"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';

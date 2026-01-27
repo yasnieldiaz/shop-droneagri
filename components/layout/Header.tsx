@@ -66,6 +66,7 @@ export function Header() {
               alt="DroneAgri Shop"
               width={160}
               height={45}
+              unoptimized
               priority
             />
           </Link>

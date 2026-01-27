@@ -117,6 +117,7 @@ export default function P150MaxSparePartsPage() {
                 alt="P150 Max"
                 width={80}
                 height={80}
+                unoptimized
                 className="w-full h-full object-contain"
               />
             </div>

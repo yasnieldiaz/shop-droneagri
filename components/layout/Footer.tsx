@@ -18,6 +18,7 @@ export function Footer() {
               alt="DroneAgri"
               width={140}
               height={40}
+              unoptimized
               className="mb-4"
             />
             <p className="text-gray-300 text-sm max-w-md">

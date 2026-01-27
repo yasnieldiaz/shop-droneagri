@@ -189,6 +189,7 @@ export default function ProductsPage() {
                               alt={product.name}
                               width={48}
                               height={48}
+                              unoptimized
                               className="w-full h-full object-contain"
                             />
                           ) : (

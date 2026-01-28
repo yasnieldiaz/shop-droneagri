@@ -1000,6 +1000,21 @@ export default function B2BAdminPage() {
                         <option value="SK">SK - Slovakia</option>
                         <option value="HU">HU - Hungary</option>
                         <option value="RO">RO - Romania</option>
+                        <option value="BG">BG - Bulgaria</option>
+                        <option value="PT">PT - Portugal</option>
+                        <option value="GR">GR - Greece</option>
+                        <option value="SE">SE - Sweden</option>
+                        <option value="DK">DK - Denmark</option>
+                        <option value="FI">FI - Finland</option>
+                        <option value="IE">IE - Ireland</option>
+                        <option value="LT">LT - Lithuania</option>
+                        <option value="LV">LV - Latvia</option>
+                        <option value="EE">EE - Estonia</option>
+                        <option value="SI">SI - Slovenia</option>
+                        <option value="HR">HR - Croatia</option>
+                        <option value="LU">LU - Luxembourg</option>
+                        <option value="MT">MT - Malta</option>
+                        <option value="CY">CY - Cyprus</option>
                       </select>
                     </div>
                   </div>

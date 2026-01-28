@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { NewsletterForm } from '@/components/NewsletterForm';
+import { FeaturedP150Products } from '@/components/home/FeaturedP150Products';
 
 export default function HomePage() {
   const t = useTranslations();
@@ -142,6 +143,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Featured P150 Max Products */}
+      <FeaturedP150Products />
 
       {/* Categories Section */}
       <section className="py-16 lg:py-24">

@@ -28,20 +28,35 @@ export function FeaturedP150Products() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        // Fetch P150 products - drones and task systems only, no spare parts or LED
-        const res = await fetch('/api/products?limit=50');
-        if (res.ok) {
-          const data = await res.json();
-          // Filter to only P150 Max drones and RevoCast/RevoSpray (exclude spare parts and LED)
-          const p150Products = (data.products || []).filter((p: Product & { category?: string }) => {
-            const name = p.name.toLowerCase();
-            const isP150 = name.includes('p150');
-            const isLED = name.includes('led');
-            const isSparePartCategory = p.category && ['P150 Max', 'P100 Pro'].includes(p.category);
-            return isP150 && !isLED && !isSparePartCategory;
-          }).slice(0, 6);
-          setProducts(p150Products);
+        // Fetch products from Airborne and Task System categories
+        const [airborneRes, taskRes] = await Promise.all([
+          fetch('/api/products?category=Airborne&limit=20'),
+          fetch('/api/products?category=Task%20System&limit=20')
+        ]);
+
+        let allProducts: Product[] = [];
+
+        if (airborneRes.ok) {
+          const data = await airborneRes.json();
+          allProducts = [...allProducts, ...(data.products || [])];
         }
+
+        if (taskRes.ok) {
+          const data = await taskRes.json();
+          allProducts = [...allProducts, ...(data.products || [])];
+        }
+
+        // Filter to only P150 products (exclude LED and P100)
+        const p150Products = allProducts.filter((p) => {
+          const name = p.name.toLowerCase();
+          const isP150 = name.includes('p150');
+          const isRevoCast = name.includes('revocast') && !name.includes('p100');
+          const isRevoSpray = name.includes('revospray') && name.includes('p4');
+          const isLED = name.includes('led');
+          return (isP150 || isRevoCast || isRevoSpray) && !isLED;
+        }).slice(0, 6);
+
+        setProducts(p150Products);
       } catch (error) {
         console.error('Error fetching P150 products:', error);
       } finally {

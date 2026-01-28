@@ -67,10 +67,11 @@ export function FeaturedP150Products() {
   }, []);
 
   const formatPrice = (price: number) => {
+    // Prices are stored in grosz/cents, divide by 100 for display
     return new Intl.NumberFormat(locale === 'pl' ? 'pl-PL' : 'de-DE', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(price);
+    }).format(price / 100);
   };
 
   const getPrice = (product: Product) => {

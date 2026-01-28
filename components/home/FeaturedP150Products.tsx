@@ -24,6 +24,8 @@ export function FeaturedP150Products() {
   const [loading, setLoading] = useState(true);
 
   const currency = locale === 'pl' ? 'PLN' : 'EUR';
+  const isPolish = locale === 'pl';
+  const VAT_RATE = 0.23; // 23% VAT in Poland
 
   useEffect(() => {
     async function fetchProducts() {
@@ -66,12 +68,17 @@ export function FeaturedP150Products() {
     fetchProducts();
   }, []);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (priceInCents: number) => {
     // Prices are stored in grosz/cents, divide by 100 for display
-    return new Intl.NumberFormat(locale === 'pl' ? 'pl-PL' : 'de-DE', {
+    return (priceInCents / 100).toLocaleString(isPolish ? 'pl-PL' : 'de-DE', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(price / 100);
+    });
+  };
+
+  // Calculate Netto from Brutto (prices stored are Brutto with 23% VAT)
+  const calculateNetto = (brutto: number) => {
+    return Math.round(brutto / (1 + VAT_RATE));
   };
 
   const getPrice = (product: Product) => {
@@ -168,17 +175,22 @@ export function FeaturedP150Products() {
                       {product.tagline}
                     </p>
                   )}
-                  <div className="mt-3 flex items-baseline gap-2">
-                    <span className="text-lg font-bold text-brand-red">
-                      {formatPrice(price)} {currency}
-                    </span>
-                    {hasDiscount && (
-                      <span className="text-sm text-gray-400 line-through">
-                        {formatPrice(comparePrice)} {currency}
+                  <div className="mt-3">
+                    <div className="flex items-baseline gap-1 flex-wrap">
+                      <span className="text-lg font-bold text-gray-900">
+                        {formatPrice(calculateNetto(price))} {currency}
                       </span>
-                    )}
+                      <span className="text-xs text-gray-500">netto</span>
+                      {hasDiscount && (
+                        <span className="text-sm text-gray-400 line-through ml-1">
+                          {formatPrice(calculateNetto(comparePrice))} {currency}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {formatPrice(price)} {currency} {isPolish ? "brutto" : "incl. VAT"}
+                    </div>
                   </div>
-                  <span className="text-xs text-gray-400">netto</span>
                 </div>
               </Link>
             );

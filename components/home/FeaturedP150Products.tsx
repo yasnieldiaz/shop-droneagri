@@ -28,10 +28,19 @@ export function FeaturedP150Products() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch('/api/products?search=P150%20Max&limit=4');
+        // Fetch P150 products - drones and task systems only, no spare parts or LED
+        const res = await fetch('/api/products?limit=50');
         if (res.ok) {
           const data = await res.json();
-          setProducts(data.products || []);
+          // Filter to only P150 Max drones and RevoCast/RevoSpray (exclude spare parts and LED)
+          const p150Products = (data.products || []).filter((p: Product & { category?: string }) => {
+            const name = p.name.toLowerCase();
+            const isP150 = name.includes('p150');
+            const isLED = name.includes('led');
+            const isSparePartCategory = p.category && ['P150 Max', 'P100 Pro'].includes(p.category);
+            return isP150 && !isLED && !isSparePartCategory;
+          }).slice(0, 6);
+          setProducts(p150Products);
         }
       } catch (error) {
         console.error('Error fetching P150 products:', error);
@@ -97,7 +106,7 @@ export function FeaturedP150Products() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => {
             const price = getPrice(product);
             const comparePrice = getComparePrice(product);

@@ -27,6 +27,7 @@ interface Product {
   isFeatured: boolean;
   preorderEnabled: boolean;
   preorderLeadTime: string | null;
+  translations?: Record<string, { name: string; tagline: string; description: string }>;
 }
 
 const formatPrice = (cents: number) => {
@@ -48,7 +49,14 @@ export default function EditProductPage() {
   const [rateDate, setRateDate] = useState<string>('');
   const [rateLoading, setRateLoading] = useState(true);
 
-  // Form state
+  // Locale selector for translations
+  const [selectedLocale, setSelectedLocale] = useState<'en' | 'es' | 'pl'>('en');
+  const [translations, setTranslations] = useState<Record<string, { name: string; tagline: string; description: string }>>({
+    en: { name: '', tagline: '', description: '' },
+    es: { name: '', tagline: '', description: '' },
+    pl: { name: '', tagline: '', description: '' },
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
@@ -78,8 +86,6 @@ export default function EditProductPage() {
   // Calculate EUR from PLN
   const calculateEUR = useCallback((plnCents: number): number => {
     if (!exchangeRate || plnCents === 0) return 0;
-    // PLN to EUR: divide by rate
-    // plnCents / rate = eurCents
     return Math.round(plnCents / exchangeRate);
   }, [exchangeRate]);
 
@@ -87,7 +93,6 @@ export default function EditProductPage() {
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        // Using frankfurter.app - free API for ECB rates
         const response = await fetch('https://api.frankfurter.app/latest?from=EUR&to=PLN');
         const data = await response.json();
         if (data.rates?.PLN) {
@@ -96,7 +101,6 @@ export default function EditProductPage() {
         }
       } catch (err) {
         console.error('Failed to fetch exchange rate:', err);
-        // Fallback rate if API fails
         setExchangeRate(4.30);
         setRateDate('fallback');
       } finally {
@@ -121,6 +125,17 @@ export default function EditProductPage() {
     }
   }, [exchangeRate, calculateEUR]);
 
+  // Update formData when locale changes
+  useEffect(() => {
+    const currentTranslation = translations[selectedLocale];
+    if (currentTranslation) {
+      setFormData(prev => ({
+        ...prev,
+        description: currentTranslation.description || '',
+      }));
+    }
+  }, [selectedLocale, translations]);
+
   const fetchProduct = async () => {
     try {
       const response = await fetch('/api/admin/products');
@@ -129,12 +144,25 @@ export default function EditProductPage() {
 
       if (found) {
         setProduct(found);
+        
+        // Load translations from API
+        if (found.translations) {
+          setTranslations({
+            en: found.translations.en || { name: '', tagline: '', description: '' },
+            es: found.translations.es || { name: '', tagline: '', description: '' },
+            pl: found.translations.pl || { name: '', tagline: '', description: '' },
+          });
+        }
+        
+        // Use the current locale's description
+        const currentDesc = found.translations?.[selectedLocale]?.description || found.description || '';
+        
         setFormData({
           name: found.name || '',
           sku: found.sku || '',
           slug: found.slug || '',
           tagline: found.tagline || '',
-          description: found.description || '',
+          description: currentDesc,
           specifications: found.specifications || '',
           mainImage: found.mainImage || '',
           price: found.price || 0,
@@ -161,6 +189,18 @@ export default function EditProductPage() {
     }
   };
 
+  // Handle description change - update the current locale's translation
+  const handleDescriptionChange = (html: string) => {
+    setFormData(prev => ({ ...prev, description: html }));
+    setTranslations(prev => ({
+      ...prev,
+      [selectedLocale]: {
+        ...prev[selectedLocale],
+        description: html,
+      },
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -168,6 +208,7 @@ export default function EditProductPage() {
     setSuccess(false);
 
     try {
+      // Save only the current locale's description
       const response = await fetch('/api/admin/products', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -464,15 +505,34 @@ export default function EditProductPage() {
 
         {/* Content - Description & Specifications */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h2 className="text-lg font-semibold mb-4">Contenido</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Contenido</h2>
+            <div className="flex gap-1">
+              {(['en', 'es', 'pl'] as const).map((loc) => (
+                <button
+                  key={loc}
+                  type="button"
+                  onClick={() => setSelectedLocale(loc)}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    selectedLocale === loc
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {loc.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Descripcion
+                Descripcion ({selectedLocale.toUpperCase()})
               </label>
               <RichTextEditor
+                key={selectedLocale}
                 content={formData.description}
-                onChange={(html) => setFormData(prev => ({ ...prev, description: html }))}
+                onChange={handleDescriptionChange}
                 placeholder="Descripcion detallada del producto..."
               />
             </div>

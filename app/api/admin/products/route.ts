@@ -12,10 +12,7 @@ export async function GET(request: NextRequest) {
 
     const products = await prisma.product.findMany({
       include: {
-        translations: {
-          where: { locale: 'en' },
-          take: 1
-        }
+        translations: true
       },
       orderBy: { updatedAt: 'desc' },
     });
@@ -23,6 +20,16 @@ export async function GET(request: NextRequest) {
     // Map products to include name from translations and correct field names
     let mappedProducts = products.map(p => {
       const translation = p.translations[0];
+      // Include all translations
+      const allTranslations: Record<string, { name: string; tagline: string; description: string }> = {};
+      p.translations.forEach(t => {
+        allTranslations[t.locale] = {
+          name: t.name || '',
+          tagline: t.tagline || '',
+          description: t.description || '',
+        };
+      });
+      
       return {
         id: p.id,
         sku: p.sku,
@@ -31,6 +38,7 @@ export async function GET(request: NextRequest) {
         tagline: translation?.tagline || '',
         description: translation?.description || '',
         specifications: translation?.specs || '',
+        translations: allTranslations,
         category: p.category,
         type: p.type,
         price: p.pricePLN,
@@ -235,25 +243,28 @@ export async function PATCH(request: NextRequest) {
       data: updateData,
     });
 
-    // Update translation if name/tagline/description provided
+    // Update translations for all locales (EN, ES, PL)
     if (name || tagline !== undefined || description !== undefined) {
-      await prisma.productTranslation.upsert({
-        where: {
-          productId_locale: { productId: id, locale: 'en' }
-        },
-        update: {
-          ...(name && { name }),
-          ...(tagline !== undefined && { tagline: tagline || null }),
-          ...(description !== undefined && { description: description || null }),
-        },
-        create: {
-          productId: id,
-          locale: 'en',
-          name: name || product.sku,
-          tagline: tagline || null,
-          description: description || null,
-        },
-      });
+      const locales = ['en', 'es', 'pl'];
+      for (const locale of locales) {
+        await prisma.productTranslation.upsert({
+          where: {
+            productId_locale: { productId: id, locale }
+          },
+          update: {
+            ...(name && { name }),
+            ...(tagline !== undefined && { tagline: tagline || null }),
+            ...(description !== undefined && { description: description || null }),
+          },
+          create: {
+            productId: id,
+            locale,
+            name: name || product.sku,
+            tagline: tagline || null,
+            description: description || null,
+          },
+        });
+      }
     }
 
     return NextResponse.json({ success: true, product });

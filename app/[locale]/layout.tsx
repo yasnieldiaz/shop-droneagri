@@ -8,7 +8,7 @@ import "../globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-import { CurrencyDetector } from "@/components/CurrencyDetector";
+import { LocaleDetector } from "@/components/LocaleDetector";
 import { CookieConsent } from "@/components/CookieConsent";
 
 const inter = Inter({
@@ -96,7 +96,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale}>
       <body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
-          <CurrencyDetector />
+          <LocaleDetector currentLocale={locale} />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -652,7 +652,7 @@ export default function B2BAdminPage() {
                   prices.map((price) => (
                     <tr key={price.id}>
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                        {price.productId}
+                        {price.productName || price.productId}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {price.productSku}
@@ -805,7 +805,7 @@ export default function B2BAdminPage() {
                 <div className="grid grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Precio PL (en grosze)
+                      Precio PL (en brutto)
                     </label>
                     <input
                       type="number"

@@ -28,7 +28,10 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const t = useTranslations('products');
   const locale = useLocale();
-  const { isLoggedIn, getB2BPrice } = useB2BStore();
+  const { isLoggedIn, getB2BPrice, customer } = useB2BStore();
+
+  // Check if B2B customer is from Poland (must pay VAT)
+  const isB2BPoland = isLoggedIn && customer && customer.country === 'PL';
 
   // Use EUR for all languages except Polish
   const isPolish = locale === 'pl';
@@ -124,7 +127,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 )}
               </div>
               <div className="text-xs text-gray-400">
-                VAT 0% (reverse charge)
+                {isB2BPoland ? formatPrice(Math.round(price * 1.23)) + " " + currency + " brutto (VAT 23%)" : "VAT 0% (reverse charge)"}
               </div>
             </>
           ) : (

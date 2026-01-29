@@ -2168,7 +2168,7 @@ export default function ProductDetailPage() {
   const staticProduct = mockProducts[slug];
 
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<'description' | 'specifications'>('description');
+  
   const [activeImage, setActiveImage] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
   
@@ -2187,7 +2187,7 @@ export default function ProductDetailPage() {
     const fetchProduct = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/products?slug=${slug}`);
+        const response = await fetch(`/api/products?slug=${slug}&locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           if (data.product) {
@@ -2668,61 +2668,12 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Tabs: Description & Specifications */}
+        {/* Description */}
         <div className="mt-16 border-t pt-8">
-          <div className="flex gap-8 border-b">
-            <button
-              onClick={() => setActiveTab('description')}
-              className={`pb-4 font-medium transition-colors relative ${
-                activeTab === 'description'
-                  ? 'text-navy'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {t('description')}
-              {activeTab === 'description' && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-red" />
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab('specifications')}
-              className={`pb-4 font-medium transition-colors relative ${
-                activeTab === 'specifications'
-                  ? 'text-navy'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {t('specifications')}
-              {activeTab === 'specifications' && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-red" />
-              )}
-            </button>
-          </div>
-
-          <div className="py-8">
-            {activeTab === 'description' ? (
-              <div className="prose prose-gray max-w-none">
-                {translation.description.split('\n').map((paragraph, i) => (
-                  <p key={i} className="mb-4">{paragraph}</p>
-                ))}
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <tbody>
-                    {product.specifications.map((spec, i) => (
-                      <tr key={i} className={i % 2 === 0 ? 'bg-gray-50' : ''}>
-                        <td className="px-4 py-3 font-medium text-navy w-1/3">
-                          {spec.label}
-                        </td>
-                        <td className="px-4 py-3 text-gray-600">{spec.value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+          <div
+            className="prose prose-gray max-w-none"
+            dangerouslySetInnerHTML={{ __html: translation.description }}
+          />
         </div>
       </div>
     </div>

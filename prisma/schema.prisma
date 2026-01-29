@@ -3,8 +3,283 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Product {
+  id               String               @id @default(cuid())
+  sku              String               @unique
+  slug             String               @unique
+  type             ProductType          @default(PRODUCT)
+  category         String?
+  status           ProductStatus        @default(DRAFT)
+  pricePLN         Int
+  priceEUR         Int
+  compareAtPLN     Int?
+  compareAtEUR     Int?
+  stock            Int                  @default(0)
+  trackInventory   Boolean              @default(true)
+  lowStockAlert    Int                  @default(5)
+  weight           Float?
+  featured         Boolean              @default(false)
+  sortOrder        Int                  @default(0)
+  mainImage        String?
+  gallery          String[]             @default([])
+  parentProductId  String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  preorderLeadTime Int?
+  cartItems        CartItem[]
+  inventoryLogs    InventoryLog[]
+  orderItems       OrderItem[]
+  translations     ProductTranslation[]
+  b2bPrices        B2BPrice[]
+  parentProduct    Product?             @relation("ProductVariants", fields: [parentProductId], references: [id])
+  variants         Product[]            @relation("ProductVariants")
+
+  @@map("products")
+}
+
+model ProductTranslation {
+  id              String   @id @default(cuid())
+  productId       String
+  locale          String
+  name            String
+  tagline         String?
+  description     String?
+  features        Json?
+  specs           Json?
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+  @@map("product_translations")
+}
+
+model B2BCustomer {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  password        String
+  companyName     String
+  vatNumber       String?    @unique
+  country         String
+  region          B2BRegion  @default(EU)
+  contactName     String
+  contactPhone    String?
+  street          String
+  city            String
+  postalCode      String
+  status          B2BStatus  @default(pending)
+  viesValidated   Boolean    @default(false)
+  viesValidatedAt DateTime?
+  approvedAt      DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now()) @updatedAt
+  lastLoginAt     DateTime?
+  b2b_prices      B2BPrice[]
+
+  @@map("b2b_customers")
+}
+
+model B2BOrder {
+  id          String   @id @default(cuid())
+  orderNumber String   @unique
+  customerId  String
+  status      String   @default("pending")
+  totalPLN    Int?
+  totalEUR    Int?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("b2b_orders")
+}
+
+model B2BPrice {
+  product       Product      @relation(fields: [productId], references: [id])
+  id            String       @id @default(cuid())
+  productId     String
+  region        B2BRegion
+  pricePL       Int?
+  priceEU       Int?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now()) @updatedAt
+  productSku    String?
+  b2bCustomerId String?
+  discountPL    Float?       @db.Real
+  discountEU    Float?       @db.Real
+  b2b_customers B2BCustomer? @relation(fields: [b2bCustomerId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, region])
+  @@map("b2b_prices")
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  orderNumber     String         @unique
+  userId          String?
+  customerEmail   String
+  customerName    String
+  customerPhone   String?
+  shippingAddress Json
+  billingAddress  Json?
+  subtotal        Int
+  shippingCost    Int            @default(0)
+  tax             Int            @default(0)
+  total           Int
+  currency        String         @default("PLN")
+  status          OrderStatus    @default(PENDING)
+  paymentStatus   PaymentStatus  @default(PENDING)
+  paymentMethod   PaymentMethod?
+  customerNotes   String?
+  adminNotes      String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  items           OrderItem[]
+  user            User?          @relation(fields: [userId], references: [id])
+  payments        Payment[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  productId   String
+  productName String
+  productSku  String
+  quantity    Int
+  unitPrice   Int
+  totalPrice  Int
+  currency    String
+  createdAt   DateTime @default(now())
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  firstName     String?
+  lastName      String?
+  phone         String?
+  role          UserRole  @default(CUSTOMER)
+  emailVerified Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  addresses     Address[]
+  carts         Cart?
+  orders        Order[]
+
+  @@map("users")
+}
+
+model Address {
+  id           String      @id @default(cuid())
+  userId       String
+  type         AddressType @default(SHIPPING)
+  firstName    String
+  lastName     String
+  company      String?
+  street       String
+  streetNumber String
+  apartment    String?
+  city         String
+  postalCode   String
+  country      String      @default("PL")
+  phone        String?
+  isDefault    Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?    @unique
+  sessionId String?    @unique
+  currency  String     @default("PLN")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int      @default(1)
+  unitPrice Int
+  currency  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  orderId         String
+  method          PaymentMethod
+  status          PaymentStatus @default(PENDING)
+  amount          Int
+  currency        String
+  stripePaymentId String?
+  paypalOrderId   String?
+  bankReference   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  order           Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model InventoryLog {
+  id        String           @id @default(cuid())
+  productId String
+  type      InventoryLogType
+  quantity  Int
+  reason    String?
+  orderId   String?
+  createdBy String?
+  createdAt DateTime         @default(now())
+  product   Product          @relation(fields: [productId], references: [id])
+
+  @@map("inventory_logs")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  locale    String   @default("pl")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  @@map("newsletter_subscribers")
+}
+
+model Settings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Customer {
@@ -14,261 +289,82 @@ model Customer {
   lastName  String
   phone     String?
   company   String?
-  nip       String?  // Polish tax ID
+  nip       String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orders    Order[]
-  addresses Address[]
-}
+  updatedAt DateTime @default(now()) @updatedAt
 
-model Address {
-  id         String   @id @default(cuid())
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  type       String   @default("shipping") // shipping, billing
-  street     String
-  city       String
-  postalCode String
-  country    String   @default("Poland")
-  isDefault  Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model Order {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique
-  customerId      String
-  customer        Customer    @relation(fields: [customerId], references: [id])
-  status          String      @default("pending") // pending, confirmed, processing, shipped, delivered, cancelled
-  paymentStatus   String      @default("pending") // pending, paid, failed, refunded
-  paymentMethod   String?     // stripe, paypal, bank_transfer
-
-  // Shipping info
-  shippingFirstName String
-  shippingLastName  String
-  shippingEmail     String
-  shippingPhone     String?
-  shippingStreet    String
-  shippingCity      String
-  shippingPostalCode String
-  shippingCountry   String    @default("Poland")
-
-  // Billing info (if different)
-  billingFirstName  String?
-  billingLastName   String?
-  billingCompany    String?
-  billingNip        String?
-  billingStreet     String?
-  billingCity       String?
-  billingPostalCode String?
-  billingCountry    String?
-
-  // Totals (stored in groszy/cents)
-  subtotal        Int
-  shippingCost    Int         @default(0)
-  tax             Int         @default(0)
-  totalAmount     Int
-  currency        String      @default("PLN")
-
-  // Notes
-  customerNote    String?
-  adminNote       String?
-
-  // Timestamps
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  paidAt          DateTime?
-  shippedAt       DateTime?
-  deliveredAt     DateTime?
-
-  items           OrderItem[]
-}
-
-model OrderItem {
-  id          String  @id @default(cuid())
-  orderId     String
-  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId   String  // Reference to product slug/id
-  productSku  String
-  productName String
-  productImage String?
-  quantity    Int
-  unitPrice   Int     // Price per unit in groszy
-  totalPrice  Int     // quantity * unitPrice
-  isPreorder  Boolean @default(false)  // Item was preordered
-  createdAt   DateTime @default(now())
-}
-
-// ==================== B2B SYSTEM ====================
-
-model B2BCustomer {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  password        String    // Hashed password
-  companyName     String
-  vatNumber       String?   @unique  // NIP for Poland, EU VAT for others (optional)
-  country         String    // Country code (PL, DE, ES, etc.)
-  region          String    @default("EU") // POLAND, EU
-
-  // Contact info
-  contactName     String
-  contactPhone    String?
-
-  // Address
-  street          String
-  city            String
-  postalCode      String
-
-  // Validation
-  viesValidated   Boolean   @default(false)
-  viesValidatedAt DateTime?
-
-  // Status
-  status          String    @default("pending") // pending, approved, rejected
-  approvedAt      DateTime?
-  approvedBy      String?
-
-  // Timestamps
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  lastLoginAt     DateTime?
-
-  // Relations
-  orders        B2BOrder[]
-  serialRecords SerialRecord[]
-  customPrices    B2BPrice[]
-}
-
-model B2BPrice {
-  id          String  @id @default(cuid())
-  productId   String  // Reference to product slug
-  productSku  String
-
-  // Optional: specific customer (null = applies to all customers by region)
-  b2bCustomerId String?
-  b2bCustomer   B2BCustomer? @relation(fields: [b2bCustomerId], references: [id], onDelete: Cascade)
-
-  // B2B Prices (in groszy/cents)
-  pricePL     Int     // Price for Polish B2B customers (PLN)
-  priceEU     Int     // Price for EU B2B customers (EUR)
-
-  // Optional: percentage discount instead of fixed price
-  discountPL  Float?  // Percentage discount for Poland (e.g., 15.0 = 15%)
-  discountEU  Float?  // Percentage discount for EU (e.g., 10.0 = 10%)
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Unique per product + customer (null customer = regional price)
-  @@unique([productId, b2bCustomerId])
-}
-
-model B2BOrder {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique
-  b2bCustomerId   String
-  b2bCustomer     B2BCustomer @relation(fields: [b2bCustomerId], references: [id])
-  status          String      @default("pending")
-  paymentStatus   String      @default("pending")
-  paymentMethod   String?
-
-  // Totals
-  subtotal        Int
-  shippingCost    Int         @default(0)
-  tax             Int         @default(0)
-  total           Int
-  currency        String      @default("PLN")
-
-  // VAT reverse charge for EU B2B
-  reverseCharge   Boolean     @default(false)
-
-  // Notes
-  customerNote    String?
-  adminNote       String?
-
-  // Timestamps
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  paidAt          DateTime?
-  shippedAt       DateTime?
-
-  items           B2BOrderItem[]
-}
-
-model B2BOrderItem {
-  id          String    @id @default(cuid())
-  orderId     String
-  order       B2BOrder  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId   String
-  productSku  String
-  productName String
-  productImage String?
-  quantity    Int
-  unitPrice   Int
-  totalPrice  Int
-  createdAt   DateTime  @default(now())
-}
-
-// ==================== PRODUCTS ====================
-
-model Product {
-  id              String    @id @default(cuid())
-  sku             String    @unique
-  slug            String    @unique
-  name            String
-  tagline         String?
-  description     String?
-  specifications  String?
-
-  // Images
-  mainImage       String?
-  images          String?   // JSON array of image URLs
-
-  // Pricing (in groszy/cents)
-  price           Int       // Price in PLN groszy
-  priceEUR        Int       // Price in EUR cents
-  compareAtPrice  Int?      // Original price for discounts (PLN)
-  compareAtPriceEUR Int?    // Original price for discounts (EUR)
-
-  // Inventory
-  stock           Int       @default(0)
-  lowStockThreshold Int     @default(5)
-  trackInventory  Boolean   @default(true)
-
-  // Categorization
-  category        String
-  type            String    @default("PRODUCT") // PRODUCT, BUNDLE, SPARE_PART
-
-  // Status
-  isActive        Boolean   @default(true)
-  isFeatured      Boolean   @default(false)
-  preorderEnabled Boolean   @default(false)  // Allow preorder when out of stock
-  preorderLeadTime String?  // Estimated delivery time for preorder (e.g., "2-3 weeks")
-
-  // Timestamps
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-}
-
-// ==================== SETTINGS ====================
-
-model Settings {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@map("customers")
 }
 
 model SerialRecord {
   id           String   @id @default(cuid())
   productCode  String
-  productType  String   @default("drone")
   serialNumber String   @unique
-  saleDate     DateTime
-  customerId   String
-  customer     B2BCustomer @relation(fields: [customerId], references: [id])
+  notes        String?
   createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+
+  @@map("serial_records")
+}
+
+enum ProductType {
+  PRODUCT
+  SPARE_PART
+  ACCESSORY
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum B2BRegion {
+  POLAND
+  EU
+}
+
+enum B2BStatus {
+  pending
+  approved
+  rejected
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+}
+
+enum InventoryLogType {
+  ADJUSTMENT
+  SALE
+  RESTOCK
+  RETURN
+}
+
+enum OrderStatus {
+  PENDING
+  AWAITING_PAYMENT
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
 }

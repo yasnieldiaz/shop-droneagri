@@ -22,16 +22,6 @@ export async function GET(request: NextRequest) {
     }
 
     const records = await prisma.serialRecord.findMany({
-      include: {
-        customer: {
-          select: {
-            id: true,
-            companyName: true,
-            email: true,
-            country: true,
-          },
-        },
-      },
       orderBy: { createdAt: 'desc' },
     });
 

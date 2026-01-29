@@ -615,7 +615,7 @@ export default function InventoryPage() {
               {/* Row 5: Prices */}
               <div className="grid grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Price PLN Brutto (grosze)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price PLN Brutto (brutto)</label>
                   <input
                     type="number"
                     value={productForm.price}

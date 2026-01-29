@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { RichTextEditor } from '@/components/admin/RichTextEditor';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -469,12 +470,9 @@ export default function EditProductPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Descripcion
               </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={6}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-red/50 resize-y"
+              <RichTextEditor
+                content={formData.description}
+                onChange={(html) => setFormData(prev => ({ ...prev, description: html }))}
                 placeholder="Descripcion detallada del producto..."
               />
             </div>
@@ -511,7 +509,7 @@ export default function EditProductPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Precio PLN (grosze)
+                Precio PLN (brutto)
               </label>
               <input
                 type="number"
@@ -540,7 +538,7 @@ export default function EditProductPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Precio anterior PLN (grosze)
+                Precio anterior PLN (brutto)
               </label>
               <input
                 type="number"

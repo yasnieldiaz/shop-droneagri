@@ -3,6 +3,8 @@ import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
+const PROJECT_ROOT = '/var/www/shop-droneagri';
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -13,50 +15,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Invalid file type. Allowed: jpg, png, webp, gif, avif' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid file type' }, { status: 400 });
     }
 
-    // Validate file size (max 5MB)
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json({ error: 'File too large. Max 5MB' }, { status: 400 });
     }
 
-    // Create unique filename
     const timestamp = Date.now();
-    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const ext = file.name.split('.').pop() || 'jpg';
     const safeName = file.name
       .replace(/\.[^/.]+$/, '')
       .replace(/[^a-zA-Z0-9-_]/g, '-')
       .toLowerCase()
       .slice(0, 50);
-    const filename = `${safeName}-${timestamp}.${extension}`;
+    const filename = safeName + '-' + timestamp + '.' + ext.toLowerCase();
 
-    // Ensure directory exists
-    const uploadDir = path.join(process.cwd(), 'public', 'images', folder);
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    // Save file
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const filepath = path.join(uploadDir, filename);
-    await writeFile(filepath, buffer);
+
+    const publicDir = path.join(PROJECT_ROOT, 'public', 'images', folder);
+    if (!existsSync(publicDir)) {
+      await mkdir(publicDir, { recursive: true });
+    }
+    await writeFile(path.join(publicDir, filename), buffer);
     
-    // Also save to standalone folder for production
-    const standaloneDir = path.join(process.cwd(), '.next', 'standalone', 'public', 'images', folder);
+    const standaloneDir = path.join(PROJECT_ROOT, '.next', 'standalone', 'public', 'images', folder);
     if (!existsSync(standaloneDir)) {
       await mkdir(standaloneDir, { recursive: true });
     }
-    const standaloneFilepath = path.join(standaloneDir, filename);
-    await writeFile(standaloneFilepath, buffer);
+    await writeFile(path.join(standaloneDir, filename), buffer);
 
-    // Return the public URL
-    const publicUrl = `/images/${folder}/${filename}`;
+    const publicUrl = '/images/' + folder + '/' + filename;
 
     return NextResponse.json({
       success: true,

@@ -81,22 +81,40 @@ model B2BCustomer {
   updatedAt       DateTime   @default(now()) @updatedAt
   lastLoginAt     DateTime?
   b2b_prices      B2BPrice[]
+  orders          B2BOrder[]
 
   @@map("b2b_customers")
 }
 
+
 model B2BOrder {
-  id          String   @id @default(cuid())
-  orderNumber String   @unique
+  id          String         @id @default(cuid())
+  orderNumber String         @unique
   customerId  String
-  status      String   @default("pending")
+  status      String         @default("pending")
   totalPLN    Int?
   totalEUR    Int?
   notes       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @default(now()) @updatedAt
+  customer    B2BCustomer    @relation(fields: [customerId], references: [id])
+  items       B2BOrderItem[]
 
   @@map("b2b_orders")
+}
+
+model B2BOrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  productId   String
+  productName String
+  productSku  String
+  quantity    Int
+  unitPrice   Int
+  totalPrice  Int
+  order       B2BOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("b2b_order_items")
 }
 
 model B2BPrice {

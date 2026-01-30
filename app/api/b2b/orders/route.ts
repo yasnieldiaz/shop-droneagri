@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 
     // Get orders for this B2B customer
     const orders = await prisma.b2BOrder.findMany({
-      where: { b2bCustomerId: customerId },
+      where: { customerId: customerId },
       include: {
         items: {
           select: {

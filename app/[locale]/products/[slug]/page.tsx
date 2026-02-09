@@ -2187,7 +2187,7 @@ export default function ProductDetailPage() {
     const fetchProduct = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/products?slug=${slug}&locale=${locale}`);
+        const response = await fetch(`/api/products?slug=${rawSlug}&locale=${locale}`);
         if (response.ok) {
           const data = await response.json();
           if (data.product) {

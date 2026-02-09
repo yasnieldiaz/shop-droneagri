@@ -3,7 +3,7 @@ import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
-const PROJECT_ROOT = '/var/www/shop-droneagri';
+const PROJECT_ROOT = '/var/www/vhosts/droneagri.pl/shop.droneagri.pl';
 
 export async function POST(request: NextRequest) {
   try {

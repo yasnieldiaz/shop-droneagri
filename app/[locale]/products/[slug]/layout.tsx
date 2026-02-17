@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const translation = product.translations[0];
     const name = translation?.name || product.sku;
-    const description = translation?.tagline || translation?.description?.substring(0, 160) || '';
+    const rawDescription = translation?.tagline || translation?.description || '';
+    const description = rawDescription.replace(/<[^>]*>/g, '').substring(0, 160);
     
     const imageUrl = product.mainImage 
       ? (product.mainImage.startsWith('http') 

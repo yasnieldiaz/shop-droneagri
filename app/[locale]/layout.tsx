@@ -10,6 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { LocaleDetector } from "@/components/LocaleDetector";
 import { CookieConsent } from "@/components/CookieConsent";
+import { ChatWidget } from "@/components/ChatWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -102,6 +103,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Footer />
           <CartDrawer />
           <CookieConsent />
+          <ChatWidget />
         </NextIntlClientProvider>
       </body>
     </html>

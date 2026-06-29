@@ -4,14 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from '@/i18n/navigation';
 
+// User-facing languages limited to Polish and Czech to respect direct (PL/CZ)
+// and indirect (dealer) sales channels. SEO pages for the other locales remain
+// indexable via hreflang/sitemap — they are simply not offered in the switcher.
 const languages = [
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   { code: 'cs', name: 'Čeština', flag: '🇨🇿' },
-  { code: 'nl', name: 'Nederlands', flag: '🇳🇱' },
 ];
 
 export function LanguageSwitcher() {
@@ -21,7 +19,7 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const currentLanguage = languages.find((lang) => lang.code === locale) || languages[2]; // Default to Polish
+  const currentLanguage = languages.find((lang) => lang.code === locale) || languages[0]; // Default to Polish
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

@@ -4,13 +4,14 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCurrencyStore } from '@/lib/store/currency';
 
+// The store only OFFERS Polish and Czech to visitors (direct vs. indirect sales).
+// Geo auto-redirect therefore only routes Polish and Czech/Slovak traffic to its
+// language; every other country stays on the default Polish experience instead of
+// being switched into a language the store does not offer. SEO pages for the other
+// locales still exist and remain reachable from search results.
 const countryToLocale: Record<string, string> = {
   PL: 'pl',
-  DE: 'de', AT: 'de', CH: 'de', LI: 'de',
   CZ: 'cs', SK: 'cs',
-  NL: 'nl', BE: 'nl',
-  ES: 'es', MX: 'es', AR: 'es', CO: 'es', CL: 'es', PE: 'es',
-  IT: 'it', SM: 'it', VA: 'it',
 };
 
 const supportedLocales = ['pl', 'en', 'de', 'cs', 'nl', 'es', 'it'];
@@ -33,7 +34,7 @@ export function LocaleDetector({ currentLocale }: { currentLocale: string }) {
 
   useEffect(() => {
     const geoDetected = getCookie('geo_detected');
-    
+
     if (geoDetected) {
       const currencyCookie = getCookie('preferred_currency');
       if (currencyCookie === 'PLN' || currencyCookie === 'EUR') {
@@ -57,7 +58,8 @@ export function LocaleDetector({ currentLocale }: { currentLocale: string }) {
 
         if (!countryCode) throw new Error('No country');
 
-        const detectedLocale = countryToLocale[countryCode] || 'en';
+        // Only PL and CZ/SK are auto-routed; everyone else stays on the default (pl).
+        const detectedLocale = countryToLocale[countryCode] || 'pl';
         const currency = countryCode === 'PL' ? 'PLN' : 'EUR';
 
         setCookie('geo_detected', '1', 30);
@@ -79,7 +81,7 @@ export function LocaleDetector({ currentLocale }: { currentLocale: string }) {
               break;
             }
           }
-          
+
           const newPath = detectedLocale === 'pl' ? cleanPath : '/' + detectedLocale + cleanPath;
           router.replace(newPath);
         }

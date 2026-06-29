@@ -4,11 +4,14 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useCurrencyStore } from '@/lib/store/currency';
 
-// The store only OFFERS Polish and Czech to visitors (direct vs. indirect sales).
-// Geo auto-redirect therefore only routes Polish and Czech/Slovak traffic to its
-// language; every other country stays on the default Polish experience instead of
-// being switched into a language the store does not offer. SEO pages for the other
-// locales still exist and remain reachable from search results.
+// Languages the store actually OFFERS to human visitors. Everything else exists
+// only as an SEO endpoint (server-rendered HTML + hreflang) so search engines keep
+// indexing all markets, but a person browsing in those languages is sent to the
+// default Polish store — protecting direct (PL/CZ) vs. indirect (dealer) sales.
+const offeredLocales = ['pl', 'cs'];
+
+// Geo auto-routing: only Polish and Czech/Slovak traffic is sent to a localized
+// experience; every other country stays on the default Polish store.
 const countryToLocale: Record<string, string> = {
   PL: 'pl',
   CZ: 'cs', SK: 'cs',
@@ -27,12 +30,30 @@ function setCookie(name: string, value: string, days: number) {
   document.cookie = name + '=' + value + '; expires=' + expires + '; path=/';
 }
 
+// Strip a leading locale prefix (e.g. "/es/products" -> "/products", "/es" -> "/").
+function stripLocale(pathname: string): string {
+  for (const loc of supportedLocales) {
+    if (pathname.startsWith('/' + loc + '/')) return pathname.substring(loc.length + 1);
+    if (pathname === '/' + loc) return '/';
+  }
+  return pathname;
+}
+
 export function LocaleDetector({ currentLocale }: { currentLocale: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const { setCurrency, setAutoDetected, setLoading } = useCurrencyStore();
 
   useEffect(() => {
+    // A human visitor on a non-offered locale (es/en/de/it/nl) — typically arriving
+    // from a search result or a stale cookie — is redirected to the Polish version.
+    // The page still rendered server-side for the crawler that requested it.
+    if (!offeredLocales.includes(currentLocale)) {
+      setCookie('NEXT_LOCALE', 'pl', 365);
+      router.replace(stripLocale(pathname) || '/');
+      return;
+    }
+
     const geoDetected = getCookie('geo_detected');
 
     if (geoDetected) {
@@ -70,18 +91,8 @@ export function LocaleDetector({ currentLocale }: { currentLocale: string }) {
         setAutoDetected(true);
         setLoading(false);
 
-        if (detectedLocale !== currentLocale && supportedLocales.includes(detectedLocale)) {
-          let cleanPath = pathname;
-          for (const loc of supportedLocales) {
-            if (pathname.startsWith('/' + loc + '/')) {
-              cleanPath = pathname.substring(loc.length + 1);
-              break;
-            } else if (pathname === '/' + loc) {
-              cleanPath = '/';
-              break;
-            }
-          }
-
+        if (detectedLocale !== currentLocale && offeredLocales.includes(detectedLocale)) {
+          const cleanPath = stripLocale(pathname);
           const newPath = detectedLocale === 'pl' ? cleanPath : '/' + detectedLocale + cleanPath;
           router.replace(newPath);
         }

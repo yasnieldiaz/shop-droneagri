@@ -55,8 +55,6 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-gray-300">
               <li><a href="https://droneagri.pl/contact-us" className="hover:text-white transition-colors">{t('contact')}</a></li>
               <li><a href="https://droneagri.pl/download-center" className="hover:text-white transition-colors">Downloads</a></li>
-              <li><Link href="/shipping" className="hover:text-white transition-colors">{t('shipping')}</Link></li>
-              <li><Link href="/returns" className="hover:text-white transition-colors">{t('returns')}</Link></li>
             </ul>
           </div>
         </div>

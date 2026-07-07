@@ -1971,9 +1971,9 @@ Kenmerken:
 - 2x XAG 2024 Battery Cooling Tower (09-017-00065)`,
       },
     },
-    mainImage: '/images/products/drones/p150-max/p150-max-1.png',
+    mainImage: '/images/products/drones/p150-max/p150-max-1.webp',
     images: [
-      '/images/products/drones/p150-max/p150-max-1.png',
+      '/images/products/drones/p150-max/p150-max-1.webp',
     ],
     price: 11500000,
     priceEUR: 2674000,
@@ -2401,7 +2401,7 @@ export default function ProductDetailPage() {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden relative">
+            <div className="aspect-square bg-white border border-gray-100 rounded-2xl overflow-hidden relative">
               {currentImage ? (
                 <Image
                   src={currentImage}
@@ -2474,9 +2474,8 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Price - B2B shows only netto (reverse charge), regular shows netto & brutto */}
+            {/* Price */}
             <div className="space-y-2">
-              {/* B2B Badge */}
               {isB2BPrice && (
                 <span className="inline-block px-3 py-1 bg-green-500 text-white text-sm font-medium rounded-full">
                   B2B Price
@@ -2484,7 +2483,6 @@ export default function ProductDetailPage() {
               )}
 
               {isB2BPrice ? (
-                /* B2B Customer - Show only netto price (reverse charge applies) */
                 <>
                   <div className="flex items-baseline gap-4">
                     <span className="text-3xl font-bold text-green-600">
@@ -2502,7 +2500,6 @@ export default function ProductDetailPage() {
                   </p>
                 </>
               ) : (
-                /* Regular Customer - Show netto & brutto */
                 <>
                   <div className="flex items-baseline gap-4">
                     <span className={`text-3xl font-bold ${hasDiscount ? 'text-brand-red' : 'text-navy'}`}>
@@ -2527,7 +2524,7 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Stock Status */}
+                        {/* Stock Status */}
             <div className="flex items-center gap-2">
               {actualStock > 0 ? (
                 <>
